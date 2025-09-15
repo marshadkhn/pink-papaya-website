@@ -10,10 +10,10 @@ import { useState } from "react";
 
 export default function Navbar({ className }: { className?: string }) {
   const items = [
-    { href: "#home", label: "Home" },
-    { href: "#explore", label: "Explore" },
-    { href: "#about", label: "About us" },
-    { href: "#contact", label: "Contact us" },
+    { href: "/", label: "Home" },
+    { href: "/stays", label: "Explore" },
+    { href: "/about", label: "About us" },
+    { href: "/contact", label: "Contact us" },
   ];
   const [menuOpen, setMenuOpen] = useState(false);
 
