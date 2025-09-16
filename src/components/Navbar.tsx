@@ -18,7 +18,9 @@ export default function Navbar({ className }: { className?: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className={cn("fixed inset-x-0 top-0 z-50 bg-transparent", className)}>
+    <header
+      className={cn("fixed inset-x-0 top-0 z-50 bg-transparent", className)}
+    >
       <Container className="flex h-16 items-center justify-between">
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -39,7 +41,13 @@ export default function Navbar({ className }: { className?: string }) {
           onClick={() => setMenuOpen((v) => !v)}
         >
           <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
         <div className="flex items-center gap-3">
@@ -49,12 +57,9 @@ export default function Navbar({ className }: { className?: string }) {
             className="text-white/90 hover:text-white"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            <WhatsAppIcon className="h-5 w-5" />
-          </Link>
-          <Button variant="outlineWhite">
-            Get in touch
-          </Button>
+          ></Link>
+          <Button variant="outlineWhite">Get in touch</Button>
+          <WhatsAppIcon className="h-5 w-5" />
         </div>
       </Container>
       {/* Mobile menu overlay */}
