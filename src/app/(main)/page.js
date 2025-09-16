@@ -4,6 +4,9 @@ import StayCard from "@/components/StayCard";
 import HeaderContent from "@/components/headerContent";
 import { stays } from "@/data/stays";
 import FAQ from "@/components/FAQ";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import FeedbackCard from "@/components/FeedbackCard";
+import { feedback as feedbackData } from "@/data/feedback";
 
 export default function Home() {
   return (
@@ -72,8 +75,27 @@ export default function Home() {
           },
         ]}
       />
-      <section id="about" className="min-h-[50vh]" />
-      <section id="contact" className="min-h-[50vh]" />
+      {/* What They Say - Feedback */}
+      <section className="py-12 md:py-16">
+        <Container>
+          <HeaderContent title="WHAT they say" align="center" showCta={false} />
+          <div className="mt-8">
+            <Carousel className="w-full">
+              <CarouselContent className="-ml-5 md:-ml-6 py-2 md:py-3">
+                {feedbackData.map((fb) => (
+                  <CarouselItem key={fb.id} className="pl-5 md:pl-6 basis-full sm:basis-1/2 lg:basis-1/3">
+                    <FeedbackCard feedback={fb} />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </div>
+        </Container>
+      </section>
+
+  
     </>
   );
 }
