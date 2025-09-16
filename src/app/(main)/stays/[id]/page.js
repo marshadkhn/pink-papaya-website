@@ -17,6 +17,7 @@ import TvIcon from "@/components/icons/tv";
 import YogaMatIcon from "@/components/icons/yoga";
 import TeaSetIcon from "@/components/icons/tea";
 import FAQ from "@/components/FAQ";
+import Link from "next/link";
 
 export default function StayDetailPage({ params }) {
     const stay = stays.find((s) => s.id === params.id);
@@ -191,7 +192,7 @@ export default function StayDetailPage({ params }) {
                     <div className="mb-6 md:mb-8 flex items-center justify-between gap-4">
                         <HeaderContent title="More Rooms" align="left" showCta={false} />
                         <Button variant="outlineBlack" asChild>
-                            <a href="/stays">All rooms</a>
+                            <Link href="/stays">All rooms</Link>
                         </Button>
                     </div>
                     <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
