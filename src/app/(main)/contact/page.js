@@ -9,8 +9,8 @@ export default function ContactPage() {
     <>
       <Hero
         backgroundColor="#ffffff"
-        title="Contact Us"
-        description="Questions or bookings? We’d love to hear from you. Reach out and we’ll get back shortly."
+        title="Get In Touch"
+        description="Your perfect beachside escape is just a message away our dedicated team is standing by to craft your"
         align="center"
         buttonPlacement="below"
         showCta={false}
@@ -28,7 +28,7 @@ export default function ContactPage() {
                   showCta={false}
                 />
 
-                <div className="mt-6 space-y-8 text-sm text-neutral-800">
+                <div className="mt-6 space-y-8 text-sm text-neutral-800 font-bricolage">
                   <div>
                     <div className="mb-2 text-xs uppercase tracking-wide text-neutral-500">
                       Location
@@ -113,7 +113,7 @@ export default function ContactPage() {
               <Card className="border-neutral-200">
                 <CardContent className="p-6 md:p-8">
                   <form
-                    className="grid grid-cols-1 gap-4 md:gap-5"
+                    className="grid grid-cols-1 gap-4 md:gap-5 font-bricolage"
                     action="#"
                     method="post"
                   >
@@ -158,7 +158,7 @@ export default function ContactPage() {
                           htmlFor="phone"
                           className="mb-1 block text-sm font-medium text-neutral-800"
                         >
-                          Phone (optional)
+                          Phone
                         </label>
                         <input
                           id="phone"
@@ -173,7 +173,7 @@ export default function ContactPage() {
                           htmlFor="topic"
                           className="mb-1 block text-sm font-medium text-neutral-800"
                         >
-                          Topic
+                          Concern
                         </label>
                         <select
                           id="topic"
@@ -193,7 +193,7 @@ export default function ContactPage() {
                         htmlFor="message"
                         className="mb-1 block text-sm font-medium text-neutral-800"
                       >
-                        Message
+                        Additional information
                       </label>
                       <textarea
                         id="message"
@@ -206,7 +206,7 @@ export default function ContactPage() {
                     </div>
 
                     <div className="pt-2 mx-auto">
-                      <Button type="submit" variant="outlineBlack" size="lg">
+                      <Button type="submit" variant="black" size="lg">
                         Send Message
                       </Button>
                     </div>

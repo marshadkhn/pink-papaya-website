@@ -79,13 +79,36 @@ export default function HeroContent({
   const badgeCls = tone === "dark" ? "bg-white/90 text-neutral-900" : "bg-black/80 text-white";
 
   return (
-    <div className={cn("flex  flex-col px-1  sm:px-0", alignClass, horizontalCenter)}>
+    <div
+      className={cn(
+        "flex  flex-col px-1  sm:px-0",
+        alignClass,
+        horizontalCenter
+      )}
+    >
       {badgeText ? (
         <Badge className={cn("mb-3 sm:mb-4", badgeCls)}>{badgeText}</Badge>
       ) : null}
-      <h1 className={cn("font-semibold", textColor, "font-playfair", "leading-tight", "text-[40px] sm:text-[56px] md:text-[72px] lg:text-[88px]")}>{title}</h1>
+      <h1
+        className={cn(
+          "font-semibold",
+          textColor,
+          "font-playfair",
+          "leading-tight",
+          "text-[40px] sm:text-[56px] md:text-[72px] lg:text-[88px]"
+        )}
+      >
+        {title}
+      </h1>
       {description ? (
-        <p className={cn("mt-3 sm:mt-4 max-w-prose text-sm sm:text-base md:text-lg", subTextColor)}>{description}</p>
+        <p
+          className={cn(
+            "mt-3 sm:mt-4 max-w-prose text-sm sm:text-base md:text-lg font-bricolage",
+            subTextColor
+          )}
+        >
+          {description}
+        </p>
       ) : null}
       {showCta ? buttonRow : null}
     </div>

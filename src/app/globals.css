@@ -1,13 +1,12 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/font-files/BricolageGrotesque.ttf') format('truetype');
-}
-
 .font-playfair {
   font-family: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
-html, body, :root { height: 100%; }
+/* Updated to use the CSS variable */
+.font-bricolage {
+  font-family: var(--font-bricolage), sans-serif;
+}
 
+html, body, :root { height: 100%; }
