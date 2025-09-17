@@ -11,7 +11,6 @@ export default function StysPage() {
         backgroundUrl="/logo-files/logo-black.svg"
         title="Our Stays"
         description="Experience comfort across our curated collection of Pink Papaya stays—crafted for relaxation and style."
-        badgeText="Explore stays"
         align="center"
         buttonPlacement="below"
         showCta={false}

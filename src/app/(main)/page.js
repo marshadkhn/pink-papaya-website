@@ -7,6 +7,9 @@ import FAQ from "@/components/FAQ";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import FeedbackCard from "@/components/FeedbackCard";
 import { feedback as feedbackData } from "@/data/feedback";
+import RoomsAndStay from "@/components/RoomsAndStay";
+import { Card } from "@/components/ui/card";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -46,6 +49,127 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+
+      {/* Rooms & stay Section */}
+      <RoomsAndStay />
+
+      {/* Leisure Section */}
+      <section className="py-12 md:py-16">
+        <Container>
+          <HeaderContent
+            align="center"
+            showCta={false}
+            title="Leisure, not logistics"
+            description="From a love of the sea to a promise of serenity."
+          />
+          {(() => {
+            const leisureItems = [
+              {
+                img: stays[0]?.imageUrl,
+                title: "Morning by the shore",
+                desc: "Wake to soft light, waves, and slow sips of coffee.",
+              },
+              {
+                img: stays[1]?.imageUrl,
+                title: "Afternoon calm",
+                desc: "Sunlit corners and sea breeze—unwind your way.",
+              },
+              {
+                img: stays[2]?.imageUrl,
+                title: "Evening glow",
+                desc: "Golden hours, quiet skies, and effortless ease.",
+              },
+            ];
+            return (
+              <div className="mt-12 sm:mt-16 md:mt-32 grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 items-start">
+                  {leisureItems.map((item, i) => (
+                    <div
+                      key={i}
+                      className={
+                        i === 1
+                          ? "sm:-mt-12 md:-mt-16 lg:-mt-24"
+                          : "sm:mt-4 md:mt-6"
+                      }
+                    >
+                    <Card className="!rounded-none border-1 overflow-hidden bg-neutral-200">
+                        <div
+                          className={`relative w-full ${
+                            i === 1 ? "pt-[100%]": "pt-[115%] "
+                          }`}
+                        >
+                        <div
+                          className="absolute inset-0 bg-cover bg-center"
+                          style={{ backgroundImage: `url(${item.img})` }}
+                        />
+                      </div>
+                    </Card>
+                    <div className="mt-4">
+                      <h4 className="text-base md:text-lg font-medium text-neutral-900">{item.title}</h4>
+                      <p className="mt-1.5 text-xs md:text-sm text-neutral-700">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+        </Container>
+      </section>
+
+
+      {/* Parallax Interior Section */}
+      <section className="py-12 md:py-16">
+        <Container>
+          <HeaderContent
+            align="center"
+            showCta={false}
+            title="Our Interior talks"
+            description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+          />
+        </Container>
+      </section>
+      {/* Screen 1: Image left, content right (edge-to-edge) */}
+        {/* Interior sticky scroll: screen 1 sticks, screen 2 overlays */}
+        <section className="relative h-[200vh] w-full">
+          {/* Screen 1 (base) */}
+          <div className="sticky top-0 h-screen w-full grid grid-cols-1 lg:grid-cols-12 z-10">
+            <div
+              className="lg:col-span-6 h-1/2 lg:h-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${stays[3]?.imageUrl})` }}
+            />
+            <div className="lg:col-span-6 bg-[#ECF2F2] flex items-center justify-center p-6">
+              <div className="max-w-md text-center">
+                <h3 className="font-playfair text-2xl md:text-3xl text-neutral-900">Thoughtful details</h3>
+                <Image src="/images/hotel.svg" alt="" width={40} height={40} className="mx-auto my-5 h-10 w-10 opacity-80" />
+                <p className="text-neutral-700 text-sm md:text-base">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s
+                  standard dummy text ever since the 1500s.
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* Screen 2 (overlays) */}
+          <div className="sticky top-0 h-screen w-full grid grid-cols-1 lg:grid-cols-12 z-20">
+            <div className="lg:col-span-6 bg-[#ECF2F2] flex items-center justify-center p-6">
+              <div className="max-w-md text-center">
+                <h3 className="font-playfair text-2xl md:text-3xl text-neutral-900">Spaces that breathe</h3>
+                <Image src="/images/hotel.svg" alt="" width={40} height={40} className="mx-auto my-5 h-10 w-10 opacity-80" />
+                <p className="text-neutral-700 text-sm md:text-base">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s
+                  standard dummy text ever since the 1500s.
+                </p>
+              </div>
+            </div>
+            <div
+              className="lg:col-span-6 h-1/2 lg:h-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${stays[3]?.imageUrl})` }}
+            />
+          </div>
+        </section>
+
+
+
+
       {/* FAQ Section */}
       <FAQ
         badgeText="Helpful"
@@ -74,6 +198,10 @@ export default function Home() {
           },
         ]}
       />
+
+
+
+
       {/* What They Say - Feedback */}
       <section className="py-12 md:py-16">
         <Container>

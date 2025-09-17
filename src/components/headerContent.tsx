@@ -79,7 +79,7 @@ export default function HeroContent({
   const badgeCls = tone === "dark" ? "bg-white/90 text-neutral-900" : "bg-black/80 text-white";
 
   return (
-    <div className={cn("flex max-w-3xl flex-col px-1 sm:px-0", alignClass, horizontalCenter)}>
+    <div className={cn("flex  flex-col px-1  sm:px-0", alignClass, horizontalCenter)}>
       {badgeText ? (
         <Badge className={cn("mb-3 sm:mb-4", badgeCls)}>{badgeText}</Badge>
       ) : null}
