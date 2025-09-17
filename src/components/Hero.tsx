@@ -38,7 +38,9 @@ export default function Hero({
           style={{ backgroundColor }}
         />
       ) : null}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/60 to-black/80 md:from-black/60 md:via-black/40 md:to-black/70" />
+      {backgroundUrl ? (
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/60 to-black/80 md:from-black/60 md:via-black/40 md:to-black/70" />
+      ) : null}
       <Container>
         <HeaderContent {...content} />
       </Container>

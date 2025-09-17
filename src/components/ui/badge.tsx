@@ -4,21 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/utils/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  // Base keeps it minimal; actual look lives in the single 'text' variant
+  "inline-flex items-center leading-none",
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+        text:
+          // simple small blue text badge (force override bg/text if parent sets them)
+          "!border-0 !bg-transparent !text-[#0F677D] text-xs font-medium p-0 !rounded-none",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "text",
     },
   }
 )
@@ -28,9 +25,8 @@ export interface BadgeProps
     VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, variant, ...props }: BadgeProps) {
-  return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
-  )
+  // Apply variant classes after any className so the simple text style wins globally
+  return <div className={cn(className, badgeVariants({ variant }))} {...props} />
 }
 
 export { Badge, badgeVariants }

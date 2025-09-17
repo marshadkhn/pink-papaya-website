@@ -15,7 +15,6 @@ export default function Home() {
         backgroundUrl="/logo-files/logo-black.svg"
         title="Do a thing"
         description="Discover Pink Papaya Stays — a cozy retreat where comfort meets style. Explore our spaces and plan your next getaway."
-        badgeText="Now open"
         align="center"
         buttonPlacement="below"
         ctaLabel="Explore"

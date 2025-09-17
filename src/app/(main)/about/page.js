@@ -10,7 +10,7 @@ export default function AboutPage() {
         backgroundUrl="/logo-files/logo-black.svg"
         title="About Us"
         description="Pink Papaya is a boutique stay experience focused on comfort, aesthetics, and heartfelt hospitality."
-        badgeText="Our story"
+
         align="center"
         buttonPlacement="below"
         showCta={false}

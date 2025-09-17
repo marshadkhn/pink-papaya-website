@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/icons/whatsapp";
 import Container from "@/components/Container";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 
 export default function Navbar({ className }: { className?: string }) {
@@ -16,6 +17,12 @@ export default function Navbar({ className }: { className?: string }) {
     { href: "/contact", label: "Contact us" },
   ];
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isContactPage = pathname?.startsWith("/contact");
+  const linkColor = isContactPage
+    ? "text-neutral-900 hover:text-black"
+    : "text-white/90 hover:text-white";
+  const iconColor = isContactPage ? "text-neutral-900" : "text-white";
 
   return (
     <header
@@ -28,7 +35,7 @@ export default function Navbar({ className }: { className?: string }) {
             <Link
               key={it.href}
               href={it.href}
-              className="text-white/90 hover:text-white transition-colors"
+              className={cn(linkColor, "transition-colors")}
             >
               {it.label}
             </Link>
@@ -36,7 +43,10 @@ export default function Navbar({ className }: { className?: string }) {
         </nav>
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex items-center justify-center text-white focus:outline-none"
+          className={cn(
+            "md:hidden flex items-center justify-center focus:outline-none",
+            isContactPage ? "text-neutral-900" : "text-white"
+          )}
           aria-label="Open menu"
           onClick={() => setMenuOpen((v) => !v)}
         >
@@ -54,12 +64,15 @@ export default function Navbar({ className }: { className?: string }) {
           <Link
             href="https://wa.me/0000000000"
             aria-label="Chat on WhatsApp"
-            className="text-white/90 hover:text-white"
+            className={cn(linkColor)}
             target="_blank"
             rel="noopener noreferrer"
-          ></Link>
-          <Button variant="outlineWhite">Get in touch</Button>
-          <WhatsAppIcon className="h-5 w-5" />
+          >
+            <WhatsAppIcon className={cn("h-5 w-5", iconColor)} />
+          </Link>
+          <Button variant={isContactPage ? "outlineBlack" : "outlineWhite"}>
+            Get in touch
+          </Button>
         </div>
       </Container>
       {/* Mobile menu overlay */}

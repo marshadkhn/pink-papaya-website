@@ -8,14 +8,13 @@ export default function ContactPage() {
   return (
     <>
       <Hero
-        backgroundColor="#f4f4f4"
+        backgroundColor="#ffffff"
         title="Contact Us"
         description="Questions or bookings? We’d love to hear from you. Reach out and we’ll get back shortly."
-        badgeText="We’re here to help"
         align="center"
         buttonPlacement="below"
         showCta={false}
-        tone="dark"
+        tone="light"
       />
       <section className="py-12 md:py-16">
         <Container>
