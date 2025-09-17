@@ -20,7 +20,7 @@ export default function ContactPage() {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
             {/* Left: Contact Info */}
-            <div className="md:col-span-6">
+            <div className="md:col-span-7">
               <CardContent className="p-6 md:p-8">
                 <HeaderContent
                   title="Pink Papaya Stays"
@@ -109,7 +109,7 @@ export default function ContactPage() {
             </div>
 
             {/* Right: Contact Form */}
-            <div className="md:col-span-6">
+            <div className="md:col-span-5">
               <Card className="border-neutral-200">
                 <CardContent className="p-6 md:p-8">
                   <form
