@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <Hero
-        backgroundUrl="/logo-files/logo-black.svg"
+        backgroundUrl="/images/hotel.svg"
         title="Do a thing"
         description="Discover Pink Papaya Stays — a cozy retreat where comfort meets style. Explore our spaces and plan your next getaway."
         align="center"
@@ -50,7 +50,6 @@ export default function Home() {
         </Container>
       </section>
 
-
       {/* Rooms & stay Section */}
       <RoomsAndStay />
 
@@ -83,21 +82,21 @@ export default function Home() {
             ];
             return (
               <div className="mt-12 sm:mt-16 md:mt-32 grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 items-start">
-                  {leisureItems.map((item, i) => (
-                    <div
-                      key={i}
-                      className={
-                        i === 1
-                          ? "sm:-mt-12 md:-mt-16 lg:-mt-24"
-                          : "sm:mt-4 md:mt-6"
-                      }
-                    >
+                {leisureItems.map((item, i) => (
+                  <div
+                    key={i}
+                    className={
+                      i === 1
+                        ? "sm:-mt-12 md:-mt-16 lg:-mt-24"
+                        : "sm:mt-4 md:mt-6"
+                    }
+                  >
                     <Card className="!rounded-none border-1 overflow-hidden bg-neutral-200">
-                        <div
-                          className={`relative w-full ${
-                            i === 1 ? "pt-[100%]": "pt-[115%] "
-                          }`}
-                        >
+                      <div
+                        className={`relative w-full ${
+                          i === 1 ? "pt-[100%]" : "pt-[115%] "
+                        }`}
+                      >
                         <div
                           className="absolute inset-0 bg-cover bg-center"
                           style={{ backgroundImage: `url(${item.img})` }}
@@ -105,8 +104,12 @@ export default function Home() {
                       </div>
                     </Card>
                     <div className="mt-4">
-                      <h4 className="text-base md:text-lg font-medium text-neutral-900">{item.title}</h4>
-                      <p className="mt-1.5 text-xs md:text-sm text-neutral-700">{item.desc}</p>
+                      <h4 className="text-base md:text-lg font-medium text-neutral-900">
+                        {item.title}
+                      </h4>
+                      <p className="mt-1.5 text-xs md:text-sm text-neutral-700">
+                        {item.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -115,7 +118,6 @@ export default function Home() {
           })()}
         </Container>
       </section>
-
 
       {/* Parallax Interior Section */}
       <section className="py-12 md:py-16">
@@ -129,46 +131,61 @@ export default function Home() {
         </Container>
       </section>
       {/* Screen 1: Image left, content right (edge-to-edge) */}
-        {/* Interior sticky scroll: screen 1 sticks, screen 2 overlays */}
-        <section className="relative h-[200vh] w-full">
-          {/* Screen 1 (base) */}
-          <div className="sticky top-0 h-screen w-full grid grid-cols-1 lg:grid-cols-12 z-10">
-            <div
-              className="lg:col-span-6 h-1/2 lg:h-full bg-cover bg-center"
-              style={{ backgroundImage: `url(${stays[3]?.imageUrl})` }}
-            />
-            <div className="lg:col-span-6 bg-[#ECF2F2] flex items-center justify-center p-6">
-              <div className="max-w-md text-center">
-                <h3 className="font-playfair text-2xl md:text-3xl text-neutral-900">Thoughtful details</h3>
-                <Image src="/images/hotel.svg" alt="" width={40} height={40} className="mx-auto my-5 h-10 w-10 opacity-80" />
-                <p className="text-neutral-700 text-sm md:text-base">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s.
-                </p>
-              </div>
+      {/* Interior sticky scroll: screen 1 sticks, screen 2 overlays */}
+      <section className="relative h-[200vh] w-full">
+        {/* Screen 1 (base) */}
+        <div className="sticky top-0 h-screen w-full grid grid-cols-1 lg:grid-cols-12 z-10">
+          <div
+            className="lg:col-span-6 h-1/2 lg:h-full bg-cover bg-center"
+            style={{ backgroundImage: `url(${stays[3]?.imageUrl})` }}
+          />
+          <div className="lg:col-span-6 bg-[#ECF2F2] flex items-center justify-center p-6">
+            <div className="max-w-md text-center">
+              <h3 className="font-playfair text-2xl md:text-3xl text-neutral-900">
+                Thoughtful details
+              </h3>
+              <Image
+                src="/images/hotel.svg"
+                alt=""
+                width={40}
+                height={40}
+                className="mx-auto my-5 h-10 w-10 opacity-80"
+              />
+              <p className="text-neutral-700 text-sm md:text-base">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s.
+              </p>
             </div>
           </div>
-          {/* Screen 2 (overlays) */}
-          <div className="sticky top-0 h-screen w-full grid grid-cols-1 lg:grid-cols-12 z-20">
-            <div className="lg:col-span-6 bg-[#ECF2F2] flex items-center justify-center p-6">
-              <div className="max-w-md text-center">
-                <h3 className="font-playfair text-2xl md:text-3xl text-neutral-900">Spaces that breathe</h3>
-                <Image src="/images/hotel.svg" alt="" width={40} height={40} className="mx-auto my-5 h-10 w-10 opacity-80" />
-                <p className="text-neutral-700 text-sm md:text-base">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s.
-                </p>
-              </div>
+        </div>
+        {/* Screen 2 (overlays) */}
+        <div className="sticky top-0 h-screen w-full grid grid-cols-1 lg:grid-cols-12 z-20">
+          <div className="lg:col-span-6 bg-[#ECF2F2] flex items-center justify-center p-6">
+            <div className="max-w-md text-center">
+              <h3 className="font-playfair text-2xl md:text-3xl text-neutral-900">
+                Spaces that breathe
+              </h3>
+              <Image
+                src="/images/hotel.svg"
+                alt=""
+                width={40}
+                height={40}
+                className="mx-auto my-5 h-10 w-10 opacity-80"
+              />
+              <p className="text-neutral-700 text-sm md:text-base">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s.
+              </p>
             </div>
-            <div
-              className="lg:col-span-6 h-1/2 lg:h-full bg-cover bg-center"
-              style={{ backgroundImage: `url(${stays[3]?.imageUrl})` }}
-            />
           </div>
-        </section>
-
-
-
+          <div
+            className="lg:col-span-6 h-1/2 lg:h-full bg-cover bg-center"
+            style={{ backgroundImage: `url(${stays[3]?.imageUrl})` }}
+          />
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <FAQ
@@ -178,19 +195,23 @@ export default function Home() {
         faqs={[
           {
             question: "What time is check-in and check-out?",
-            answer: "Check-in is from 2:00 PM and check-out is by 11:00 AM. Early check-in and late check-out are available on request, subject to availability.",
+            answer:
+              "Check-in is from 2:00 PM and check-out is by 11:00 AM. Early check-in and late check-out are available on request, subject to availability.",
           },
           {
             question: "Is breakfast included?",
-            answer: "Yes. A complimentary breakfast is included with every stay, with vegetarian options available.",
+            answer:
+              "Yes. A complimentary breakfast is included with every stay, with vegetarian options available.",
           },
           {
             question: "Do you have Wi‑Fi?",
-            answer: "High-speed Wi‑Fi is available throughout the property at no extra cost.",
+            answer:
+              "High-speed Wi‑Fi is available throughout the property at no extra cost.",
           },
           {
             question: "How do I book a room?",
-            answer: "You can book directly from the room page using the Book Stay button, or contact us via WhatsApp for assistance.",
+            answer:
+              "You can book directly from the room page using the Book Stay button, or contact us via WhatsApp for assistance.",
           },
           {
             question: "Is parking available?",
@@ -198,9 +219,6 @@ export default function Home() {
           },
         ]}
       />
-
-
-
 
       {/* What They Say - Feedback */}
       <section className="py-12 md:py-16">
@@ -210,7 +228,10 @@ export default function Home() {
             <Carousel className="w-full">
               <CarouselContent className="-ml-5 md:-ml-6 py-2 md:py-3">
                 {feedbackData.map((fb) => (
-                  <CarouselItem key={fb.id} className="pl-5 md:pl-6 basis-full sm:basis-1/2 lg:basis-1/3">
+                  <CarouselItem
+                    key={fb.id}
+                    className="pl-5 md:pl-6 basis-full sm:basis-1/2 lg:basis-1/3"
+                  >
                     <FeedbackCard feedback={fb} />
                   </CarouselItem>
                 ))}
@@ -221,8 +242,6 @@ export default function Home() {
           </div>
         </Container>
       </section>
-
-  
     </>
   );
 }

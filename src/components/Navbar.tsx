@@ -8,7 +8,6 @@ import Container from "@/components/Container";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
-
 export default function Navbar({ className }: { className?: string }) {
   const items = [
     { href: "/", label: "Home" },
@@ -19,10 +18,13 @@ export default function Navbar({ className }: { className?: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const isContactPage = pathname?.startsWith("/contact");
-  const linkColor = isContactPage
+  const isAboutPage = pathname?.startsWith("/about");
+  const isLightPage = isContactPage || isAboutPage;
+
+  const linkColor = isLightPage
     ? "text-neutral-900 hover:text-black"
     : "text-white/90 hover:text-white";
-  const iconColor = isContactPage ? "text-neutral-900" : "text-white";
+  const iconColor = isLightPage ? "text-neutral-900" : "text-white";
 
   return (
     <header
@@ -45,7 +47,7 @@ export default function Navbar({ className }: { className?: string }) {
         <button
           className={cn(
             "md:hidden flex items-center justify-center focus:outline-none",
-            isContactPage ? "text-neutral-900" : "text-white"
+            isLightPage ? "text-neutral-900" : "text-white"
           )}
           aria-label="Open menu"
           onClick={() => setMenuOpen((v) => !v)}
@@ -70,7 +72,7 @@ export default function Navbar({ className }: { className?: string }) {
           >
             <WhatsAppIcon className={cn("h-5 w-5", iconColor)} />
           </Link>
-          <Button variant={isContactPage ? "outlineBlack" : "outlineWhite"}>
+          <Button variant={isLightPage ? "outlineBlack" : "outlineWhite"}>
             Get in touch
           </Button>
         </div>

@@ -8,7 +8,7 @@ export default function StysPage() {
   return (
     <>
       <Hero
-        backgroundUrl="/logo-files/logo-black.svg"
+        backgroundUrl="/images/hotel.svg"
         title="Our Stays"
         description="Experience comfort across our curated collection of Pink Papaya stays—crafted for relaxation and style."
         align="center"
