@@ -23,7 +23,7 @@ const buttonVariants = cva(
           "bg-transparent border border-white text-white hover:bg-white/10",
         white: "bg-white text-black hover:bg-white/90",
         outlineBlack:
-          "bg-transparent border border-black text-black hover:bg-black/10",
+          "bg-transparent border border-black text-black hover:bg-black/10 rounded-none",
         // Add the new black variant
         black: "bg-black text-white hover:bg-black/90 rounded-none",
       },

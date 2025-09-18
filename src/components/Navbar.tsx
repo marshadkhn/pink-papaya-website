@@ -30,7 +30,7 @@ export default function Navbar({ className }: { className?: string }) {
     >
       <Container className="flex h-16 items-center justify-between">
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6 text-sm">
+        <nav className="hidden md:flex items-center gap-6 text-sm font-bricolage">
           {items.map((it) => (
             <Link
               key={it.href}

@@ -3,6 +3,7 @@ import Container from "@/components/Container";
 import HeaderContent from "@/components/headerContent";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import FAQ from "@/components/FAQ";
 
 export default function ContactPage() {
   return (
@@ -24,6 +25,7 @@ export default function ContactPage() {
               <CardContent className="p-6 md:p-8">
                 <HeaderContent
                   title="Pink Papaya Stays"
+                  titleSize="sm"
                   align="left"
                   showCta={false}
                 />
@@ -216,6 +218,39 @@ export default function ContactPage() {
             </div>
           </div>
         </Container>
+      </section>
+
+      <section className="my-40">
+        <FAQ
+          title="Frequently Asked Questions"
+          description="Quick answers to common questions about staying at Pink Papaya."
+          faqs={[
+            {
+              question: "What time is check-in and check-out?",
+              answer:
+                "Check-in is from 2:00 PM and check-out is by 11:00 AM. Early check-in and late check-out are available on request, subject to availability.",
+            },
+            {
+              question: "Is breakfast included?",
+              answer:
+                "Yes. A complimentary breakfast is included with every stay, with vegetarian options available.",
+            },
+            {
+              question: "Do you have Wi‑Fi?",
+              answer:
+                "High-speed Wi‑Fi is available throughout the property at no extra cost.",
+            },
+            {
+              question: "How do I book a room?",
+              answer:
+                "You can book directly from the room page using the Book Stay button, or contact us via WhatsApp for assistance.",
+            },
+            {
+              question: "Is parking available?",
+              answer: "Yes, we offer on-site parking for guests.",
+            },
+          ]}
+        />
       </section>
     </>
   );
