@@ -31,6 +31,7 @@ export default function RoomsAndStay() {
           onCtaClick={() => router.push("/stays")}
           buttonPlacement="right"
           ctaVariant="outlineBlack"
+          
         />
 
         {/* Content grid */}

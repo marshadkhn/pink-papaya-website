@@ -12,6 +12,7 @@ export default function Navbar({ className }: { className?: string }) {
   const items = [
     { href: "/", label: "Home" },
     { href: "/stays", label: "Explore" },
+    { href: "/interior", label: "Interior" },
     { href: "/about", label: "About us" },
     { href: "/contact", label: "Contact us" },
   ];
@@ -19,7 +20,8 @@ export default function Navbar({ className }: { className?: string }) {
   const pathname = usePathname();
   const isContactPage = pathname?.startsWith("/contact");
   const isAboutPage = pathname?.startsWith("/about");
-  const isLightPage = isContactPage || isAboutPage;
+  const isInteriorPage = pathname?.startsWith("/interior");
+  const isLightPage = isContactPage || isAboutPage || isInteriorPage;
 
   const linkColor = isLightPage
     ? "text-neutral-900 hover:text-black"
@@ -70,7 +72,7 @@ export default function Navbar({ className }: { className?: string }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <WhatsAppIcon className={cn("h-5 w-5", iconColor)} />
+            <WhatsAppIcon className={cn("h-8 w-8", iconColor)} />
           </Link>
           <Button variant={isLightPage ? "outlineBlack" : "outlineWhite"}>
             Get in touch

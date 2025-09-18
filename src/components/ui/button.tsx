@@ -9,19 +9,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 rounded-none",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-none",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border rounded-none border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-none",
+        ghost: "hover:bg-accent hover:text-accent-foreground rounded-none",
+        link: "text-primary underline-offset-4 hover:underline rounded-none",
         // custom project variants
         outlineWhite:
-          "bg-transparent border border-white text-white hover:bg-white/10",
-        white: "bg-white text-black hover:bg-white/90",
+          "bg-transparent border border-white text-white hover:bg-white/10 rounded-none",
+        white: "bg-white text-black hover:bg-white/90 rounded-none",
         outlineBlack:
           "bg-transparent border border-black text-black hover:bg-black/10 rounded-none",
         // Add the new black variant

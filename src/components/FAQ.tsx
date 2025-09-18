@@ -19,7 +19,7 @@ export default function FAQ({
     faqs?: FAQItem[];
 }) {
     return (
-      <section className={cn("py-12 md:py-16", className)}>
+      <section className={cn("py-30 md:py-50", className)}>
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
             <div className="lg:col-span-4">

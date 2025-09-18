@@ -10,6 +10,7 @@ import { feedback as feedbackData } from "@/data/feedback";
 import RoomsAndStay from "@/components/RoomsAndStay";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -24,7 +25,7 @@ export default function Home() {
         ctaVariant="white"
         tone="dark"
       />
-      <section id="explore" className="py-12 md:py-16">
+      <section id="explore" className="py-30 md:py-50">
         <Container>
           <div className="mb-6 md:mb-8">
             <HeaderContent
@@ -34,7 +35,25 @@ export default function Home() {
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-            {stays.slice(0, 4).map((s) => (
+            {/* Our villas black tile */}
+            <Link
+              href="/stays"
+              className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-black/60"
+              aria-label="Explore all villas"
+            >
+              <Card className="group relative w-full overflow-hidden bg-black !rounded-none !border-0 !shadow-none">
+                <div className="relative w-full" style={{ paddingTop: "100%" }}>
+                  <div className="absolute inset-0 bg-black" />
+                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                    <h3 className="font-playfair text-white leading-tight text-[28px] sm:text-[30px] md:text-[32px]">
+                      Our villas
+                    </h3>
+                  </div>
+                </div>
+              </Card>
+            </Link>
+
+            {stays.slice(0, 3).map((s) => (
               <StayCard
                 key={s.id}
                 title={s.title}
@@ -54,7 +73,7 @@ export default function Home() {
       <RoomsAndStay />
 
       {/* Leisure Section */}
-      <section className="py-12 md:py-16">
+      <section className="py-30 md:py-50">
         <Container>
           <HeaderContent
             align="center"
@@ -223,7 +242,7 @@ export default function Home() {
       {/* What They Say - Feedback */}
       <section className="py-12 md:py-16">
         <Container>
-          <HeaderContent title="WHAT they say" align="center" showCta={false} />
+          <HeaderContent title="What they say" align="center" showCta={false} titleSize="sm" />
           <div className="mt-8">
             <Carousel className="w-full">
               <CarouselContent className="-ml-5 md:-ml-6 py-2 md:py-3">

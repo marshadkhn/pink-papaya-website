@@ -1,4 +1,4 @@
-export function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
+export function WhatsAppIcon({ className = "w-8 h-8" }: { className?: string }) {
   return (
     <svg
       className={className}
