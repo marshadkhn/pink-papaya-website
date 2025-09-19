@@ -21,7 +21,8 @@ export default function Navbar({ className }: { className?: string }) {
   const isContactPage = pathname?.startsWith("/contact");
   const isAboutPage = pathname?.startsWith("/about");
   const isInteriorPage = pathname?.startsWith("/interior");
-  const isLightPage = isContactPage || isAboutPage || isInteriorPage;
+  const isAdminPage = pathname?.startsWith("/admin/stays");
+  const isLightPage = isContactPage || isAboutPage || isInteriorPage || isAdminPage;
 
   const linkColor = isLightPage
     ? "text-neutral-900 hover:text-black"
