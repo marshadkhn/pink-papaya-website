@@ -70,9 +70,7 @@ export default function LoginPage() {
         >
           {loading ? "Signing in…" : "Sign In"}
         </button>
-        <p className="text-xs text-gray-500">
-          Credentials are configured via env variables <span className="font-mono">ADMIN_USERNAME</span> and <span className="font-mono">ADMIN_PASSWORD</span>.
-        </p>
+       
       </form>
     </div>
   );
