@@ -4,7 +4,7 @@ import HeaderContent from "@/components/headerContent";
 import StayCard from "@/components/StayCard";
 import ImageCarousel from "@/components/ImageCarousel";
 import CheckIcon from "@/components/icons/check";
-import { stays } from "@/data/stays";
+import { getStayById, readStays } from "@/lib/staysStore";
 import { Button } from "@/components/ui/button";
 import BedIcon from "@/components/icons/bed";
 import AreaIcon from "@/components/icons/area";
@@ -19,8 +19,8 @@ import TeaSetIcon from "@/components/icons/tea";
 import FAQ from "@/components/FAQ";
 import Link from "next/link";
 
-export default function StayDetailPage({ params }) {
-    const stay = stays.find((s) => s.id === params.id);
+export default async function StayDetailPage({ params }) {
+    const stay = await getStayById(params.id);
     if (!stay) {
         return (
             <Container>
@@ -196,7 +196,7 @@ export default function StayDetailPage({ params }) {
                         </Button>
                     </div>
                     <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-                        {stays
+                        {(await readStays())
                             .filter((s) => s.id !== stay.id)
                             .slice(0, 2)
                             .map((s) => (

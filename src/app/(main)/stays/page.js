@@ -2,9 +2,10 @@ import Hero from "@/components/Hero";
 import Container from "@/components/Container";
 import StayCard from "@/components/StayCard";
 import HeaderContent from "@/components/headerContent";
-import { stays } from "@/data/stays";
+import { readStays } from "@/lib/staysStore";
 
-export default function StysPage() {
+export default async function StysPage() {
+  const stays = await readStays();
   return (
     <>
       <Hero
