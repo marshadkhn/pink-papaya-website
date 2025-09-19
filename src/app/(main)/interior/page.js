@@ -31,7 +31,7 @@ export default function InteriorPage() {
 
           <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {interiorProjects.map((p) => (
-              <div key={p.id} className="group block">
+              <Link key={p.id} href={`/interior/${p.id}`} className="group block">
                 <Card className="!rounded-none !border-0 overflow-hidden bg-neutral-200">
                   <div className="relative w-full pt-[140%]">
                     <div
@@ -46,7 +46,7 @@ export default function InteriorPage() {
                     <p className="mt-1.5 text-sm text-neutral-700 line-clamp-2">{p.description}</p>
                   ) : null}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
