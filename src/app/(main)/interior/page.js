@@ -1,9 +1,9 @@
 import Hero from "@/components/Hero";
 import Container from "@/components/Container";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { stays } from "@/data/stays";
 import { interiorProjects } from "@/data/interior";
+import { interiorFeedback } from "@/data/interiorFeedback";
 import Link from "next/link";
 import HeaderContent from "@/components/headerContent";
 
@@ -58,6 +58,8 @@ export default function InteriorPage() {
         </Container>
       </section>
 
+   
+
       {/* About / Our Story Section */}
       <section className="py-12 md:py-20">
         <Container>
@@ -90,6 +92,66 @@ export default function InteriorPage() {
                 </div>
               </Card>
             </div>
+          </div>
+        </Container>
+      </section>
+
+
+      {/* Get inspired section */}
+      <section className="py-12 md:py-16">
+        <Container>
+          <HeaderContent
+            align="center"
+            showCta={false}
+            badgeText="Inspiration"
+            title="Get inspired"
+          />
+
+          <Card className="!rounded-none !border-0 overflow-hidden mt-8 md:mt-12">
+            {/* 16:9 responsive container */}
+            <div className="relative w-full pt-[56.25%] bg-neutral-200">
+              <video
+                className="absolute inset-0 w-full h-full object-cover"
+                src="/uploads/inspiration.mp4"
+                controls
+                playsInline
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </Card>
+        </Container>
+      </section>
+
+
+   {/* Our clients' words */}
+      <section className="py-12 md:py-16">
+        <Container>
+          <HeaderContent
+            align="center"
+            showCta={false}
+            badgeText="Feedback"
+            title="Our clients' words"
+            titleSize="md"
+          />
+
+          <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            {interiorFeedback.slice(0, 4).map((f) => (
+              <Card key={f.id} className="!rounded-none !border-0 overflow-hidden">
+                <div className="relative w-full pt-[100%] bg-neutral-200">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: `url(${f.avatar})` }}
+                  />
+                </div>
+                <CardContent className="bg-neutral-50">
+                  <div className="mt-2">
+                    <div className="font-medium text-neutral-900">{f.name}</div>
+                    <p className="mt-1 text-sm text-neutral-700">{f.text}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </Container>
       </section>

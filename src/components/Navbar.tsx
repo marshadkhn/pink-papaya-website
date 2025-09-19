@@ -31,7 +31,13 @@ export default function Navbar({ className }: { className?: string }) {
 
   return (
     <header
-      className={cn("fixed inset-x-0 top-0 z-50 bg-transparent", className)}
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-colors",
+        isLightPage
+          ? "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60"
+          : "bg-black/40 backdrop-blur supports-[backdrop-filter]:bg-black/30",
+        className
+      )}
     >
       <Container className="flex h-16 items-center justify-between">
         {/* Desktop nav */}
