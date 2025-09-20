@@ -3,11 +3,18 @@ import { interiorProjects } from "@/data/interior";
 import { notFound } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Bilbo_Swash_Caps } from "next/font/google";
+import HeaderContent from "@/components/headerContent";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 // Bilbo Swash Caps from Google Fonts
-const bilboSwash = Bilbo_Swash_Caps({ subsets: ["latin"], weight: "400", display: "swap" });
+const bilboSwash = Bilbo_Swash_Caps({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
-export default function InteriorDetailPage({ params }: { params: { id: string } }) {
+export default function InteriorDetailPage({ params }) {
   const project = interiorProjects.find((p) => p.id === params.id);
   if (!project) return notFound();
 
@@ -33,7 +40,7 @@ export default function InteriorDetailPage({ params }: { params: { id: string } 
               <div className="flex flex-col gap-4">
                 {project.badge ? (
                   <div>
-                    <span className="inline-block text-xs tracking-wide uppercase  py-1">
+                    <span className="inline-block text-xs tracking-wide uppercase py-1">
                       {project.badge}
                     </span>
                   </div>
@@ -42,7 +49,9 @@ export default function InteriorDetailPage({ params }: { params: { id: string } 
                   {project.headline || project.title}
                 </h1>
                 {project.tagline ? (
-                  <p className={`${bilboSwash.className} text-2xl md:text-3xl text-neutral-800`}>
+                  <p
+                    className={`${bilboSwash.className} text-2xl md:text-3xl text-neutral-800`}
+                  >
                     {project.tagline}
                   </p>
                 ) : null}
@@ -66,11 +75,16 @@ export default function InteriorDetailPage({ params }: { params: { id: string } 
         <section className="py-10 md:py-14">
           <Container>
             <div className="mb-6 md:mb-8 ">
-              <h2 className="font-playfair text-center  text-2xl md:text-3xl text-neutral-900">All Photos</h2>
+              <h2 className="font-playfair text-center text-2xl md:text-3xl text-neutral-900">
+                All Photos
+              </h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
               {project.photos.slice(0, 6).map((src, i) => (
-                <Card key={i} className="!rounded-none !border-0 overflow-hidden bg-neutral-200">
+                <Card
+                  key={i}
+                  className="!rounded-none !border-0 overflow-hidden bg-neutral-200"
+                >
                   <div className="relative w-full pt-[100%]">
                     <div
                       className="absolute inset-0 bg-cover bg-center"
@@ -89,7 +103,9 @@ export default function InteriorDetailPage({ params }: { params: { id: string } 
         <section className="py-10 md:py-16">
           <Container>
             <div className="mb-8 md:mb-12 ">
-              <h2 className="font-playfair text-center text-2xl md:text-3xl text-neutral-900">Before and After</h2>
+              <h2 className="font-playfair text-center text-2xl md:text-3xl text-neutral-900">
+                Before and After
+              </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-6 md:gap-12">
               {project.beforeAfter.slice(0, 2).map((src, i) => (
@@ -109,6 +125,25 @@ export default function InteriorDetailPage({ params }: { params: { id: string } 
           </Container>
         </section>
       ) : null}
+
+      {/* Contact Us Section */}
+      <section className="py-12 md:py-16">
+        <Container>
+          <div className="text-center">
+            <HeaderContent
+              title="Have a project in mind?"
+              description="Let's create something beautiful together. Reach out to us for a consultation."
+              align="center"
+              showCta={false}
+            />
+            <div className="mt-6">
+              <Button asChild variant="black" size="lg">
+                <Link href="/contact">Get in touch</Link>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </section>
     </>
   );
 }
