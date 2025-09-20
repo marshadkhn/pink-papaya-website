@@ -30,7 +30,7 @@ export default function Navbar({ className }: { className?: string }) {
   const iconColor = isLightPage ? "text-neutral-900" : "text-white";
 
   return (
-    <header
+    <Container
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors",
         isLightPage
@@ -89,23 +89,25 @@ export default function Navbar({ className }: { className?: string }) {
       {/* Mobile menu overlay */}
       <div
         className={cn(
-          "md:hidden fixed inset-x-0 top-16 z-40 bg-black/90 backdrop-blur transition-all duration-300",
+          "md:hidden fixed inset-x-0 top-16 z-40 bg-black/90 backdrop-blur transition-all duration-300 ",
           menuOpen ? "block" : "hidden"
         )}
       >
-        <nav className="flex flex-col items-center gap-6 py-6 text-lg">
-          {items.map((it) => (
-            <Link
-              key={it.href}
-              href={it.href}
-              className="text-white/90 hover:text-white transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              {it.label}
-            </Link>
-          ))}
-        </nav>
+
+          <nav className="flex flex-col items-center gap-6 py-6 text-lg">
+            {items.map((it) => (
+              <Link
+                key={it.href}
+                href={it.href}
+                className="text-white/90 hover:text-white transition-colors"
+                onClick={() => setMenuOpen(false)}
+              >
+                {it.label}
+              </Link>
+            ))}
+          </nav>
+        
       </div>
-    </header>
+    </Container>
   );
 }
