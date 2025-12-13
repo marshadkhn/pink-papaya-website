@@ -24,7 +24,6 @@ export default function AdminDashboardPage() {
           <HeaderContent
             align="left"
             showCta={false}
-            badgeText="Admin"
             title="Dashboard"
             description="Welcome to the admin panel. Manage your website content from here."
           />

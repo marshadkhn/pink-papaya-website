@@ -238,7 +238,6 @@ export default function AdminInteriorTestimonialsPage() {
           <HeaderContent
             align="left"
             showCta={false}
-            badgeText="Admin"
             title="Manage Interior Testimonials"
           />
           <div className="flex gap-2">

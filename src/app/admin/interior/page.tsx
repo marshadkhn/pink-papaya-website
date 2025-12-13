@@ -366,7 +366,6 @@ export default function AdminInteriorPage() {
           <HeaderContent
             align="left"
             showCta={false}
-            badgeText="Admin"
             title="Manage Interior Projects"
           />
           <div className="flex gap-2">

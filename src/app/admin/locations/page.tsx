@@ -170,7 +170,6 @@ export default function AdminLocationsPage() {
           <HeaderContent
             align="left"
             showCta={false}
-            badgeText="Admin"
             title="Manage Locations"
           />
           <div className="flex gap-2">

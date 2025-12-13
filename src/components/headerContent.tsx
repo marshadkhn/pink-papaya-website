@@ -23,7 +23,6 @@ export interface HeaderContentProps {
   };
   ctaLabel?: string;
   onCtaClick?: () => void;
-  badgeText?: string;
   align?: Align;
   buttonPlacement?: ButtonPlacement;
   tone?: Tone;
@@ -50,7 +49,6 @@ export default function HeroContent({
   descriptionPadding,
   ctaLabel = "Explore",
   onCtaClick,
-  badgeText,
   align = "center",
   buttonPlacement = "below",
   tone = "light",
@@ -117,9 +115,6 @@ export default function HeroContent({
         horizontalCenter
       )}
     >
-      {badgeText ? (
-        <Badge className={cn("mb-3 sm:mb-4", badgeCls)}>{badgeText}</Badge>
-      ) : null}
       <h1
         className={cn(
           "font-semibold",

@@ -89,13 +89,6 @@ export default async function StayDetailPage({ params }) {
                 </Container>
             </section>
 
-            {/* Carousel */}
-            <section className="py-8 md:py-12">
-                <Container>
-                    <ImageCarousel images={stay.images ?? [stay.imageUrl]} />
-                </Container>
-            </section>
-
             {/* Amenities */}
             <section className="py-12 md:py-16">
                 <Container>
@@ -128,34 +121,6 @@ export default async function StayDetailPage({ params }) {
                     </div>
                 </Container>
             </section>
-
-
-            {/* Policies Section */}
-            <FAQ
-                title="Policies & Check-in Info"
-                faqs={[
-                    {
-                        question: "Check‑In & Check‑Out",
-                        answer:
-                            "Check‑in is from 2:00 PM and check‑out is by 11:00 AM. Early check‑in and late check‑out are available on request, subject to availability.",
-                    },
-                    {
-                        question: "Cancellation Policy",
-                        answer:
-                            "Free cancellation up to 48 hours before arrival. Cancellations within 48 hours or no‑shows may incur a one‑night charge.",
-                    },
-                    {
-                        question: "Pet Policy",
-                        answer:
-                            "Pets are welcome in select rooms with prior notice. A small cleaning fee may apply. Please keep pets leashed in common areas.",
-                    },
-                    {
-                        question: "Smoking Policy",
-                        answer:
-                            "All rooms are non‑smoking. Designated outdoor smoking areas are available. A deep‑cleaning fee may apply for violations.",
-                    },
-                ]}
-            />
 
             {/* FAQ Section */}
             <FAQ

@@ -188,7 +188,6 @@ export default function AdminBlogPage() {
           <HeaderContent
             align="left"
             showCta={false}
-            badgeText="Admin"
             title="Manage Blog"
           />
           <div className="flex gap-2">

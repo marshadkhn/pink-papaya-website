@@ -357,7 +357,6 @@ export default function AdminStaysPage() {
           <HeaderContent
             align="left"
             showCta={false}
-            badgeText="Admin"
             title="Manage Stays"
           />
           <div className="flex gap-2">

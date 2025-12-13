@@ -7,13 +7,11 @@ type FAQItem = { question: string; answer: string };
 
 export default function FAQ({
     className,
-    badgeText,
     title = "FAQs",
     description,
     faqs = [],
 }: {
     className?: string;
-    badgeText?: string;
     title?: string;
     description?: string;
     faqs?: FAQItem[];
@@ -28,7 +26,6 @@ export default function FAQ({
                 title={title}
                 titleSize="sm"
                 description={description}
-                badgeText={badgeText}
                 align="left"
                 showCta={false}
               />

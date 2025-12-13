@@ -19,7 +19,6 @@ export default function AboutPage() {
       <section className="py-10 md:py-14">
         <Container>
           <HeaderContent
-            badgeText="About"
             title="Our story"
             description="Pink Papaya grew from a love of thoughtful design and warm, human hospitality — a place where calm spaces, comfort, and small details make every stay feel personal."
             align="center"
