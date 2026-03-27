@@ -1,11 +1,15 @@
 import crypto from "crypto";
+import bcrypt from "bcryptjs";
+import getLogger from "@/lib/logger";
 
 export type User = {
   id: string;
   username: string;
-  passwordHash: string; // sha256 hex
-  role?: "admin" 
+  passwordHash: string; // bcrypt or legacy sha256 hex
+  role?: "admin";
 };
+
+const logger = getLogger("AUTH");
 
 function sha256Hex(value: string) {
   return crypto.createHash("sha256").update(value, "utf8").digest("hex");
@@ -17,14 +21,17 @@ function envAdmins(): User[] {
   const singleU = process.env.ADMIN_USERNAME;
   const singleP = process.env.ADMIN_PASSWORD;
   if (singleU && singleP) {
-    users.push({ id: singleU, username: singleU, passwordHash: sha256Hex(singleP), role: "admin" });
+    // Hash admin passwords with bcrypt for stronger security (runtime-only)
+    const hashed = bcrypt.hashSync(singleP, 12);
+    users.push({ id: singleU, username: singleU, passwordHash: hashed, role: "admin" });
   }
   // Multiple admins: ADMIN1_..ADMIN4_
   for (let i = 1; i <= 4; i++) {
     const u = process.env[`ADMIN${i}_USERNAME` as any] as string | undefined;
     const p = process.env[`ADMIN${i}_PASSWORD` as any] as string | undefined;
     if (u && p) {
-      users.push({ id: u, username: u, passwordHash: sha256Hex(p), role: "admin" });
+      const hashed = bcrypt.hashSync(p, 12);
+      users.push({ id: u, username: u, passwordHash: hashed, role: "admin" });
     }
   }
   // De-duplicate by username
@@ -47,10 +54,28 @@ export async function getUserByUsername(username: string): Promise<User | undefi
 }
 
 export async function verifyPassword(user: User, password: string): Promise<boolean> {
-  const hash = sha256Hex(password);
+  // Support bcrypt hashes (recommended) and legacy sha256 hex hashes
   try {
-    return crypto.timingSafeEqual(Buffer.from(user.passwordHash, "hex"), Buffer.from(hash, "hex"));
-  } catch {
+    if (user.passwordHash?.startsWith("$2a$") || user.passwordHash?.startsWith("$2b$") || user.passwordHash?.startsWith("$2y$")) {
+      const ok = await bcrypt.compare(password, user.passwordHash);
+      if (ok) logger.info("Login success (bcrypt)", { username: user.username });
+      else logger.warn("Login failed (bcrypt)", { username: user.username });
+      return ok;
+    }
+
+    // fallback: legacy sha256 hex stored as hex string
+    const hash = sha256Hex(password);
+    try {
+      const ok = crypto.timingSafeEqual(Buffer.from(user.passwordHash, "hex"), Buffer.from(hash, "hex"));
+      if (ok) logger.info("Login success (sha256-fallback)", { username: user.username });
+      else logger.warn("Login failed (sha256-fallback)", { username: user.username });
+      return ok;
+    } catch (e) {
+      logger.error("Password compare error", { username: user.username });
+      return false;
+    }
+  } catch (e: any) {
+    logger.error("verifyPassword error", { username: user.username, error: e?.message });
     return false;
   }
 }

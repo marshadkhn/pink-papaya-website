@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { uploadPublicAsset } from "@/lib/s3";
 
 export const runtime = "nodejs";
 
@@ -13,15 +12,14 @@ export async function POST(req: Request) {
     }
 
     const bytes = Buffer.from(await file.arrayBuffer());
-    const safeName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9_.-]/g, "_")}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    const filePath = path.join(uploadDir, safeName);
+    const { url, key } = await uploadPublicAsset({
+      bytes,
+      fileName: file.name,
+      contentType: file.type || "application/octet-stream",
+      folder: "uploads",
+    });
 
-    await fs.mkdir(uploadDir, { recursive: true });
-    await fs.writeFile(filePath, bytes);
-
-    const url = `/uploads/${safeName}`;
-    return NextResponse.json({ url });
+    return NextResponse.json({ url, key });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? "Upload failed" }, { status: 500 });
   }

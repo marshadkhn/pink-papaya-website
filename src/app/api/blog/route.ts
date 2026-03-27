@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { addPost, readPosts, type BlogPost } from "@/lib/blogStore";
 
+export const revalidate = 300;
+
 export async function GET() {
   const list = await readPosts();
   return NextResponse.json(list);

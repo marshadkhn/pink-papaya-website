@@ -2,6 +2,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { deleteStay, getStayById, updateStay, type Stay } from "@/lib/staysStore";
 
+export const revalidate = 180;
+
 type AsyncRouteContext = {
   params: Promise<{ id: string }>;
 };

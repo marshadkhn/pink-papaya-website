@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { addStay, readStays, type Stay } from "@/lib/staysStore";
 
+export const revalidate = 180;
+
 export async function GET() {
   const list = await readStays();
   return NextResponse.json(list);

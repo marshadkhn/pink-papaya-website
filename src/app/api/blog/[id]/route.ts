@@ -2,6 +2,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { deletePost, getPostById, updatePost, type BlogPost } from "@/lib/blogStore";
 
+export const revalidate = 300;
+
 type AsyncRouteContext = {
   params: Promise<{ id: string }>;
 };

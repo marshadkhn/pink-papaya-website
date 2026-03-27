@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { addLocation, readLocations, type Location } from "@/lib/locationsStore";
 
+export const revalidate = 300;
+
 export async function GET() {
   const list = await readLocations();
   return NextResponse.json(list);

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { deleteInteriorProject, getInteriorProjectById, updateInteriorProject, type InteriorProject } from "@/lib/interiorStore";
 
+export const revalidate = 300;
+
 type AsyncRouteContext = {
   params: Promise<{ id: string }>;
 };

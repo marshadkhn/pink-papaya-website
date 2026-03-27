@@ -1,11 +1,15 @@
 import crypto from "crypto";
 import { cookies } from "next/headers";
+import { env } from "@/lib/env";
 
 const COOKIE_NAME = "auth";
 const DEFAULT_TTL = 7 * 24 * 60 * 60; // 7 days in seconds
 
 function getSecret() {
-  return process.env.AUTH_SECRET || "dev-secret";
+  if (!env.AUTH_SECRET) {
+    throw new Error("AUTH_SECRET is not configured");
+  }
+  return env.AUTH_SECRET;
 }
 
 export type SessionPayload = {

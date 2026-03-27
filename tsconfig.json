@@ -18,7 +18,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "types": ["node", "next"],
+    "types": ["node"],
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "plugins": [{ "name": "next" }]
   },

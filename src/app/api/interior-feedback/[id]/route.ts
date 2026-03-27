@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { deleteInteriorFeedback, getInteriorFeedbackById, updateInteriorFeedback, type InteriorFeedbackItem } from "@/lib/interiorFeedbackStore";
 
+export const revalidate = 300;
+
 type AsyncRouteContext = {
   params: Promise<{ id: string }>;
 };

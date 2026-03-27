@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { env } from "@/lib/env";
 
 const COOKIE_NAME = "auth";
 
@@ -30,12 +31,17 @@ async function hmacSha256Base64Url(secret: string, data: string): Promise<string
 }
 
 async function verifyToken(token: string): Promise<boolean> {
-  const secret = process.env.AUTH_SECRET || "dev-secret";
+  if (!env.AUTH_SECRET) {
+    return false;
+  }
+
+  const secret = env.AUTH_SECRET;
   const parts = token.split(".");
   if (parts.length !== 2) return false;
   const [b64, sig] = parts;
   try {
     const expected = await hmacSha256Base64Url(secret, b64);
+    if (sig.length !== expected.length) return false;
     if (sig !== expected) return false;
     const json = base64urlToString(b64);
     const payload = JSON.parse(json) as { exp?: number };

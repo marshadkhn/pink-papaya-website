@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
-import path from "path";
+import seedLocations from "@/data/locations.json";
+import { addItem, deleteItem, getItemById, readCollection, updateItem } from "@/lib/contentStore";
 
 export type Location = {
   id: string;
@@ -7,55 +7,24 @@ export type Location = {
   stayIds: string[];
 };
 
-const dataDir = path.join(process.cwd(), "src", "data");
-const jsonPath = path.join(dataDir, "locations.json");
-
-async function ensureJsonFile() {
-  try {
-    await fs.access(jsonPath);
-  } catch {
-    await fs.mkdir(dataDir, { recursive: true });
-    await fs.writeFile(jsonPath, JSON.stringify([], null, 2), "utf8");
-  }
-}
+const COLLECTION = "locations";
 
 export async function readLocations(): Promise<Location[]> {
-  await ensureJsonFile();
-  const raw = await fs.readFile(jsonPath, "utf8");
-  return JSON.parse(raw);
-}
-
-export async function writeLocations(next: Location[]): Promise<void> {
-  await fs.writeFile(jsonPath, JSON.stringify(next, null, 2), "utf8");
+  return readCollection(COLLECTION, seedLocations as Location[], 300);
 }
 
 export async function getLocationById(id: string): Promise<Location | undefined> {
-  const list = await readLocations();
-  return list.find((l) => l.id === id);
+  return getItemById(COLLECTION, id, seedLocations as Location[]);
 }
 
 export async function addLocation(location: Location): Promise<Location> {
-  const list = await readLocations();
-  if (list.find((l) => l.id === location.id)) {
-    throw new Error("Location with this id already exists");
-  }
-  const next = [...list, location];
-  await writeLocations(next);
-  return location;
+  return addItem(COLLECTION, location);
 }
 
 export async function updateLocation(id: string, patch: Partial<Location>): Promise<Location> {
-  const list = await readLocations();
-  const idx = list.findIndex((l) => l.id === id);
-  if (idx === -1) throw new Error("Location not found");
-  const updated = { ...list[idx], ...patch, id };
-  list[idx] = updated as Location;
-  await writeLocations(list);
-  return updated as Location;
+  return updateItem(COLLECTION, id, patch);
 }
 
 export async function deleteLocation(id: string): Promise<void> {
-  const list = await readLocations();
-  const next = list.filter((l) => l.id !== id);
-  await writeLocations(next);
+  return deleteItem(COLLECTION, id);
 }

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateLocation, deleteLocation, getLocationById, type Location } from "@/lib/locationsStore";
 
+export const revalidate = 300;
+
 export async function GET(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }

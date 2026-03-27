@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { addInteriorFeedback, readInteriorFeedback, type InteriorFeedbackItem } from "@/lib/interiorFeedbackStore";
 
+export const revalidate = 300;
+
 export async function GET() {
   const list = await readInteriorFeedback();
   return NextResponse.json(list);

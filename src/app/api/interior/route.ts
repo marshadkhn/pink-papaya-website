@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { addInteriorProject, readInteriorProjects, type InteriorProject } from "@/lib/interiorStore";
 
+export const revalidate = 300;
+
 export async function GET() {
   const list = await readInteriorProjects();
   return NextResponse.json(list);
