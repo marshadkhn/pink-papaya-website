@@ -15,33 +15,44 @@ function sha256Hex(value: string) {
   return crypto.createHash("sha256").update(value, "utf8").digest("hex");
 }
 
+// Cache admins globally in development to avoid expensive bcrypt hashing on every request/HMR
+let cachedAdmins: User[] | null = null;
+
 function envAdmins(): User[] {
+  if (cachedAdmins) return cachedAdmins;
+
   const users: User[] = [];
   // Backward compatibility: single admin
   const singleU = process.env.ADMIN_USERNAME;
   const singleP = process.env.ADMIN_PASSWORD;
   if (singleU && singleP) {
-    // Hash admin passwords with bcrypt for stronger security (runtime-only)
-    const hashed = bcrypt.hashSync(singleP, 12);
+    // Hash admin passwords once (sync is fine during initialization)
+    const start = Date.now();
+    const hashed = bcrypt.hashSync(singleP, 11); // Use slightly lower cost for initialization speed
     users.push({ id: singleU, username: singleU, passwordHash: hashed, role: "admin" });
+    logger.info("Admin user cached from env", { username: singleU, duration: `${Date.now() - start}ms` });
   }
+
   // Multiple admins: ADMIN1_..ADMIN4_
   for (let i = 1; i <= 4; i++) {
     const u = process.env[`ADMIN${i}_USERNAME` as any] as string | undefined;
     const p = process.env[`ADMIN${i}_PASSWORD` as any] as string | undefined;
     if (u && p) {
-      const hashed = bcrypt.hashSync(p, 12);
+      const hashed = bcrypt.hashSync(p, 11);
       users.push({ id: u, username: u, passwordHash: hashed, role: "admin" });
     }
   }
+
   // De-duplicate by username
   const seen = new Set<string>();
-  return users.filter((x) => {
+  cachedAdmins = users.filter((x) => {
     const k = x.username.toLowerCase();
     if (seen.has(k)) return false;
     seen.add(k);
     return true;
   });
+
+  return cachedAdmins;
 }
 
 export async function readUsers(): Promise<User[]> {

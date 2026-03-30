@@ -1,155 +1,153 @@
 "use client";
 
-import React, { Suspense, useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const params = useSearchParams();
-  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    return () => {
-      // Cancel any in-flight request when unmounting
-      abortRef.current?.abort();
-    };
+    console.log("[CLIENT] Login Page hydrated successfully");
   }, []);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit() {
+    const username = (usernameRef.current?.value ?? "").trim();
+    const password = passwordRef.current?.value ?? "";
+
+    console.log("[CLIENT] Attempting login for:", username);
+
+    if (!username || !password) {
+      setError("Username and password are required");
+      return;
+    }
+
     setError(null);
     setLoading(true);
-
-    const controller = new AbortController();
-    abortRef.current = controller;
 
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
-        signal: controller.signal,
       });
 
-      // Try to parse JSON safely
-      let data: any = null;
+      console.log("[CLIENT] API Login response status:", res.status);
+
+      let data: { ok?: boolean; error?: string; message?: string } | null = null;
       try {
         data = await res.json();
       } catch {
-        // Non-JSON response
+        // non-json body
       }
 
       if (!res.ok) {
-        // Prefer server-provided error message, fallback to status text
-        const msg =
-          data?.error ?? data?.message ?? res.statusText ?? "Login failed";
-        throw new Error(msg);
+        setError(data?.error ?? data?.message ?? "Invalid credentials");
+        return;
       }
 
-      const next = params?.get("next") ?? "/admin/stays";
-      // use replace so back button won't go back to login
-      router.replace(next);
-    } catch (err: any) {
-      if (err?.name === "AbortError") {
-        // request was aborted — ignore or set error if you want
-        setError("Request cancelled");
-      } else {
-        setError(err?.message ?? "Login failed");
-      }
+      console.log("[CLIENT] Login successful, redirecting...");
+      router.replace("/admin/stays");
+    } catch (err: unknown) {
+      console.error("[CLIENT] Fetch error:", err);
+      const message = err instanceof Error ? err.message : "Login failed. Please try again.";
+      setError(message);
     } finally {
       setLoading(false);
-      abortRef.current = null;
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   return (
-    <div className="min-h-[70vh] flex items-center justify-center p-6">
-      <form
-        onSubmit={onSubmit}
-        className="w-full max-w-sm space-y-4 border rounded-lg p-6 shadow-sm bg-white"
-        aria-busy={loading}
-      >
-        <div>
-          <h1 className="text-2xl font-semibold">Admin Login</h1>
-          <p className="text-sm text-gray-500">
-            Use your credentials to access the admin panel.
+    <div className="min-h-screen flex items-center justify-center bg-[#FAFAF8] p-6">
+      <div className="w-full max-w-sm">
+        {/* Logo / Brand */}
+        <div className="text-center mb-10">
+          <h1 className="font-playfair text-3xl font-semibold text-neutral-900">
+            Pink Papaya
+          </h1>
+          <p className="mt-1 text-sm text-neutral-500 font-bricolage">
+            Admin Portal
           </p>
         </div>
 
-        {error && (
-          <div role="alert" className="text-sm text-red-600">
-            {error}
-          </div>
-        )}
-
-        <div className="space-y-1">
-          <label htmlFor="username" className="block text-sm font-medium">
-            Username
-          </label>
-          <input
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
-            placeholder="admin"
-            autoComplete="username"
-            autoFocus
-            required
-          />
-        </div>
-
-        <div className="space-y-1">
-          <label htmlFor="password" className="block text-sm font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring"
-            placeholder="••••••••"
-            autoComplete="current-password"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-black text-white rounded-[10px] py-2 disabled:opacity-60"
+        <div
+          className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-8 space-y-6"
         >
-          {loading ? "Signing in…" : "Sign In"}
-        </button>
-      </form>
+          <div>
+            <h2 className="text-lg font-bold text-neutral-900 font-bricolage">Sign In</h2>
+            <p className="text-sm text-neutral-400 mt-0.5 font-bricolage">
+              Enter your admin credentials to continue
+            </p>
+          </div>
+
+          {error && (
+            <div
+              role="alert"
+              className="rounded-lg bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-600 font-bricolage"
+            >
+              {error}
+            </div>
+          )}
+
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="username" className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-bricolage">
+                Username
+              </label>
+              <input
+                id="username"
+                name="username"
+                ref={usernameRef}
+                type="text"
+                defaultValue=""
+                className="w-full rounded-xl border border-neutral-200 bg-[#F9F7F4] px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#9A6648]/30 focus:border-[#9A6648] transition font-bricolage"
+                placeholder="admin"
+                autoComplete="username"
+                autoFocus
+                onKeyDown={handleKeyDown}
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-bricolage">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                ref={passwordRef}
+                type="password"
+                defaultValue=""
+                className="w-full rounded-xl border border-neutral-200 bg-[#F9F7F4] px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#9A6648]/30 focus:border-[#9A6648] transition font-bricolage"
+                placeholder="••••••••"
+                autoComplete="current-password"
+                onKeyDown={handleKeyDown}
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={loading}
+            className="w-full rounded-xl bg-[#9A6648] text-white py-3 text-sm font-bold uppercase tracking-widest font-bricolage hover:bg-[#82553C] active:scale-95 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {loading ? "Signing in…" : "Sign In"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default function LoginPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-[70vh] flex items-center justify-center p-6">
-          <div className="w-full max-w-sm border rounded-lg p-6 shadow-sm bg-white">
-            <div className="h-6 w-1/3 bg-gray-200 rounded mb-2" />
-            <div className="h-4 w-2/3 bg-gray-200 rounded mb-6" />
-            <div className="space-y-3">
-              <div className="h-10 w-full bg-gray-200 rounded" />
-              <div className="h-10 w-full bg-gray-200 rounded" />
-              <div className="h-10 w-full bg-gray-200 rounded" />
-            </div>
-          </div>
-        </div>
-      }
-    >
-      <LoginForm />
-    </Suspense>
-  );
-}

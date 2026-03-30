@@ -7,7 +7,7 @@ import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 
 export default function TestimonialsSection() {
   return (
-    <section className="py-12 md:py-16">
+    <section className="py-24 md:py-40 bg-white overflow-hidden">
       <Container>
         <Reveal>
           <HeaderContent

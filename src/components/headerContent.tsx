@@ -28,6 +28,8 @@ export interface HeaderContentProps {
   tone?: Tone;
   titleSize?: TitleSize;
   titleClass?: string;
+  subTitle?: string;
+  subTitleClass?: string;
   descriptionClass?: string;
   ctaSize?: "default" | "sm" | "lg" | "icon";
   ctaVariant?:
@@ -54,6 +56,8 @@ export default function HeroContent({
   tone = "light",
   titleSize = "lg",
   titleClass,
+  subTitle,
+  subTitleClass,
   descriptionClass,
   ctaSize = "lg",
   ctaVariant = "default",
@@ -127,6 +131,15 @@ export default function HeroContent({
       >
         {title}
       </h1>
+      {subTitle && (
+        <h2 className={cn(
+          "font-playfair leading-tight md:text-3xl mt-2",
+          tone === "dark" ? "text-white/90" : "text-[#9A6648]",
+          subTitleClass
+        )}>
+          {subTitle}
+        </h2>
+      )}
       {description ? (
         <p
           className={cn(

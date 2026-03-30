@@ -102,15 +102,15 @@ export default function RoomsAndStay() {
             <Card className="rounded-10 !border-0 overflow-hidden h-80 md:h-[420px] bg-neutral-200">
               <div className="relative h-full w-full">
                 {/* Previous image (fades out) */}
-                  {prevImageUrl ? (
-                    <div
-                      className={
-                        "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
-                        (showNew ? "opacity-0" : "opacity-100")
-                      }
-                      data-bg={`url(${prevImageUrl})`}
-                    />
-                  ) : null}
+                {prevImageUrl ? (
+                  <div
+                    className={
+                      "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
+                      (showNew ? "opacity-0" : "opacity-100")
+                    }
+                    data-bg={`url(${prevImageUrl})`}
+                  />
+                ) : null}
 
                 {/* Active / incoming image (fades in) */}
                 <div
@@ -118,7 +118,7 @@ export default function RoomsAndStay() {
                     "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
                     (showNew ? "opacity-100" : "opacity-0")
                   }
-                    data-bg={`url(${active.imageUrl})`}
+                  data-bg={`url(${active.imageUrl})`}
                 />
 
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />

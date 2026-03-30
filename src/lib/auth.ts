@@ -35,17 +35,24 @@ function sign(payload: SessionPayload): string {
 }
 
 function verify(token: string): SessionPayload | null {
-  const parts = token.split(".");
-  if (parts.length !== 2) return null;
-  const [b64, sig] = parts;
-  const expected = crypto.createHmac("sha256", getSecret()).update(b64).digest("base64url");
-  if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
   try {
+    const parts = token.split(".");
+    if (parts.length !== 2) return null;
+    const [b64, sig] = parts;
+    const expected = crypto.createHmac("sha256", getSecret()).update(b64).digest("base64url");
+    
+    // timingSafeEqual requires buffers of the same length, otherwise it throws
+    const sigBuf = Buffer.from(sig);
+    const expBuf = Buffer.from(expected);
+    if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
+      return null;
+    }
+
     const json = Buffer.from(b64, "base64").toString("utf8");
     const payload = JSON.parse(json) as SessionPayload;
     if (payload.exp && Math.floor(Date.now() / 1000) > payload.exp) return null;
     return payload;
-  } catch {
+  } catch (e) {
     return null;
   }
 }
@@ -72,9 +79,20 @@ export async function clearSessionCookie() {
 }
 
 export async function getSession(): Promise<SessionPayload | null> {
-  const c = (await cookies()).get(COOKIE_NAME);
-  if (!c?.value) return null;
-  return verify(c.value);
+  const cookieStore = await cookies();
+  const c = cookieStore.get(COOKIE_NAME);
+  if (!c?.value) {
+    console.log(`[AUTH] getSession: No ${COOKIE_NAME} cookie found`);
+    return null;
+  }
+  
+  const payload = verify(c.value);
+  if (!payload) {
+    console.log(`[AUTH] getSession: Cookie found but verify() FAILED`);
+  } else {
+    console.log(`[AUTH] getSession: SUCCESS (user: ${payload.username})`);
+  }
+  return payload;
 }
 
 export const AuthCookie = { name: COOKIE_NAME, verify };
