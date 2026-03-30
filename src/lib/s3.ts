@@ -11,6 +11,9 @@ declare global {
 }
 
 function getPublicBaseUrl() {
+  if (env.NEXT_PUBLIC_CDN_BASE_URL) {
+    return env.NEXT_PUBLIC_CDN_BASE_URL;
+  }
   if (env.AWS_S3_PUBLIC_BASE_URL) {
     return env.AWS_S3_PUBLIC_BASE_URL;
   }

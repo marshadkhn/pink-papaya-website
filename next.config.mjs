@@ -2,7 +2,7 @@
 const nextConfig = {
 	compress: true,
 	poweredByHeader: false,
-	assetPrefix: process.env.NEXT_PUBLIC_CDN_BASE_URL || undefined,
+	assetPrefix: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_CDN_BASE_URL : undefined,
 	experimental: {
 		optimizePackageImports: ["lucide-react", "react-icons"],
 	},
@@ -20,6 +20,10 @@ const nextConfig = {
 			{
 				protocol: "https",
 				hostname: "images.unsplash.com",
+			},
+			{
+				protocol: "https",
+				hostname: "*.cloudflare.net",
 			},
 		],
 		minimumCacheTTL: 60 * 60 * 24,
