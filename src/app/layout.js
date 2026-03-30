@@ -8,7 +8,37 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"], display: "swap" });
 const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"], display: "swap" });
 
-export const metadata = { title: "Pink Papaya Stays", description: "A cozy place to relax and unwind" };
+export const metadata = {
+  title: {
+    template: "%s | Pink Papaya Stays",
+    default: "Pink Papaya Stays | A cozy place to relax and unwind",
+  },
+  description: "Experience the ultimate relaxation and comfort with Pink Papaya Stays. Book your dream staycation or explore our premium interior designs.",
+  manifest: "/manifest.json",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    title: "Pink Papaya Stays",
+    description: "Experience the ultimate relaxation and comfort with Pink Papaya Stays.",
+    url: "https://pinkpapayastays.com",
+    siteName: "Pink Papaya Stays",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    title: "Pink Papaya Stays",
+    card: "summary_large_image",
+  },
+};
 
 export default function RootLayout({ children }) {
   return (

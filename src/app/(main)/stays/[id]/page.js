@@ -20,8 +20,28 @@ import FAQ from "@/components/FAQ";
 import Link from "next/link";
 import { formatPriceString } from "@/utils/formatCurrency";
 
+export async function generateMetadata({ params }) {
+    const resolvedParams = await params;
+    const stay = await getStayById(resolvedParams.id);
+    
+    if (!stay) {
+        return { title: 'Stay Not Found' };
+    }
+
+    return {
+        title: stay.title,
+        description: stay.description || `Book your stay at ${stay.title} with Pink Papaya.`,
+        openGraph: {
+            title: stay.title,
+            description: stay.description || `Book your stay at ${stay.title} with Pink Papaya.`,
+            images: stay.imageUrl ? [{ url: stay.imageUrl }] : [],
+        },
+    };
+}
+
 export default async function StayDetailPage({ params }) {
-    const stay = await getStayById(params.id);
+    const resolvedParams = await params;
+    const stay = await getStayById(resolvedParams.id);
     if (!stay) {
         return (
             <Container>

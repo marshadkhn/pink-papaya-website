@@ -13,7 +13,29 @@ const bilboSwash = Bilbo_Swash_Caps({
   display: "swap",
 });
 
-export default async function InteriorDetailPage({ params }: { params: { id: string } }) {
+export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+  const project = await getInteriorProjectById(params.id);
+  
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+
+  return {
+    title: project.headline || project.title,
+    description: project.tagline || `Discover the beautiful ${project.title} interior design project by Pink Papaya.`,
+    openGraph: {
+      title: project.headline || project.title,
+      description: project.tagline || `Discover the beautiful ${project.title} interior design project by Pink Papaya.`,
+      images: project.imageUrl ? [{ url: project.imageUrl }] : [],
+    },
+  };
+}
+
+export default async function InteriorDetailPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const project = await getInteriorProjectById(params.id);
   if (!project) {
     return (

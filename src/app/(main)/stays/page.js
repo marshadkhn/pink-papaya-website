@@ -7,6 +7,15 @@ import StaysGridWithFilters from "@/components/StaysGridWithFilters";
 
 import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
+export const metadata = {
+  title: "Our Stays",
+  description: "Experience comfort across our curated collection of Pink Papaya stays—crafted for relaxation and style.",
+  openGraph: {
+    title: "Our Curated Stays | Pink Papaya",
+    description: "Explore our collection of beautiful spaces designed for your comfort.",
+  }
+};
+
 export default async function StysPage() {
   const stays = await readStays();
   const locations = await readLocations();
