@@ -2,6 +2,9 @@ import { revalidateTag, unstable_cache } from "next/cache";
 import mongoose, { Model, Schema } from "mongoose";
 import { connectToDatabase } from "@/lib/mongodb";
 import { env } from "@/lib/env";
+import getLogger from "@/lib/logger";
+
+const logger = getLogger("Content");
 
 type ContentDoc<T> = {
   id: string;
@@ -37,19 +40,24 @@ async function ensureSeeded<T extends { id: string }>(collectionName: string, se
     return;
   }
 
-  await connectToDatabase();
-  const model = getModel<T>(collectionName);
-  const count = await model.estimatedDocumentCount();
-  if (count > 0 || seedData.length === 0) {
+  try {
+    await connectToDatabase();
+    const model = getModel<T>(collectionName);
+    const count = await model.estimatedDocumentCount();
+    if (count > 0 || seedData.length === 0) {
+      return;
+    }
+
+    await model.insertMany(
+      seedData.map((item) => ({
+        id: item.id,
+        data: item,
+      }))
+    );
+  } catch (err: any) {
+    logger.warn("Skipping DB seeding due to connection error", { error: err?.message ?? err });
     return;
   }
-
-  await model.insertMany(
-    seedData.map((item) => ({
-      id: item.id,
-      data: item,
-    }))
-  );
 }
 
 function listCacheKey(collectionName: string) {
@@ -77,10 +85,15 @@ export async function readCollection<T extends { id: string }>(
 
   const cachedReader = unstable_cache(
     async () => {
-      await connectToDatabase();
-      const model = getModel<T>(collectionName);
-      const docs = await model.find().select("id data -_id").sort({ updatedAt: -1 }).lean();
-      return docs.map((doc) => doc.data);
+      try {
+        await connectToDatabase();
+        const model = getModel<T>(collectionName);
+        const docs = await model.find().select("id data -_id").sort({ updatedAt: -1 }).lean();
+        return docs.map((doc) => doc.data);
+      } catch (err: any) {
+        logger.warn("Failed to read collection from DB; falling back to seed data", { error: err?.message ?? err });
+        return [...seedData];
+      }
     },
     [listCacheKey(collectionName)],
     {
@@ -105,10 +118,15 @@ export async function getItemById<T extends { id: string }>(
 
   const cachedReader = unstable_cache(
     async () => {
-      await connectToDatabase();
-      const model = getModel<T>(collectionName);
-      const doc = await model.findOne({ id }).select("id data -_id").lean();
-      return doc?.data;
+      try {
+        await connectToDatabase();
+        const model = getModel<T>(collectionName);
+        const doc = await model.findOne({ id }).select("id data -_id").lean();
+        return doc?.data;
+      } catch (err: any) {
+        logger.warn("Failed to read item from DB; falling back to seed data", { error: err?.message ?? err, id });
+        return seedData.find((item) => item.id === id);
+      }
     },
     [itemCacheTag(collectionName, id)],
     {
