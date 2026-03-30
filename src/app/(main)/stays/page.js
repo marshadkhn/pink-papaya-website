@@ -5,6 +5,8 @@ import { readStays } from "@/lib/staysStore";
 import { readLocations } from "@/lib/locationsStore";
 import StaysGridWithFilters from "@/components/StaysGridWithFilters";
 
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
+
 export default async function StysPage() {
   const stays = await readStays();
   const locations = await readLocations();
@@ -12,7 +14,7 @@ export default async function StysPage() {
   return (
     <>
       <Hero
-        backgroundUrl="/images/hotel.svg"
+        backgroundUrl={DEFAULT_PLACEHOLDER}
         title="Our Stays"
         description="Experience comfort across our curated collection of Pink Papaya stays—crafted for relaxation and style."
         align="center"

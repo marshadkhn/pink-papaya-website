@@ -1,257 +1,136 @@
-import Hero from "@/components/Hero";
 import Container from "@/components/Container";
-import HeaderContent from "@/components/headerContent";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import FAQ from "@/components/FAQ";
+import { Phone, Mail, MessageSquare } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <>
-      <Hero
-        backgroundColor="#ffffff"
-        title="Get In Touch"
-        description="Your perfect beachside escape is just a message away our dedicated team is standing by to craft your"
-        align="center"
-        buttonPlacement="below"
-        showCta={false}
-        tone="light"
-      />
-      <section className="py-12 md:py-16">
-        <Container>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
-            {/* Left: Contact Info */}
-            <div className="md:col-span-7">
-              <CardContent className="p-6 md:p-8">
-                <HeaderContent
-                  title="Pink Papaya Stays"
-                  titleSize="sm"
-                  align="left"
-                  showCta={false}
-                />
+    <main className="bg-white min-h-screen pt-24 md:pt-40 pb-24 font-bricolage">
+      <Container>
+        {/* Header Section */}
+        <div className="text-center mb-16 md:mb-24">
+          <h1 className="text-5xl md:text-7xl font-playfair text-[#9A6648] tracking-tight">
+            Get In Touch
+          </h1>
+        </div>
 
-                <div className="mt-6 space-y-8 text-sm text-neutral-800 font-bricolage">
-                  <div>
-                    <div className="mb-2 text-xs uppercase tracking-wide text-neutral-500">
-                      Location
-                    </div>
-                    <address className="not-italic leading-relaxed">
-                      21400 Pacific Sunset Blvd,
-                      <br />
-                      Malibu, CA 90265
-                    </address>
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start pb-12">
+          {/* Left: Contact Info */}
+          <div className="space-y-12">
+            <h2 className="text-3xl md:text-4xl font-playfair text-neutral-900 mb-8">
+              Pink Papaya Stays
+            </h2>
 
-                  <div>
-                    <div className="mb-2 text-xs uppercase tracking-wide text-neutral-500">
-                      Phone
-                    </div>
-                    <div className="space-y-2">
-                      <div>
-                        <div className="font-medium">
-                          Reservations & Inquiries
-                        </div>
-                        <a
-                          className="text-neutral-900 hover:underline"
-                          href="tel:+13105552140"
-                        >
-                          (310) 555-2140
-                        </a>
-                      </div>
-                      <div>
-                        <div className="font-medium">
-                          Concierge & Guest Services
-                        </div>
-                        <a
-                          className="text-neutral-900 hover:underline"
-                          href="tel:+13105552199"
-                        >
-                          (310) 555-2199
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="mb-2 text-xs uppercase tracking-wide text-neutral-500">
-                      Email
-                    </div>
-                    <div className="space-y-2">
-                      <div>
-                        <div className="font-medium">General Info</div>
-                        <a
-                          className="text-neutral-900 hover:underline"
-                          href="mailto:hello@pinkpapaya.com"
-                        >
-                          hello@pinkpapaya.com
-                        </a>
-                      </div>
-                      <div>
-                        <div className="font-medium">Bookings</div>
-                        <a
-                          className="text-neutral-900 hover:underline"
-                          href="mailto:stay@pinkpapaya.com"
-                        >
-                          stay@pinkpapaya.com
-                        </a>
-                      </div>
-                      <div>
-                        <div className="font-medium">Events</div>
-                        <a
-                          className="text-neutral-900 hover:underline"
-                          href="mailto:events@pinkpapaya.com"
-                        >
-                          events@pinkpapaya.com
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+            <div className="space-y-10">
+              {/* Phone */}
+              <div className="flex items-start gap-5">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5f2] text-[#9A6648]">
+                  <Phone className="h-5 w-5" />
                 </div>
-              </CardContent>
-            </div>
+                <div>
+                  <h3 className="text-lg font-medium text-neutral-900">Phone</h3>
+                  <a href="tel:+3105552140" className="text-neutral-500 hover:text-neutral-800 transition-colors">
+                    (310) 555-2140
+                  </a>
+                  <p className="text-xs text-neutral-400 mt-1 uppercase tracking-wider">
+                    Mon-Fri, 9am - 6pm PST
+                  </p>
+                </div>
+              </div>
 
-            {/* Right: Contact Form */}
-            <div className="md:col-span-5">
-              <Card className="border-neutral-200">
-                <CardContent className="p-6 md:p-8">
-                  <form
-                    className="grid grid-cols-1 gap-4 md:gap-5 font-bricolage"
-                    action="#"
-                    method="post"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                      <div>
-                        <label
-                          htmlFor="fullName"
-                          className="mb-1 block text-sm font-medium text-neutral-800"
-                        >
-                          Full Name
-                        </label>
-                        <input
-                          id="fullName"
-                          name="fullName"
-                          type="text"
-                          required
-                          placeholder="John Doe"
-                          className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-800"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="mb-1 block text-sm font-medium text-neutral-800"
-                        >
-                          Email
-                        </label>
-                        <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          required
-                          placeholder="you@example.com"
-                          className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-800"
-                        />
-                      </div>
-                    </div>
+              {/* Email */}
+              <div className="flex items-start gap-5">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5f2] text-[#9A6648]">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-neutral-900">Email</h3>
+                  <a href="mailto:hello@pinkpapaya.com" className="text-neutral-500 hover:text-neutral-800 transition-colors">
+                    hello@pinkpapaya.com
+                  </a>
+                </div>
+              </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                      <div>
-                        <label
-                          htmlFor="phone"
-                          className="mb-1 block text-sm font-medium text-neutral-800"
-                        >
-                          Phone
-                        </label>
-                        <input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          placeholder="(310) 555-1234"
-                          className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-800"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="topic"
-                          className="mb-1 block text-sm font-medium text-neutral-800"
-                        >
-                          Concern
-                        </label>
-                        <select
-                          id="topic"
-                          name="topic"
-                          className="w-full appearance-none rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-800"
-                          defaultValue="reservations"
-                        >
-                          <option value="reservations">Reservations</option>
-                          <option value="general">General Inquiry</option>
-                          <option value="events">Events</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="message"
-                        className="mb-1 block text-sm font-medium text-neutral-800"
-                      >
-                        Additional information
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows={6}
-                        required
-                        placeholder="Tell us a bit about your stay, dates, or any questions you have."
-                        className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:border-neutral-800"
-                      />
-                    </div>
-
-                    <div className="pt-2 mx-auto">
-                      <Button type="submit" variant="black" size="lg">
-                        Send Message
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
+              {/* WhatsApp */}
+              <div className="flex items-start gap-5">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5f2] text-[#9A6648]">
+                  <MessageSquare className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-neutral-900">WhatsApp</h3>
+                  <p className="text-neutral-500">Start a chat for quick support.</p>
+                  <a href="#" className="inline-flex items-center gap-1 text-[#9A6648] text-sm font-medium mt-2 hover:underline">
+                    Message us now <span className="text-lg leading-none">→</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </Container>
-      </section>
 
-      <section className="my-40">
-        <FAQ
-          title="Frequently Asked Questions"
-          description="Quick answers to common questions about staying at Pink Papaya."
-          faqs={[
-            {
-              question: "What time is check-in and check-out?",
-              answer:
-                "Check-in is from 2:00 PM and check-out is by 11:00 AM. Early check-in and late check-out are available on request, subject to availability.",
-            },
-            {
-              question: "Is breakfast included?",
-              answer:
-                "Yes. A complimentary breakfast is included with every stay, with vegetarian options available.",
-            },
-            {
-              question: "Do you have Wi‑Fi?",
-              answer:
-                "High-speed Wi‑Fi is available throughout the property at no extra cost.",
-            },
-            {
-              question: "How do I book a room?",
-              answer:
-                "You can book directly from the room page using the Book Stay button, or contact us via WhatsApp for assistance.",
-            },
-            {
-              question: "Is parking available?",
-              answer: "Yes, we offer on-site parking for guests.",
-            },
-          ]}
-        />
-      </section>
-    </>
+          {/* Right: Contact Form */}
+          <div className="bg-white border border-neutral-100 rounded-2xl p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <form action="#" method="post" className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    placeholder="Jane Doe"
+                    required
+                    className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="phone-number" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
+                    Phone Number
+                  </label>
+                  <input
+                    id="phone-number"
+                    type="tel"
+                    placeholder="(555) 000-0000"
+                    className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="jane@example.com"
+                  required
+                  className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  rows={4}
+                  placeholder="How can we make your stay exceptional?"
+                  required
+                  className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all resize-none"
+                />
+              </div>
+
+              <Button 
+                type="submit"
+                className="w-full bg-[#9A6648] hover:bg-[#85543a] text-white py-8 rounded-xl text-md font-medium transition-all active:scale-[0.98] shadow-lg shadow-[#9A6648]/10"
+              >
+                Send Message
+              </Button>
+            </form>
+          </div>
+        </div>
+      </Container>
+    </main>
   );
 }

@@ -6,6 +6,7 @@ import { readInteriorProjects } from "@/lib/interiorStore";
 import { readInteriorFeedback } from "@/lib/interiorFeedbackStore";
 import Link from "next/link";
 import HeaderContent from "@/components/headerContent";
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
 export default async function InteriorPage() {
   const interiorProjects = await readInteriorProjects();
@@ -87,7 +88,7 @@ export default async function InteriorPage() {
                 <div className="relative w-full pt-[100%]">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
-                    data-bg={`url(${interiorProjects[0]?.imageUrl || '/images/hotel.svg'})`}
+                    data-bg={`url(${interiorProjects[0]?.imageUrl || DEFAULT_PLACEHOLDER})`}
                   />
                 </div>
               </Card>

@@ -2,7 +2,7 @@
   {
     "id": "garden-suite",
     "title": "Garden Suite",
-    "imageUrl": "/logo-files/logo-white.svg",
+    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -11,12 +11,12 @@
     "description": "A bright, plant-lined suite opening to the garden courtyard.",
     "pricePerNight": "$160/night",
     "images": [
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg"
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
     ],
     "amenities": [
       "Garden Patio",
@@ -32,7 +32,7 @@
   {
     "id": "courtyard-room",
     "title": "Courtyard Room",
-    "imageUrl": "/logo-files/logo-black.svg",
+    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -41,12 +41,12 @@
     "description": "Cozy room with views of the central courtyard and greenery.",
     "pricePerNight": "$140/night",
     "images": [
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg"
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
     ],
     "amenities": [
       "Garden Patio",
@@ -62,7 +62,7 @@
   {
     "id": "sunrise-loft",
     "title": "Sunrise Loft",
-    "imageUrl": "/logo-files/logo-black.svg",
+    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -71,12 +71,12 @@
     "description": "Airy loft with morning light and warm wooden textures.",
     "pricePerNight": "$170/night",
     "images": [
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg"
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
     ],
     "amenities": [
       "Garden Patio",
@@ -92,7 +92,7 @@
   {
     "id": "palm-villa",
     "title": "Palm Villa",
-    "imageUrl": "/logo-files/logo-white.svg",
+    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -101,12 +101,12 @@
     "description": "Standalone villa tucked among palms for extra privacy.",
     "pricePerNight": "$220/night",
     "images": [
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg"
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
     ],
     "amenities": [
       "Garden Patio",

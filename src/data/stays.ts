@@ -1,3 +1,5 @@
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
+
 export type Stay = {
   id: string;
   title: string;
@@ -25,7 +27,7 @@ export const stays: Stay[] = [
   {
     id: "garden-suite",
     title: "Garden Suite",
-    imageUrl: "/logo-files/logo-white.svg",
+    imageUrl: DEFAULT_PLACEHOLDER,
     area: "550 sq. ft.",
     bed: "1 King Bed",
     guests: "2 Guests",
@@ -33,14 +35,7 @@ export const stays: Stay[] = [
     description: "A bright, plant-lined suite opening to the garden courtyard.",
     pricePerNight: "$160/night",
     location: "Anjuna, Goa",
-    images: [
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-    ],
+    images: [DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER],
     amenities: [
       "Garden Patio",
       "Queen Bed",
@@ -55,7 +50,7 @@ export const stays: Stay[] = [
   {
     id: "courtyard-room",
     title: "Courtyard Room",
-    imageUrl: "/logo-files/logo-black.svg",
+    imageUrl: DEFAULT_PLACEHOLDER,
     area: "550 sq. ft.",
     bed: "1 King Bed",
     guests: "2 Guests",
@@ -63,14 +58,7 @@ export const stays: Stay[] = [
     description: "Cozy room with views of the central courtyard and greenery.",
     pricePerNight: "$140/night",
     location: "Calangute, Goa",
-    images: [
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-    ],
+    images: [DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER],
     amenities: [
       "Garden Patio",
       "Queen Bed",
@@ -85,7 +73,7 @@ export const stays: Stay[] = [
   {
     id: "sunrise-loft",
     title: "Sunrise Loft",
-    imageUrl: "/logo-files/logo-black.svg",
+    imageUrl: DEFAULT_PLACEHOLDER,
     area: "550 sq. ft.",
     bed: "1 King Bed",
     guests: "2 Guests",
@@ -93,14 +81,7 @@ export const stays: Stay[] = [
     description: "Airy loft with morning light and warm wooden textures.",
     pricePerNight: "$170/night",
     location: "Candolim, Goa",
-    images: [
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-    ],
+    images: [DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER],
     amenities: [
       "Garden Patio",
       "Queen Bed",
@@ -115,7 +96,7 @@ export const stays: Stay[] = [
   {
     id: "palm-villa",
     title: "Palm Villa",
-    imageUrl: "/logo-files/logo-white.svg",
+    imageUrl: DEFAULT_PLACEHOLDER,
     area: "550 sq. ft.",
     bed: "1 King Bed",
     guests: "2 Guests",
@@ -123,14 +104,7 @@ export const stays: Stay[] = [
     description: "Standalone villa tucked among palms for extra privacy.",
     pricePerNight: "$220/night",
     location: "Baga, Goa",
-    images: [
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-      "/logo-files/logo-white.svg",
-      "/logo-files/logo-black.svg",
-    ],
+    images: [DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER, DEFAULT_PLACEHOLDER],
     amenities: [
       "Garden Patio",
       "Queen Bed",
@@ -142,6 +116,4 @@ export const stays: Stay[] = [
       "Tea Set",
     ],
   },
-  
-  
 ];

@@ -4,21 +4,22 @@ import Reveal from "@/components/ui/Reveal";
 import Container from "@/components/Container";
 import HeaderContent from "@/components/headerContent";
 import { Card } from "@/components/ui/card";
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
 export default function LeisureHighlights() {
   const leisureItems = [
     {
-      img: "/images/serviceOne.svg",
+      img: DEFAULT_PLACEHOLDER,
       title: "Always there, never in the way",
       desc: "Attentive yet effortless our on-ground team handles every detail, so your stay feels seamless from arrival to departure",
     },
     {
-      img: "/images/serviceTwo.svg",
+      img: DEFAULT_PLACEHOLDER,
       title: "Wheels for every mood",
       desc: "Glide through Goa in style with curated transport from chic scooters to chauffeured rides.",
     },
     {
-      img: "/images/serviceThree.svg",
+      img: DEFAULT_PLACEHOLDER,
       title: "Goa, beyond the guidebooks",
       desc: "Hidden beaches, private tables, sunset rituals discover a side of Goa reserved for you",
     },
@@ -46,8 +47,8 @@ export default function LeisureHighlights() {
                 <Card className="rounded-10 !border-0 overflow-hidden bg-neutral-200">
                   <div className="relative w-full pt-[85%]">
                     <div
-                      className="absolute inset-0 bg-cover bg-center"
-                      data-bg={`url(${item.img})`}
+                      className="absolute inset-0 bg-cover bg-center transition-all duration-700"
+                      style={{ backgroundImage: `url(${item.img})` }}
                     />
                   </div>
                 </Card>

@@ -1,18 +1,20 @@
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
+
 export type BlogPost = {
   id: string;
   title: string;
   imageUrl: string;
   author: string;
-  date: string; // e.g., "September 26, 2025"
+  date: string;
   excerpt: string;
-  content: string; // Will be a long string, potentially with markdown
+  content: string;
 };
 
 export const posts: BlogPost[] = [
   {
     id: "coastal-living-guide",
     title: "A Guide to Coastal Living",
-    imageUrl: "/images/hotel.svg",
+    imageUrl: DEFAULT_PLACEHOLDER,
     author: "Jane Doe",
     date: "September 20, 2025",
     excerpt: "Discover the serene beauty and lifestyle of coastal living with our insider tips.",
@@ -21,7 +23,7 @@ export const posts: BlogPost[] = [
   {
     id: "interior-design-secrets",
     title: "Secrets of Serene Interior Design",
-    imageUrl: "/logo-files/logo-black.svg",
+    imageUrl: DEFAULT_PLACEHOLDER,
     author: "John Smith",
     date: "September 15, 2025",
     excerpt: "Learn how to bring tranquility into your home with these simple design principles.",
