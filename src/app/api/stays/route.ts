@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 import { addStay, readStays, type Stay } from "@/lib/staysStore";
+import getLogger from "@/lib/logger";
 
+const logger = getLogger("API:stays");
 export const revalidate = 180;
 
 export async function GET() {
-  const list = await readStays();
-  return NextResponse.json(list);
+  try {
+    const list = await readStays();
+    return NextResponse.json(list);
+  } catch (e: any) {
+    logger.error("GET /api/stays error", { error: e?.message });
+    return NextResponse.json({ error: e?.message ?? "Failed to read stays" }, { status: 500 });
+  }
 }
 
 export async function POST(req: Request) {
@@ -17,6 +24,7 @@ export async function POST(req: Request) {
     const created = await addStay({ ...body, images: body.images ?? [] });
     return NextResponse.json(created, { status: 201 });
   } catch (e: any) {
+    logger.error("POST /api/stays error", { error: e?.message });
     return NextResponse.json({ error: e?.message ?? "Failed to create" }, { status: 400 });
   }
 }

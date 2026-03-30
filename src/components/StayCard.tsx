@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import { cn } from "@/utils/utils";
+import { formatPriceString } from "@/utils/formatCurrency";
 import { Card } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Link from "next/link";
@@ -18,6 +19,7 @@ type StayCardProps = {
   location?: string;
   className?: string;
   href?: string;
+  amenities?: string[];
 };
 
 export default function StayCard({
@@ -71,7 +73,7 @@ export default function StayCard({
         {/* Price Tag Overlay */}
         {pricePerNight && (
           <div className="absolute top-4 right-4 z-10 rounded-full bg-white/90 backdrop-blur-sm px-4 py-1.5 text-xs font-bold text-neutral-900 shadow-sm font-bricolage">
-            {pricePerNight}
+            {`${formatPriceString(pricePerNight)}${/night/i.test(String(pricePerNight)) ? " / night" : ""}`}
           </div>
         )}
       </div>

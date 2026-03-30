@@ -18,6 +18,7 @@ import YogaMatIcon from "@/components/icons/yoga";
 import TeaSetIcon from "@/components/icons/tea";
 import FAQ from "@/components/FAQ";
 import Link from "next/link";
+import { formatPriceString } from "@/utils/formatCurrency";
 
 export default async function StayDetailPage({ params }) {
     const stay = await getStayById(params.id);
@@ -77,7 +78,7 @@ export default async function StayDetailPage({ params }) {
                                 {stay.pricePerNight ? (
                                     <div>
                                         <div className="text-xs text-rose-400">Starting at</div>
-                                        <div className="text-lg font-semibold text-neutral-900">{stay.pricePerNight}</div>
+                                        <div className="text-lg font-semibold text-neutral-900">{`${formatPriceString(stay.pricePerNight)}${/night/i.test(String(stay.pricePerNight)) ? " / night" : ""}`}</div>
                                     </div>
                                 ) : null}
                                 <Button variant="outlineBlack" size="lg" asChild>

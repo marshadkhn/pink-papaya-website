@@ -13,7 +13,7 @@ export const metadata = { title: "Pink Papaya Stays", description: "A cozy place
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${bricolage.variable} antialiased`}>
+      <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${bricolage.variable} antialiased`}>
         <LazyMediaObserver />
         {children}
       </body>

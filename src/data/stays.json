@@ -2,7 +2,7 @@
   {
     "id": "garden-suite",
     "title": "Garden Suite",
-    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+    "imageUrl": "/uploads/dummy1.svg",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -11,12 +11,12 @@
     "description": "A bright, plant-lined suite opening to the garden courtyard.",
     "pricePerNight": "$160/night",
     "images": [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+      "/uploads/dummy1.svg",
+      "/uploads/dummy2.svg",
+      "/uploads/dummy3.svg",
+      "/uploads/dummy1.svg",
+      "/uploads/dummy2.svg",
+      "/uploads/dummy3.svg"
     ],
     "amenities": [
       "Garden Patio",
@@ -32,7 +32,7 @@
   {
     "id": "courtyard-room",
     "title": "Courtyard Room",
-    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+    "imageUrl": "/uploads/dummy2.svg",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -41,12 +41,12 @@
     "description": "Cozy room with views of the central courtyard and greenery.",
     "pricePerNight": "$140/night",
     "images": [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+      "/uploads/dummy2.svg",
+      "/uploads/dummy3.svg",
+      "/uploads/dummy4.svg",
+      "/uploads/dummy2.svg",
+      "/uploads/dummy3.svg",
+      "/uploads/dummy4.svg"
     ],
     "amenities": [
       "Garden Patio",
@@ -62,7 +62,7 @@
   {
     "id": "sunrise-loft",
     "title": "Sunrise Loft",
-    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+    "imageUrl": "/uploads/dummy3.svg",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -71,12 +71,12 @@
     "description": "Airy loft with morning light and warm wooden textures.",
     "pricePerNight": "$170/night",
     "images": [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+      "/uploads/dummy3.svg",
+      "/uploads/dummy4.svg",
+      "/uploads/dummy5.svg",
+      "/uploads/dummy3.svg",
+      "/uploads/dummy4.svg",
+      "/uploads/dummy5.svg"
     ],
     "amenities": [
       "Garden Patio",
@@ -92,7 +92,7 @@
   {
     "id": "palm-villa",
     "title": "Palm Villa",
-    "imageUrl": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
+    "imageUrl": "/uploads/dummy4.svg",
     "area": "550 sq. ft.",
     "bed": "1 King Bed",
     "guests": "2 Guests",
@@ -101,12 +101,12 @@
     "description": "Standalone villa tucked among palms for extra privacy.",
     "pricePerNight": "$220/night",
     "images": [
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+      "/uploads/dummy4.svg",
+      "/uploads/dummy5.svg",
+      "/uploads/dummy6.svg",
+      "/uploads/dummy4.svg",
+      "/uploads/dummy5.svg",
+      "/uploads/dummy6.svg"
     ],
     "amenities": [
       "Garden Patio",
@@ -118,5 +118,34 @@
       "Yoga Mat",
       "Tea Set"
     ]
+  }
+  ,
+  {
+    "id": "sea-view-suite",
+    "title": "Sea View Suite",
+    "imageUrl": "/uploads/dummy5.svg",
+    "area": "600 sq. ft.",
+    "bed": "1 King Bed",
+    "guests": "2 Guests",
+    "category": "walk-to-beach",
+    "location": "Vagator, Goa",
+    "description": "Room with panoramic sea views and a private balcony.",
+    "pricePerNight": "$180/night",
+    "images": ["/uploads/dummy5.svg","/uploads/dummy1.svg","/uploads/dummy6.svg"],
+    "amenities": ["Garden Patio","Queen Bed","Rain Shower","Breakfast","Smart TV"]
+  },
+  {
+    "id": "cozy-nook",
+    "title": "Cozy Nook",
+    "imageUrl": "/uploads/dummy6.svg",
+    "area": "420 sq. ft.",
+    "bed": "1 Queen Bed",
+    "guests": "2 Guests",
+    "category": "expansive-views",
+    "location": "Arpora, Goa",
+    "description": "A compact, comfortable room ideal for solo travellers or couples.",
+    "pricePerNight": "$120/night",
+    "images": ["/uploads/dummy6.svg","/uploads/dummy2.svg","/uploads/dummy3.svg"],
+    "amenities": ["Breakfast","Smart TV","Tea Set"]
   }
 ]

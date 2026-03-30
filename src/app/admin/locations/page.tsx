@@ -37,16 +37,38 @@ export default function AdminLocationsPage() {
 
   async function loadLocations() {
     setLoading(true);
-    const res = await fetch("/api/locations");
-    const data = await res.json();
-    setLocations(data);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/locations");
+      if (!res.ok) {
+        const text = await res.text().catch(() => null);
+        console.error("Failed to load locations:", res.status, text);
+        setLoading(false);
+        return;
+      }
+      const data = await res.json();
+      setLocations(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error("Error loading locations:", e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function loadStays() {
-    const res = await fetch("/api/stays");
-    const data = await res.json();
-    setStays(data);
+    try {
+      const res = await fetch("/api/stays");
+      if (!res.ok) {
+        const text = await res.text().catch(() => null);
+        console.error("Failed to load stays:", res.status, text);
+        setStays([]);
+        return;
+      }
+      const data = await res.json();
+      setStays(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error("Error loading stays:", e);
+      setStays([]);
+    }
   }
 
   useEffect(() => {

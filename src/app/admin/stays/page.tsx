@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import Link from "next/link";
 import { stayCategories } from "@/data/stays";
+import { formatPriceString } from "@/utils/formatCurrency";
 
 type Stay = {
   id: string;
@@ -112,10 +113,21 @@ export default function AdminStaysPage() {
 
   async function load() {
     setLoading(true);
-    const res = await fetch("/api/stays");
-    const data = await res.json();
-    setStays(data);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/stays");
+      if (!res.ok) {
+        const text = await res.text().catch(() => null);
+        console.error("Failed to load stays:", res.status, text);
+        setLoading(false);
+        return;
+      }
+      const data = await res.json();
+      setStays(data);
+    } catch (e) {
+      console.error("Error loading stays:", e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -229,8 +241,13 @@ export default function AdminStaysPage() {
         setErrors({});
         await load();
       } else {
-        const err = await res.json();
-        alert(err.error || "Failed to create");
+        let err: any = null;
+        try {
+          err = await res.json();
+        } catch {
+          // non-json response
+        }
+        alert(err?.error || "Failed to create");
       }
     } catch (e: any) {
       alert(e?.message ?? "Failed");
@@ -305,8 +322,13 @@ export default function AdminStaysPage() {
         setErrors({});
         await load();
       } else {
-        const err = await res.json();
-        alert(err.error || "Failed to update");
+        let err: any = null;
+        try {
+          err = await res.json();
+        } catch {
+          // non-json response
+        }
+        alert(err?.error || "Failed to update");
       }
     } catch (e: any) {
       alert(e?.message ?? "Failed");
@@ -595,7 +617,7 @@ export default function AdminStaysPage() {
                           </div>
                           {s.pricePerNight ? (
                             <div className="mt-2 text-sm font-semibold text-neutral-900">
-                              {/night/i.test(s.pricePerNight) ? `From ${s.pricePerNight} + taxes` : `From ${s.pricePerNight} / night + taxes`}
+                              {/night/i.test(String(s.pricePerNight)) ? `From ${formatPriceString(s.pricePerNight)} / night + taxes` : `From ${formatPriceString(s.pricePerNight)} / night + taxes`}
                             </div>
                           ) : null}
                         </div>
