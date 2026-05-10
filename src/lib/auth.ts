@@ -81,18 +81,8 @@ export async function clearSessionCookie() {
 export async function getSession(): Promise<SessionPayload | null> {
   const cookieStore = await cookies();
   const c = cookieStore.get(COOKIE_NAME);
-  if (!c?.value) {
-    console.log(`[AUTH] getSession: No ${COOKIE_NAME} cookie found`);
-    return null;
-  }
-  
-  const payload = verify(c.value);
-  if (!payload) {
-    console.log(`[AUTH] getSession: Cookie found but verify() FAILED`);
-  } else {
-    console.log(`[AUTH] getSession: SUCCESS (user: ${payload.username})`);
-  }
-  return payload;
+  if (!c?.value) return null;
+  return verify(c.value);
 }
 
 export const AuthCookie = { name: COOKIE_NAME, verify };

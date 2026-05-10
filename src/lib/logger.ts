@@ -39,7 +39,7 @@ export function getLogger(prefix = "APP") {
     warn: (message: string, meta?: Record<string, unknown>) => formatLog(prefix, "warn", message, meta),
     error: (message: string, meta?: Record<string, unknown>) => formatLog(prefix, "error", message, meta),
     debug: (message: string, meta?: Record<string, unknown>) => {
-      if (isDev()) formatLog(prefix, "debug", message, meta);
+      if (isDev() && process.env.LOG_LEVEL === "debug") formatLog(prefix, "debug", message, meta);
     },
   };
 }
@@ -79,10 +79,6 @@ export function logEnvironment(envObj: EnvShape) {
     public: pick(envObj, publicKeys),
   });
 
-  // In dev, also dump everything masked
-  if (isDev()) {
-    logger.debug("Full masked env dump", safe(envObj));
-  }
 }
 
 export default getLogger;

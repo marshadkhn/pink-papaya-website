@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useCallback } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import StayCard from "./StayCard";
 import FilterBar from "./FilterBar";
 import { stayCategories } from "@/data/stays";
@@ -32,8 +33,34 @@ type StaysGridWithFiltersProps = {
 };
 
 export default function StaysGridWithFilters({ stays, locations }: StaysGridWithFiltersProps) {
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const selectedCategory = searchParams.get("category") || "";
+  const selectedLocation = searchParams.get("location") || "";
+  const selectedGuests = searchParams.get("guests") || "";
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set(name, value);
+      } else {
+        params.delete(name);
+      }
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  const handleFilterChange = (name: string, value: string) => {
+    router.push(`${pathname}?${createQueryString(name, value)}`, { scroll: false });
+  };
+
+  const handleClearFilters = () => {
+    router.push(pathname, { scroll: false });
+  };
 
   const filteredStays = useMemo(() => {
     let filtered = [...stays];
@@ -41,6 +68,16 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
     // Filter by category
     if (selectedCategory) {
       filtered = filtered.filter((stay) => stay.category === selectedCategory);
+    }
+
+    // Filter by guests (minimum required)
+    if (selectedGuests) {
+      const minGuests = parseInt(selectedGuests, 10);
+      filtered = filtered.filter((stay) => {
+        const stayGuestsMatch = (stay.guests || "").match(/\d+/);
+        const stayGuests = stayGuestsMatch ? parseInt(stayGuestsMatch[0], 10) : 0;
+        return stayGuests >= minGuests;
+      });
     }
 
     // Filter by location
@@ -52,37 +89,36 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
     }
 
     return filtered;
-  }, [stays, locations, selectedCategory, selectedLocation]);
-
-  const handleClearFilters = () => {
-    setSelectedCategory("");
-    setSelectedLocation("");
-  };
+  }, [stays, locations, selectedCategory, selectedLocation, selectedGuests]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <aside className="md:col-span-1">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+      <aside className="lg:col-span-1">
         <div className="sticky top-24">
           <FilterBar
             categories={stayCategories}
             locations={locations}
             selectedCategory={selectedCategory}
             selectedLocation={selectedLocation}
-            onCategoryChange={setSelectedCategory}
-            onLocationChange={setSelectedLocation}
+            selectedGuests={selectedGuests}
+            onCategoryChange={(val) => handleFilterChange("category", val)}
+            onLocationChange={(val) => handleFilterChange("location", val)}
+            onGuestsChange={(val) => handleFilterChange("guests", val)}
             onClearFilters={handleClearFilters}
           />
         </div>
       </aside>
 
-      <div className="md:col-span-3">
+      <div className="lg:col-span-3">
         {/* Results summary */}
-        <div className="text-sm text-neutral-600 mb-4">
-          Showing {filteredStays.length} {filteredStays.length === 1 ? "stay" : "stays"}
+        <div className="flex items-center justify-between mb-8">
+          <div className="text-sm font-medium text-neutral-500 uppercase tracking-widest">
+            Showing {filteredStays.length} {filteredStays.length === 1 ? "stay" : "stays"}
+          </div>
         </div>
 
         {/* Stays grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-5xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredStays.length > 0 ? (
             filteredStays.map((s) => (
               <StayCard
@@ -100,14 +136,17 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
               />
             ))
           ) : (
-            <div className="col-span-full text-center py-12">
-              <p className="text-neutral-600">No stays match your current filters.</p>
-              <button
-                onClick={handleClearFilters}
-                className="mt-4 text-[#3C8A84] hover:underline font-medium"
-              >
-                Clear filters
-              </button>
+            <div className="col-span-full bg-neutral-50 rounded-2xl border-2 border-dashed border-neutral-200 py-20 text-center">
+              <div className="max-w-xs mx-auto">
+                <p className="text-lg font-playfair font-medium text-neutral-900 mb-2">No stays match your criteria</p>
+                <p className="text-sm text-neutral-500 mb-6">Try adjusting your filters to find your perfect stay.</p>
+                <button
+                  onClick={handleClearFilters}
+                  className="px-6 py-2 bg-neutral-900 text-white rounded-full text-sm font-medium hover:bg-neutral-800 transition-colors"
+                >
+                  Clear all filters
+                </button>
+              </div>
             </div>
           )}
         </div>

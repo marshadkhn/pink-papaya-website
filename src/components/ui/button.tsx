@@ -5,28 +5,43 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[10px] text-sm font-medium ring-offset-background transition-colors transition-transform transform duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[8px] text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16323C]/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default:
+          "bg-[#16323C] text-white hover:bg-[#1a3d49] active:scale-[0.98] shadow-sm transition-all duration-200",
+        destructive:
+          "bg-destructive text-destructive-foreground border border-destructive/30 hover:bg-destructive/90",
+        outline:
+          "border border-[#16323C]/30 bg-transparent hover:bg-[#16323C]/5 text-[#16323C]",
+        secondary:
+          "bg-neutral-100 text-neutral-800 border border-neutral-200/60 hover:bg-neutral-200/60",
+        ghost: "hover:bg-neutral-100 hover:text-neutral-900",
+        link: "text-[#16323C] underline-offset-4 hover:underline",
         // custom project variants
-        outlineWhite: "bg-transparent border border-white text-white hover:bg-white/10",
-        white: "bg-white text-black hover:bg-white/90",
-        outlineBlack: "bg-transparent border border-black text-black hover:bg-black/10",
-        // Add the new black variant
-        black: "bg-black text-white hover:bg-black/90",
+        outlineWhite:
+          "bg-transparent border border-white/70 text-white hover:bg-white/15 backdrop-blur-sm",
+        white:
+          "bg-white text-[#16323C] border border-neutral-200 hover:bg-neutral-50 shadow-sm",
+        outlineBlack:
+          "bg-transparent border border-black/80 text-black hover:bg-black/5",
+        black: "bg-black text-white hover:bg-neutral-900",
+        ghostBorder:
+          "border border-black/10 bg-transparent text-black hover:bg-black/5",
+        amenity:
+          "bg-white text-[#16323C] border border-neutral-100 shadow-sm rounded-[14px] font-semibold",
+        // Warm terracotta accent
+        accent:
+          "bg-[#9A6648] text-white hover:bg-[#8a5a3e] active:scale-[0.98] shadow-sm",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 px-3",
-        lg: "h-11 px-8",
+        default: "h-11 px-8 py-3 text-sm tracking-wide",
+        sm: "h-9 px-5 text-xs tracking-wide",
+        lg: "h-14 px-10 text-base tracking-wide",
         icon: "h-10 w-10",
+        amenity:
+          "h-auto py-5 px-10 sm:py-6 sm:px-12 md:py-8 md:px-16 text-2xl sm:text-3xl md:text-4xl",
       },
     },
     defaultVariants: {
@@ -35,10 +50,6 @@ const buttonVariants = cva(
     },
   }
 );
-
-// Add subtle hover/active behavior for a smooth lift effect
-// We add utility classes on the component level in case variants need further overrides
-const interactiveButtonExtras = "hover:-translate-y-1 hover:shadow-lg active:translate-y-0";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -51,7 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(interactiveButtonExtras, buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />

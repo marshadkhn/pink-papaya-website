@@ -5,9 +5,14 @@ import getLogger from "@/lib/logger";
 const logger = getLogger("API:stays");
 export const revalidate = 180;
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const list = await readStays();
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get("category") || undefined;
+    const location = searchParams.get("location") || undefined;
+    const guests = searchParams.get("guests") || undefined;
+
+    const list = await readStays({ category, location, guests });
     return NextResponse.json(list);
   } catch (e: any) {
     logger.error("GET /api/stays error", { error: e?.message });

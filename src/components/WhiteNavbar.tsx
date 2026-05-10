@@ -324,7 +324,6 @@ export default function WhiteNavbar({ className }: { className?: string }) {
               ref={contactBtnRef}
               className="hidden md:inline-flex"
               size="sm"
-              variant="outlineWhite"
               aria-expanded={contactOpen}
               aria-haspopup="true"
               onClick={() => setContactOpen((v) => !v)}

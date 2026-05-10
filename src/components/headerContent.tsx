@@ -1,7 +1,6 @@
 import * as React from "react";
 import { cn } from "@/utils/utils";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 type Align = "left" | "center" | "right";
 type ButtonPlacement = "left" | "right" | "below";
@@ -11,10 +10,6 @@ type TitleSize = "sm" | "md" | "lg";
 export interface HeaderContentProps {
   title: string;
   description?: string;
-  /**
-   * Control description padding via Tailwind utility classes.
-   * Example: { left: 'pl-4', right: 'pr-2', top: 'pt-2', bottom: 'pb-1' }
-   */
   descriptionPadding?: {
     left?: string;
     right?: string;
@@ -41,7 +36,8 @@ export interface HeaderContentProps {
     | "link"
     | "outlineWhite"
     | "white"
-    | "outlineBlack";
+    | "outlineBlack"
+    | "accent";
   showCta?: boolean;
 }
 
@@ -69,18 +65,24 @@ export default function HeroContent({
       : align === "right"
       ? "items-end text-right"
       : "items-center text-center";
-  const horizontalCenter = align === "center" ? "mx-auto" : undefined;
 
   const titleSizeClass = {
-    sm: "text-[32px] sm:text-[40px] md:text-[48px]",
-    md: "text-[40px] sm:text-[56px] md:text-[64px]",
-    lg: "text-[40px] sm:text-[56px] md:text-[72px] lg:text-[88px]",
+    sm: "text-[30px] sm:text-[38px] md:text-[46px] leading-[1.08]",
+    md: "text-[38px] sm:text-[52px] md:text-[62px] leading-[1.06]",
+    lg: "text-[40px] sm:text-[56px] md:text-[72px] lg:text-[88px] leading-[1.04]",
   }[titleSize];
+
+  const textColor = tone === "dark" ? "text-white" : "text-neutral-900";
+  const subTextColor = tone === "dark" ? "text-white/75" : "text-neutral-500";
+
+  const descPad = descriptionPadding
+    ? `${descriptionPadding.top ?? ""} ${descriptionPadding.right ?? ""} ${descriptionPadding.bottom ?? ""} ${descriptionPadding.left ?? ""}`.trim()
+    : "";
 
   const buttonRow = (
     <div
       className={cn(
-        "mt-4 sm:mt-6 flex w-full gap-3 sm:gap-4",
+        "mt-6 sm:mt-8 flex w-full gap-3 sm:gap-4",
         buttonPlacement === "left" && "justify-start",
         buttonPlacement === "right" && "justify-end",
         buttonPlacement === "below" &&
@@ -102,48 +104,33 @@ export default function HeroContent({
     </div>
   );
 
-  const textColor = tone === "dark" ? "text-white" : "text-neutral-900";
-  const subTextColor = tone === "dark" ? "text-white/90" : "text-neutral-700";
-  const badgeCls =
-    tone === "dark" ? "bg-white/90 text-neutral-900" : "bg-black/80 text-white";
-
-  const descPad = descriptionPadding
-    ? `${descriptionPadding.top ?? ""} ${descriptionPadding.right ?? ""} ${descriptionPadding.bottom ?? ""} ${descriptionPadding.left ?? ""}`.trim()
-    : "";
-
   return (
-    <div
-      className={cn(
-        "flex  flex-col px-1  sm:px-0",
-        alignClass,
-        horizontalCenter
+    <div className={cn("flex flex-col px-1 sm:px-0", alignClass)}>
+      {subTitle && (
+        <p
+          className={cn(
+            "font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold mb-4",
+            tone === "dark" ? "text-white/60" : "text-[#C07A5A]",
+            subTitleClass
+          )}
+        >
+          {subTitle}
+        </p>
       )}
-    >
       <h1
         className={cn(
-          "font-semibold",
+          "font-semibold font-playfair",
           textColor,
-          "font-playfair",
-          "leading-tight",
           titleSizeClass,
           titleClass
         )}
       >
         {title}
       </h1>
-      {subTitle && (
-        <h2 className={cn(
-          "font-playfair leading-tight md:text-3xl mt-2",
-          tone === "dark" ? "text-white/90" : "text-[#9A6648]",
-          subTitleClass
-        )}>
-          {subTitle}
-        </h2>
-      )}
-      {description ? (
+      {description && (
         <p
           className={cn(
-            "mt-3 sm:mt-4 max-w-prose text-sm sm:text-base md:text-lg font-bricolage",
+            "mt-4 sm:mt-5 max-w-prose text-sm sm:text-base md:text-[1.05rem] font-bricolage leading-relaxed",
             subTextColor,
             descPad,
             descriptionClass
@@ -151,7 +138,7 @@ export default function HeroContent({
         >
           {description}
         </p>
-      ) : null}
+      )}
       {showCta ? buttonRow : null}
     </div>
   );

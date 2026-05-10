@@ -1,27 +1,21 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log("[CLIENT] Login Page hydrated successfully");
-  }, []);
-
   async function handleSubmit() {
-    const username = (usernameRef.current?.value ?? "").trim();
+    const email = (emailRef.current?.value ?? "").trim();
     const password = passwordRef.current?.value ?? "";
 
-    console.log("[CLIENT] Attempting login for:", username);
-
-    if (!username || !password) {
-      setError("Username and password are required");
+    if (!email || !password) {
+      setError("Email and password are required");
       return;
     }
 
@@ -32,56 +26,40 @@ export default function LoginPage() {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
-      console.log("[CLIENT] API Login response status:", res.status);
-
-      let data: { ok?: boolean; error?: string; message?: string } | null = null;
-      try {
-        data = await res.json();
-      } catch {
-        // non-json body
-      }
+      let data: { ok?: boolean; error?: string } | null = null;
+      try { data = await res.json(); } catch {}
 
       if (!res.ok) {
-        setError(data?.error ?? data?.message ?? "Invalid credentials");
+        setError(data?.error ?? "Invalid credentials");
         return;
       }
 
-      console.log("[CLIENT] Login successful, redirecting...");
-      router.replace("/admin/stays");
+      router.replace("/admin");
     } catch (err: unknown) {
-      console.error("[CLIENT] Fetch error:", err);
-      const message = err instanceof Error ? err.message : "Login failed. Please try again.";
-      setError(message);
+      setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSubmit();
-    }
+    if (e.key === "Enter") handleSubmit();
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#FAFAF8] p-6">
       <div className="w-full max-w-sm">
-        {/* Logo / Brand */}
         <div className="text-center mb-10">
           <h1 className="font-playfair text-3xl font-semibold text-neutral-900">
             Pink Papaya
           </h1>
-          <p className="mt-1 text-sm text-neutral-500 font-bricolage">
-            Admin Portal
-          </p>
+          <p className="mt-1 text-sm text-neutral-500 font-bricolage">Admin Portal</p>
         </div>
 
-        <div
-          className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-8 space-y-6"
-        >
+        <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-8 space-y-6">
           <div>
             <h2 className="text-lg font-bold text-neutral-900 font-bricolage">Sign In</h2>
             <p className="text-sm text-neutral-400 mt-0.5 font-bricolage">
@@ -100,18 +78,20 @@ export default function LoginPage() {
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="username" className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-bricolage">
-                Username
+              <label
+                htmlFor="email"
+                className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-bricolage"
+              >
+                Email
               </label>
               <input
-                id="username"
-                name="username"
-                ref={usernameRef}
-                type="text"
-                defaultValue=""
+                id="email"
+                name="email"
+                ref={emailRef}
+                type="email"
                 className="w-full rounded-xl border border-neutral-200 bg-[#F9F7F4] px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#9A6648]/30 focus:border-[#9A6648] transition font-bricolage"
-                placeholder="admin"
-                autoComplete="username"
+                placeholder="admin@example.com"
+                autoComplete="email"
                 autoFocus
                 onKeyDown={handleKeyDown}
                 required
@@ -119,7 +99,10 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-bricolage">
+              <label
+                htmlFor="password"
+                className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-bricolage"
+              >
                 Password
               </label>
               <input
@@ -127,7 +110,6 @@ export default function LoginPage() {
                 name="password"
                 ref={passwordRef}
                 type="password"
-                defaultValue=""
                 className="w-full rounded-xl border border-neutral-200 bg-[#F9F7F4] px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#9A6648]/30 focus:border-[#9A6648] transition font-bricolage"
                 placeholder="••••••••"
                 autoComplete="current-password"
@@ -150,4 +132,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

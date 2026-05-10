@@ -7,15 +7,16 @@ import HeaderContent from "@/components/headerContent";
 import StayCard from "@/components/StayCard";
 import { Button } from "@/components/ui/button";
 import { stays } from "@/data/stays";
+import { ArrowRight } from "lucide-react";
 
 export default function ExploreStaysGrid() {
   return (
-    <section id="explore" className="py-20 md:py-32">
+    <section id="explore" className="py-20 md:py-36">
       <Container>
         <Reveal>
-          <div className="mb-12 md:mb-20">
+          <div className="mb-14 md:mb-20">
             <HeaderContent
-              title="Curated spaces, Effortless comfort"
+              title="Curated spaces, effortless comfort"
               subTitle="Goa reimagined for you"
               titleSize="sm"
               align="center"
@@ -23,7 +24,7 @@ export default function ExploreStaysGrid() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-x-12 md:gap-y-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-x-10 md:gap-y-16">
             {stays.slice(0, 6).map((s) => (
               <StayCard
                 key={s.id}
@@ -39,10 +40,12 @@ export default function ExploreStaysGrid() {
               />
             ))}
           </div>
+
           <div className="mt-20 flex justify-center">
             <Link href="/stays">
-              <Button variant="outlineBlack" className="px-10 h-14 rounded-xl text-xs font-bold uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95">
+              <Button size="lg" className="gap-2.5 px-10">
                 View All Stays
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>

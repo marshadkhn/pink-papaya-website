@@ -18,108 +18,116 @@ export default function Footer() {
                 width={140}
                 height={28}
                 loading="lazy"
-                className="h-auto w-[120px] md:w-[140px]"
+                className="h-auto w-[120px] md:w-[136px]"
               />
-              <p className="text-[13px] text-neutral-500 max-w-[220px] leading-relaxed">
-                Thoughtfully designed stays for rest and calm.
+              <p className="text-[13px] text-neutral-400 max-w-[220px] leading-relaxed">
+                Thoughtfully designed stays for rest and calm in Goa.
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
-              <Link
-                href="https://instagram.com"
-                target="_blank"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#582D2D]/20 text-[#582D2D] transition-all hover:bg-[#582D2D] hover:text-white shadow-sm"
-                aria-label="Instagram"
-              >
-                <PiInstagramLogo className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://spotify.com"
-                target="_blank"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#582D2D]/20 text-[#582D2D] transition-all hover:bg-[#582D2D] hover:text-white shadow-sm"
-                aria-label="Spotify"
-              >
-                <PiSpotifyLogo className="h-5 w-5" />
-              </Link>
-              <Link
-                href="https://linktr.ee"
-                target="_blank"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#582D2D]/20 text-[#582D2D] transition-all hover:bg-[#582D2D] hover:text-white shadow-sm"
-                aria-label="Linktree"
-              >
-                <PiLinktreeLogo className="h-5 w-5" />
-              </Link>
+            <div className="flex items-center gap-2.5">
+              {[
+                { href: "https://instagram.com", Icon: PiInstagramLogo, label: "Instagram" },
+                { href: "https://spotify.com", Icon: PiSpotifyLogo, label: "Spotify" },
+                { href: "https://linktr.ee", Icon: PiLinktreeLogo, label: "Linktree" },
+              ].map(({ href, Icon, label }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 transition-all hover:border-[#16323C] hover:text-[#16323C]"
+                  aria-label={label}
+                >
+                  <Icon className="h-4 w-4" />
+                </Link>
+              ))}
             </div>
           </div>
 
           {/* Newsletter */}
-          <div className="sm:col-span-2 md:col-span-4 flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
-              <h5 className="text-[14px] font-bold uppercase tracking-wider text-[#582D2D] font-playfair">
+          <div className="sm:col-span-2 md:col-span-4 flex flex-col gap-5">
+            <div className="flex flex-col gap-1.5">
+              <h5 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-neutral-800">
                 Stories from the coast
               </h5>
-              <p className="text-[13px] text-neutral-500">
+              <p className="text-[12.5px] text-neutral-400 leading-relaxed">
                 Interiors, escapes & thoughtful living — monthly
               </p>
             </div>
 
-            <form action="#" method="post" className="flex items-center gap-3 max-w-md w-full">
+            <form action="#" method="post" className="flex items-center gap-2 max-w-md w-full">
               <input
                 id="footer-email"
                 name="email"
                 type="email"
                 placeholder="you@example.com"
                 required
-                className="flex-1 min-w-0 rounded-[10px] border border-neutral-200 bg-white px-4 py-3 text-[13px] text-neutral-900 outline-none focus:border-[#582D2D]/30 transition-all shadow-sm h-[46px]"
+                className="flex-1 min-w-0 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-[12.5px] text-neutral-900 placeholder:text-neutral-400 outline-none focus:border-[#16323C]/40 transition-all h-[42px]"
               />
-              <Button
-                type="submit"
-                className="bg-[#582D2D] text-white hover:bg-[#4a2626] rounded-[10px] px-6 text-[13px] font-medium shadow-sm transition-all h-[46px] shrink-0 active:scale-95"
-              >
+              <Button type="submit" size="sm" className="h-[42px] shrink-0 text-[12px] px-5">
                 Subscribe
               </Button>
             </form>
           </div>
 
           {/* Explore */}
-          <div className="md:col-span-2 flex flex-col gap-6">
-            <h5 className="text-[14px] font-bold uppercase tracking-wider text-[#582D2D] font-playfair">
+          <div className="md:col-span-2 flex flex-col gap-5">
+            <h5 className="text-[11px] font-bold uppercase tracking-[0.16em] text-neutral-400">
               Explore
             </h5>
-            <ul className="flex flex-col gap-3 text-[13px] text-neutral-600">
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/">Home</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/about">About us</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/become-a-host">Partner with us</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/blog">Blog</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/contact">Contact us</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/terms-and-conditions">Terms and Conditions</Link></li>
+            <ul className="flex flex-col gap-2.5 text-[13px] text-neutral-500">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/about", label: "About us" },
+                { href: "/partner-with-us", label: "Partner with us" },
+                { href: "/blog", label: "Blog" },
+                { href: "/contact", label: "Contact us" },
+                { href: "/terms-and-conditions", label: "Terms" },
+              ].map(({ href, label }) => (
+                <li key={href}>
+                  <Link className="hover:text-[#16323C] transition-colors" href={href}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Collections */}
-          <div className="md:col-span-3 flex flex-col gap-6">
-            <h5 className="text-[14px] font-bold uppercase tracking-wider text-[#582D2D] font-playfair">
+          <div className="md:col-span-3 flex flex-col gap-5">
+            <h5 className="text-[11px] font-bold uppercase tracking-[0.16em] text-neutral-400">
               Collections
             </h5>
-            <ul className="flex flex-col gap-3 text-[13px] text-neutral-600">
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/stays?category=luxury">Luxury Villas</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/stays?category=beach">Walk to the Beach</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/stays?category=views">Expansive Views</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/stays?category=romantic">Romantic Jacuzzi Escapes</Link></li>
-              <li><Link className="hover:text-[#582D2D] transition-colors" href="/stays">All Stays</Link></li>
+            <ul className="flex flex-col gap-2.5 text-[13px] text-neutral-500">
+              {[
+                { href: "/stays?category=luxury", label: "Luxury Villas" },
+                { href: "/stays?category=beach", label: "Walk to the Beach" },
+                { href: "/stays?category=views", label: "Expansive Views" },
+                { href: "/stays?category=romantic", label: "Romantic Jacuzzi Escapes" },
+                { href: "/stays", label: "All Stays" },
+              ].map(({ href, label }) => (
+                <li key={href}>
+                  <Link className="hover:text-[#16323C] transition-colors" href={href}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 md:mt-20 border-t border-neutral-100 pt-8 flex flex-col items-center justify-between gap-6 md:flex-row text-[11px] text-neutral-400 tracking-wide uppercase">
+        <div className="mt-16 md:mt-20 border-t border-neutral-100 pt-8 flex flex-col items-center justify-between gap-4 md:flex-row text-[10.5px] text-neutral-400 tracking-wide uppercase">
           <div className="text-center md:text-left order-2 md:order-1">
-            © {new Date().getFullYear()} Pink Papaya Stays. All rights reserved
+            © {new Date().getFullYear()} Pink Papaya Stays. All rights reserved.
           </div>
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 order-1 md:order-2">
-            <Link className="hover:text-[#582D2D] transition-colors" href="/privacy-policy">Privacy Policy</Link>
-            <Link className="hover:text-[#582D2D] transition-colors" href="/terms-and-conditions">Terms and Conditions</Link>
+            <Link className="hover:text-neutral-700 transition-colors" href="/privacy-policy">
+              Privacy Policy
+            </Link>
+            <Link className="hover:text-neutral-700 transition-colors" href="/terms-and-conditions">
+              Terms and Conditions
+            </Link>
           </div>
         </div>
       </Container>

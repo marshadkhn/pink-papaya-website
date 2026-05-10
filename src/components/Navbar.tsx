@@ -3,419 +3,244 @@
 import Link from "next/link";
 import { cn } from "@/utils/utils";
 import { Button } from "@/components/ui/button";
-import { WhatsAppIcon } from "@/components/icons/whatsapp";
 import Container from "@/components/Container";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
 import { usePathname } from "next/navigation";
+import { Phone, Mail, Menu, X } from "lucide-react";
+
+const NAV_ITEMS = [
+  { href: "/", label: "Home" },
+  { href: "/stays", label: "Explore Stays" },
+  { href: "/partner-with-us", label: "Partner with us" },
+  { href: "/about", label: "About Us" },
+];
 
 export default function Navbar({ className }: { className?: string }) {
-  const items = [
-    { href: "/", label: "Home" },
-    { href: "/stays", label: "Explore Stays" },
-    { href: "/become-a-host", label: "Become a host" },
-    { href: "/blog", label: "Blog" },
-  ];
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const isContactPage = pathname?.startsWith("/contact");
-  const isAboutPage = pathname?.startsWith("/about");
-  const isInteriorPage = pathname?.startsWith("/interior");
-  const isAdminPage = pathname?.startsWith("/admin");
-  const isBlogPage = pathname?.startsWith("/blog");
-
-  const isLightPage =
-    isContactPage || isAboutPage || isInteriorPage || isAdminPage || isBlogPage;
-
-  const linkColor = isLightPage
-    ? "text-neutral-900 hover:text-black"
-    : "text-white/90 hover:text-white";
-  const iconColor = isLightPage ? "text-neutral-900" : "text-white";
-
-  useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 120);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  const [isWide, setIsWide] = useState(false);
-  // hamburger line refs and gsap timeline
-  const line1Ref = useRef<HTMLSpanElement | null>(null);
-  const line2Ref = useRef<HTMLSpanElement | null>(null);
-  const line3Ref = useRef<HTMLSpanElement | null>(null);
-  const tlRef = useRef<any>(null);
-  const navbarWARef = useRef<HTMLAnchorElement | null>(null);
-  const floatWARef = useRef<HTMLAnchorElement | null>(null);
-  
+  const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  const contactBtnRef = useRef<HTMLButtonElement | null>(null);
-  const contactRef = useRef<HTMLDivElement | null>(null);
-  const contactTlRef = useRef<any>(null);
-  const menuBtnRef = useRef<HTMLButtonElement | null>(null);
-  const desktopMenuRef = useRef<HTMLDivElement | null>(null);
-  const desktopMenuTlRef = useRef<any>(null);
-  // Refs to hold latest open state for stable global listeners
-  const contactOpenRef = useRef<boolean>(contactOpen);
-  const menuOpenRef = useRef<boolean>(menuOpen);
+  const [scrolled, setScrolled] = useState(false);
+
+  const transparent = false;
+
+  const contactBtnRef = useRef<HTMLButtonElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const l1 = line1Ref.current;
-    const l2 = line2Ref.current;
-    const l3 = line3Ref.current;
-    if (!l1 || !l2 || !l3) return;
-
-    const tl = gsap.timeline({ paused: true });
-    tl.to(l1, { y: 6, rotation: 45, transformOrigin: "50% 50%", duration: 0.18 }, 0);
-    tl.to(l2, { opacity: 0, duration: 0.12 }, 0);
-    tl.to(l3, { y: -6, rotation: -45, transformOrigin: "50% 50%", duration: 0.18 }, 0);
-    tlRef.current = tl;
-
-    return () => {
-      tl.kill();
-      tlRef.current = null;
-    };
+    const fn = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", fn, { passive: true });
+    fn();
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
   useEffect(() => {
-    if (!tlRef.current) return;
-    if (menuOpen) tlRef.current.play();
-    else tlRef.current.reverse();
-  }, [menuOpen]);
-
-  // track whether viewport is wider than 777px so we can hide
-  // the top nav links from the desktop hamburger dropdown
-  // when the screen is wide (above 777px)
-  useEffect(() => {
-    function updateWide() {
-      setIsWide(typeof window !== "undefined" ? window.innerWidth > 777 : false);
-    }
-
-    updateWide();
-    window.addEventListener("resize", updateWide, { passive: true });
-    return () => window.removeEventListener("resize", updateWide);
-  }, []);
-
-  // animate WhatsApp float from navbar icon to bottom-right
-  useEffect(() => {
-    // pick the visible navbar WA element (mobile or desktop)
-    const elInline = document.querySelector('.nav-inline-wa') as HTMLElement | null;
-    const elMobile = document.querySelector('.nav-mobile-wa') as HTMLElement | null;
-    const navEl = (elInline && elInline.offsetParent !== null) ? elInline : (elMobile && elMobile.offsetParent !== null) ? elMobile : null;
-    const floatEl = floatWARef.current as HTMLElement | null;
-    if (!navEl || !floatEl) return;
-
-    // compute centers
-    const navRect = navEl.getBoundingClientRect();
-    const floatRect = floatEl.getBoundingClientRect();
-    const navCenterX = navRect.left + navRect.width / 2;
-    const navCenterY = navRect.top + navRect.height / 2;
-    const floatCenterX = floatRect.left + floatRect.width / 2;
-    const floatCenterY = floatRect.top + floatRect.height / 2;
-    const dx = navCenterX - floatCenterX;
-    const dy = navCenterY - floatCenterY;
-
-    // kill previous tweens
-    gsap.killTweensOf(floatEl);
-    gsap.killTweensOf(navEl);
-
-    if (scrolled) {
-      // position float at navbar icon and animate to bottom-right
-      gsap.set(floatEl, { x: dx, y: dy, opacity: 0, scale: 0.8 });
-      gsap.to(floatEl, {
-        x: 0,
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.55,
-        ease: "power2.out",
-        onStart: () => (floatEl.style.pointerEvents = "auto"),
-      });
-      gsap.to(navEl, { opacity: 0, duration: 0.25, ease: "power1.out" });
-    } else {
-      // animate float back to navbar position then hide
-      gsap.to(floatEl, {
-        x: dx,
-        y: dy,
-        opacity: 0,
-        scale: 0.8,
-        duration: 0.45,
-        ease: "power2.in",
-        onComplete: () => (floatEl.style.pointerEvents = "none"),
-      });
-      gsap.to(navEl, { opacity: 1, duration: 0.25, ease: "power1.out" });
-    }
-  }, [scrolled]);
-
-  // right-side mobile panel removed — no setup required
-  useEffect(() => {}, []);
-
-  // right-side mobile panel removed — nothing to play/reverse
-  useEffect(() => {}, [menuOpen]);
-
-  // animate desktop dropdown (hamburger desktop menu) with GSAP
-  useEffect(() => {
-    const el = desktopMenuRef.current;
-    if (!el) return;
-
-    const tl = gsap.timeline({ paused: true });
-    gsap.set(el, { autoAlpha: 0, y: -8, scale: 0.98, pointerEvents: 'none' });
-    tl.to(el, {
-      autoAlpha: 1,
-      y: 0,
-      scale: 1,
-      pointerEvents: 'auto',
-      duration: 0.28,
-      ease: 'power2.out',
-    });
-    desktopMenuTlRef.current = tl;
-
-    return () => {
-      tl.kill();
-      desktopMenuTlRef.current = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!desktopMenuTlRef.current) return;
-    if (menuOpen) desktopMenuTlRef.current.play();
-    else desktopMenuTlRef.current.reverse();
-  }, [menuOpen]);
-
-  // Close contact dropdown when menu opens or on navigation
-  useEffect(() => {
-    if (menuOpen) setContactOpen(false);
-  }, [menuOpen]);
-
-  // Close dropdowns on outside click or Escape using refs so the effect
-  // registration is stable across renders (no changing dependency array).
-  useEffect(() => {
-    // keep refs updated
-    contactOpenRef.current = contactOpen;
-    menuOpenRef.current = menuOpen;
-  }, [contactOpen, menuOpen]);
+    // Close mobile menu on route change
+    setMenuOpen(false);
+    setContactOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     function onDown(e: MouseEvent) {
-      const t = e.target as Node | null;
-
-      // contact dropdown: close when clicking outside contact dialog and its button
-      if (contactOpenRef.current) {
-        if (
-          contactRef.current &&
-          contactBtnRef.current &&
-          t &&
-          !contactRef.current.contains(t) &&
-          !contactBtnRef.current.contains(t)
-        ) {
-          setContactOpen(false);
-        }
+      const t = e.target as Node;
+      if (
+        contactOpen &&
+        contactRef.current &&
+        contactBtnRef.current &&
+        !contactRef.current.contains(t) &&
+        !contactBtnRef.current.contains(t)
+      ) {
+        setContactOpen(false);
       }
-
-      // desktop hamburger dropdown: close when clicking outside menu and hamburger button
-      if (menuOpenRef.current) {
-        if (
-          desktopMenuRef.current &&
-          menuBtnRef.current &&
-          t &&
-          !desktopMenuRef.current.contains(t) &&
-          !menuBtnRef.current.contains(t)
-        ) {
-          setMenuOpen(false);
-        }
+      if (
+        menuOpen &&
+        mobileMenuRef.current &&
+        menuBtnRef.current &&
+        !mobileMenuRef.current.contains(t) &&
+        !menuBtnRef.current.contains(t)
+      ) {
+        setMenuOpen(false);
       }
     }
-
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        if (contactOpenRef.current) setContactOpen(false);
-        if (menuOpenRef.current) setMenuOpen(false);
+        setContactOpen(false);
+        setMenuOpen(false);
       }
     }
-
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, []);
+  }, [contactOpen, menuOpen]);
 
-  // contact dropdown animation setup
-  useEffect(() => {
-    const el = contactRef.current;
-    if (!el) return;
-
-    // create timeline and set initial hidden state
-    const tl = gsap.timeline({ paused: true });
-    gsap.set(el, { autoAlpha: 0, y: -8, scale: 0.98, pointerEvents: 'none' });
-    tl.to(el, {
-      autoAlpha: 1,
-      y: 0,
-      scale: 1,
-      pointerEvents: 'auto',
-      duration: 0.28,
-      ease: 'power2.out',
-    });
-    contactTlRef.current = tl;
-
-    return () => {
-      tl.kill();
-      contactTlRef.current = null;
-    };
-  }, []);
-
-  // play/reverse contact dropdown animation when toggled
-  useEffect(() => {
-    if (!contactTlRef.current) return;
-    if (contactOpen) contactTlRef.current.play();
-    else contactTlRef.current.reverse();
-  }, [contactOpen]);
+  function isActive(href: string) {
+    if (href === "/") return pathname === "/";
+    return pathname?.startsWith(href) ?? false;
+  }
 
   return (
-    <Container
+    <header
       className={cn(
-        "absolute inset-x-0 top-0 z-50 transition-colors bg-transparent",
+        "sticky top-0 z-50 transition-all duration-500",
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-[0_2px_24px_rgba(0,0,0,0.08)]"
+          : "bg-white shadow-[0_1px_0_rgba(0,0,0,0.06)]",
         className
       )}
     >
-      <Container className="flex h-16 items-center pt-3 w-full">
-        {/* Left: hamburger */}
-        <div className="flex items-center">
-          <button
-            className={cn(
-              "flex items-center justify-center focus:outline-none",
-              isLightPage ? "text-neutral-900" : "text-white"
-            )}
-            ref={menuBtnRef}
-            aria-label="Open menu"
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            <span className="sr-only">Toggle menu</span>
-            <div className="flex flex-col gap-1 w-7 h-6 items-center justify-center">
-              <span ref={line1Ref} className={cn("hamb-line w-6 h-[2px] rounded-sm bg-current block")} />
-              <span ref={line2Ref} className={cn("hamb-line w-6 h-[2px] rounded-sm bg-current block")} />
-              <span ref={line3Ref} className={cn("hamb-line w-6 h-[2px] rounded-sm bg-current block")} />
-            </div>
-          </button>
+      <Container className="flex items-center justify-between px-4 md:px-10 max-w-7xl h-[var(--navbar-h)]">
+        {/* Logo */}
+        <Link href="/" className="shrink-0 z-10">
+          <Image
+            src={transparent ? "/logo-files/logo-white.svg" : "/logo-files/logo-black.svg"}
+            alt="Pink Papaya"
+            width={128}
+            height={28}
+            priority
+            className="h-auto w-[110px] md:w-[138px] transition-opacity duration-300"
+          />
+        </Link>
 
-          {/* Desktop dropdown: show on md+ when hamburger clicked */}
-          <div
-            ref={desktopMenuRef}
-            className={cn(
-              "absolute left-4 top-full mt-2 w-64 rounded-10 shadow-lg border border-white/20 bg-white/5 backdrop-blur-md bg-clip-padding text-white z-50 overflow-hidden",
-              menuOpen ? "md:block" : "hidden"
-            )}
-            style={{ backgroundColor: "rgba(255,255,255,0.03)", backdropFilter: "blur(8px)" }}
-          >
-            <nav className="flex flex-col text-base">
-              {(!isWide ? items : []).map((it) => (
-                <Link
-                  key={it.href}
-                  href={it.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="px-4 py-3 transform transition-transform duration-200 ease-out hover:scale-105 focus-visible:scale-105"
-                >
-                  {it.label}
-                </Link>
-              ))}
-
-              <div className="border-t border-white/10" />
-
-              <Link href="/#faq" onClick={() => setMenuOpen(false)} className="px-4 py-3 transform transition-transform duration-200 ease-out hover:scale-105 focus-visible:scale-105">Frequently Asked Questions</Link>
-              <div className="border-t border-white/10" />
-              <Link href="/cancellation-and-refund-policy" onClick={() => setMenuOpen(false)} className="px-4 py-3 transform transition-transform duration-200 ease-out hover:scale-105 focus-visible:scale-105">Cancellation Policy</Link>
-              <div className="border-t border-white/10" />
-              <Link href="/terms-and-conditions" onClick={() => setMenuOpen(false)} className="px-4 py-3 transform transition-transform duration-200 ease-out hover:scale-105 focus-visible:scale-105">Terms &amp; Conditions</Link>
-            </nav>
-          </div>
-        </div>
-
-        {/* Center: placeholder for spacing; nav items shown on md+ centered */}
-        <div className="flex-1 flex justify-center">
-          <nav className="hidden md:flex justify-center items-center gap-6 text-base font-bricolage">
-            {items.map((it) => (
+        {/* Desktop nav — centered */}
+        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-10 font-bricolage">
+          {NAV_ITEMS.map((it) => {
+            const active = isActive(it.href);
+            return (
               <Link
                 key={it.href}
                 href={it.href}
-                className={cn(linkColor, "transition-colors group inline-flex flex-col items-center")}
+                className={cn(
+                  "relative text-[13.5px] tracking-[0.04em] transition-colors group pb-1",
+                  transparent
+                    ? active
+                      ? "text-white"
+                      : "text-white/65 hover:text-white"
+                    : active
+                    ? "text-[#16323C]"
+                    : "text-neutral-400 hover:text-[#16323C]"
+                )}
               >
-                <span className="relative z-10">{it.label}</span>
-                <span className="block h-[2px] bg-current w-0 transition-[width] duration-200 ease-out origin-right group-hover:w-full mt-1" />
+                {it.label}
+                <span
+                  className={cn(
+                    "absolute bottom-0 left-0 h-px transition-[width] duration-300 ease-out",
+                    transparent ? "bg-white/60" : "bg-[#16323C]/40",
+                    active ? "w-full" : "w-0 group-hover:w-full"
+                  )}
+                />
               </Link>
-            ))}
-          </nav>
-        </div>
+            );
+          })}
+        </nav>
 
-        {/* Right: WhatsApp icon + CTA */}
-        <div className="flex items-center gap-3 relative">
-          <Link
-            href="https://wa.me/0000000000"
-            aria-label="Chat on WhatsApp"
-            className={cn("nav-inline-wa text-white/90 hover:text-white", linkColor, scrolled && "hidden")}
-            target="_blank"
-            rel="noopener noreferrer"
-            ref={navbarWARef}
-          >
-            <WhatsAppIcon className={cn("h-6 w-6", iconColor)} />
-          </Link>
-
-          {/* Desktop CTA that toggles a dropdown matching the app design */}
+        {/* Right side */}
+        <div className="flex items-center gap-3">
+          {/* Contact dropdown */}
           <div className="relative">
             <Button
               ref={contactBtnRef}
-              className="hidden md:inline-flex"
               size="sm"
-              variant={isLightPage ? "outlineBlack" : "outlineWhite"}
+              variant={transparent ? "outlineWhite" : "default"}
+              className="px-5 md:px-6 font-bricolage text-[12.5px]"
+              onClick={() => setContactOpen((v) => !v)}
               aria-expanded={contactOpen}
               aria-haspopup="true"
-              onClick={() => setContactOpen((v) => !v)}
             >
               Get in touch
             </Button>
 
-            <div
-              ref={contactRef}
-              role="dialog"
-              aria-label="Get in touch"
-              style={{ backgroundColor: "rgba(255,255,255,0.03)", backdropFilter: "blur(8px)" }}
-              className={cn(
-                "absolute right-0 mt-2 w-64 rounded-10 shadow-lg border border-white/20 bg-white/5 backdrop-blur-md bg-clip-padding text-white z-50 overflow-hidden",
-                contactOpen ? "block" : "hidden"
-              )}
-            >
-              
-              <div className="border-t border-white/10" />
-              <ul className="divide-y divide-white/10">
-                <li className="px-4 py-3 text-sm transform transition-transform duration-200 ease-out hover:scale-105 focus-visible:scale-105">
-                  <a href="tel:+919226591522">+91 9226591522</a>
-                </li>
-                <li className="px-4 py-3 text-sm transform transition-transform duration-200 ease-out hover:scale-105 focus-visible:scale-105">
-                  <a href="mailto:reservations@pinkpapayastays.com">reservations@pinkpapayastays.com</a>
-                </li>
-              </ul>
-            </div>
+            {contactOpen && (
+              <div
+                ref={contactRef}
+                className="absolute right-0 top-full mt-2.5 w-[272px] rounded-xl bg-white border border-neutral-100 shadow-[0_8px_32px_rgba(0,0,0,0.1)] overflow-hidden z-50"
+              >
+                <a
+                  href="tel:+919226591522"
+                  className="flex items-center gap-3 px-5 py-4 text-[13px] text-[#16323C] hover:bg-[#F7F2EA] transition-colors font-bricolage"
+                >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA]">
+                    <Phone size={13} className="text-[#C07A5A]" />
+                  </span>
+                  +91 9226591522
+                </a>
+                <div className="h-px bg-neutral-100 mx-5" />
+                <a
+                  href="mailto:reservations@pinkpapayastays.com"
+                  className="flex items-center gap-3 px-5 py-4 text-[13px] text-[#16323C] hover:bg-[#F7F2EA] transition-colors font-bricolage"
+                >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA]">
+                    <Mail size={13} className="text-[#C07A5A]" />
+                  </span>
+                  reservations@pinkpapayastays.com
+                </a>
+              </div>
+            )}
           </div>
+
+          {/* Mobile toggle */}
+          <button
+            ref={menuBtnRef}
+            className={cn(
+              "md:hidden flex items-center justify-center w-9 h-9 -mr-1 transition-colors",
+              transparent ? "text-white" : "text-[#16323C]"
+            )}
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </Container>
-      {/* Floating WhatsApp button when user scrolls */}
-      <a
-        href="https://wa.me/0000000000"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat on WhatsApp"
-        ref={floatWARef}
-        className={cn(
-          "fixed bottom-6 right-6 z-50 rounded-full shadow-lg p-3 transform bg-black",
-          "pointer-events-none"
-        )}
-      >
-        <WhatsAppIcon className="h-6 w-6 text-white" />
-      </a>
-      {/* Mobile right-side panel + overlay (animated via GSAP) */}
-      {/* Right-side mobile panel removed; desktop dropdown now contains all options */}
-    </Container>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div
+          ref={mobileMenuRef}
+          className="md:hidden border-t border-neutral-100 bg-white"
+        >
+          <nav className="flex flex-col font-bricolage divide-y divide-neutral-50 px-5">
+            {NAV_ITEMS.map((it) => {
+              const active = isActive(it.href);
+              return (
+                <Link
+                  key={it.href}
+                  href={it.href}
+                  onClick={() => setMenuOpen(false)}
+                  className={cn(
+                    "py-4 text-[13.5px] transition-colors",
+                    active
+                      ? "text-[#16323C] font-semibold"
+                      : "text-neutral-500 hover:text-[#16323C]"
+                  )}
+                >
+                  {it.label}
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="px-5 py-4 border-t border-neutral-100 space-y-3">
+            <a
+              href="tel:+919226591522"
+              className="flex items-center gap-2.5 text-[12.5px] text-neutral-500 font-bricolage hover:text-[#16323C] transition-colors"
+            >
+              <Phone size={12} className="text-[#C07A5A]" />
+              +91 9226591522
+            </a>
+            <a
+              href="mailto:reservations@pinkpapayastays.com"
+              className="flex items-center gap-2.5 text-[12.5px] text-neutral-500 font-bricolage hover:text-[#16323C] transition-colors"
+            >
+              <Mail size={12} className="text-[#C07A5A]" />
+              reservations@pinkpapayastays.com
+            </a>
+          </div>
+        </div>
+      )}
+    </header>
   );
 }

@@ -1,10 +1,8 @@
 import Hero from "@/components/Hero";
 import Container from "@/components/Container";
-import HeaderContent from "@/components/headerContent";
 import { readStays } from "@/lib/staysStore";
 import { readLocations } from "@/lib/locationsStore";
 import StaysGridWithFilters from "@/components/StaysGridWithFilters";
-
 import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
 export const metadata = {
@@ -13,34 +11,26 @@ export const metadata = {
   openGraph: {
     title: "Our Curated Stays | Pink Papaya",
     description: "Explore our collection of beautiful spaces designed for your comfort.",
-  }
+  },
 };
 
-export default async function StysPage() {
-  const stays = await readStays();
+export default async function StaysPage({ searchParams }) {
+  const { category, location, guests } = await searchParams;
+  const stays = await readStays({ category, location, guests });
   const locations = await readLocations();
-  
+
   return (
     <>
       <Hero
         backgroundUrl={DEFAULT_PLACEHOLDER}
         title="Our Stays"
-        description="Experience comfort across our curated collection of Pink Papaya stays—crafted for relaxation and style."
+        description="Curated spaces across Goa — crafted for comfort, style, and unforgettable moments."
         align="center"
-        buttonPlacement="below"
         showCta={false}
         tone="dark"
       />
-      <section className="py-12 md:py-16">
+      <section className="py-14 md:py-20">
         <Container>
-          <div className="mb-6 md:mb-8">
-            <HeaderContent
-              align="center"
-              showCta={false}
-              title="Comfort-forward rooms curated for style and ease."
-              titleSize="sm"
-            />
-          </div>
           <StaysGridWithFilters stays={stays} locations={locations} />
         </Container>
       </section>

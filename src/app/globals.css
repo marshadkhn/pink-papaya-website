@@ -5,12 +5,10 @@
   font-family: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
-/* Updated to use the CSS variable */
 .font-bricolage {
   font-family: var(--font-bricolage), sans-serif;
 }
 
-/* Load Bricolage Grotesque from public assets and expose as a CSS variable */
 @font-face {
   font-family: "Bricolage Grotesque";
   src: url('/font-files/BricolageGrotesque.ttf') format('truetype');
@@ -21,50 +19,37 @@
 
 html, body, :root { height: 100%; }
 
-/* Design token for 10px rounding used across components */
 :root {
   --rounded-10: 10px;
   --font-bricolage: "Bricolage Grotesque";
   --font-playfair: 'Playfair Display';
+  --navbar-h: 80px;
+  --color-primary: #16323C;
+  --color-accent: #9A6648;
+  --color-warm: #C07A5A;
 }
 
-/* Utility class for specific overrides */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-bricolage), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Design token utility */
 .rounded-10 {
-  border-radius: var(--rounded-10) !important;
+  border-radius: var(--rounded-10);
 }
 
-/* Apply 10px rounding to common interactive and rectangular UI elements.
-   Use !important to ensure Tailwind utility classes or component styles do not
-   unintentionally remove the rounding. If you prefer Tailwind utilities,
-   replace with `rounded-[10px]` in component classNames instead. */
-button,
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
-[role="button"],
-select,
-textarea,
-button *,
-select *,
-textarea *,
-.btn,
-.button,
-.card,
-.ui-card,
-.badge,
-.carousel,
-.stay-card,
-.stay-card *,
-.feedback-card,
-.container,
-.navbar,
-.footer {
-  border-radius: var(--rounded-10) !important;
-  font-family: var(--font-bricolage), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+/* Smooth details/summary open transition */
+details[open] > summary ~ * {
+  animation: reveal-down 0.25s ease;
 }
 
-/* Also override any Tailwind `rounded-*` utility classes so all rounded
-   classes resolve to the design token `--rounded-10` */
-[class*="rounded"] {
-  border-radius: var(--rounded-10) !important;
+@keyframes reveal-down {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

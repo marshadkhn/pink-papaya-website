@@ -12,6 +12,10 @@ export type Stay = {
   images?: string[];
   amenities?: string[];
   location?: string;
+  aboutContent?: string;
+  locationMapUrl?: string;
+  nearbyPlaces?: { name: string; distance: string }[];
+  faqs?: { question: string; answer: string }[];
 };
 
 export const stayCategories = [
@@ -23,123 +27,45 @@ export const stayCategories = [
 
 export const stays: Stay[] = [
   {
-    id: "garden-suite",
-    title: "Garden Suite",
-    imageUrl: "/uploads/dummy1.svg",
-    area: "550 sq. ft.",
-    bed: "1 King Bed",
-    guests: "2 Guests",
-    category: "walk-to-beach",
-    description: "A bright, plant-lined suite opening to the garden courtyard.",
-    pricePerNight: "$160/night",
-    location: "Anjuna, Goa",
-    images: ["/uploads/dummy1.svg", "/uploads/dummy2.svg", "/uploads/dummy3.svg"],
-    amenities: [
-      "Garden Patio",
-      "Queen Bed",
-      "Rain Shower",
-      "Breakfast",
-      "Meditation Area",
-      "Smart TV",
-      "Yoga Mat",
-      "Tea Set",
-    ],
-  },
-  {
-    id: "courtyard-room",
-    title: "Courtyard Room",
-    imageUrl: "/uploads/dummy2.svg",
-    area: "550 sq. ft.",
-    bed: "1 King Bed",
-    guests: "2 Guests",
-    category: "expansive-views",
-    description: "Cozy room with views of the central courtyard and greenery.",
-    pricePerNight: "$140/night",
-    location: "Calangute, Goa",
-    images: ["/uploads/dummy2.svg", "/uploads/dummy3.svg", "/uploads/dummy4.svg"],
-    amenities: [
-      "Garden Patio",
-      "Queen Bed",
-      "Rain Shower",
-      "Breakfast",
-      "Meditation Area",
-      "Smart TV",
-      "Yoga Mat",
-      "Tea Set",
-    ],
-  },
-  {
-    id: "sunrise-loft",
-    title: "Sunrise Loft",
-    imageUrl: "/uploads/dummy3.svg",
-    area: "550 sq. ft.",
+    id: "test-stay",
+    title: "Royal Palms Garden Suite",
+    imageUrl: "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop",
+    area: "650 sq. ft.",
     bed: "1 King Bed",
     guests: "2 Guests",
     category: "luxury-villas",
-    description: "Airy loft with morning light and warm wooden textures.",
-    pricePerNight: "$170/night",
-    location: "Candolim, Goa",
-    images: ["/uploads/dummy3.svg", "/uploads/dummy4.svg", "/uploads/dummy5.svg"],
+    description: "An exquisite blend of Indo-Portuguese architecture and modern luxury in the heart of Assagao.",
+    pricePerNight: "$240/night",
+    location: "Assagao, Goa",
+    images: [
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1590392847226-d95245220a22?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1496048977749-6c44d362880c?q=80&w=2070&auto=format&fit=crop"
+    ],
     amenities: [
       "Garden Patio",
-      "Queen Bed",
+      "King Bed",
       "Rain Shower",
       "Breakfast",
       "Meditation Area",
       "Smart TV",
       "Yoga Mat",
-      "Tea Set",
+      "Tea Set"
     ],
-  },
-  {
-    id: "palm-villa",
-    title: "Palm Villa",
-    imageUrl: "/uploads/dummy4.svg",
-    area: "550 sq. ft.",
-    bed: "1 King Bed",
-    guests: "2 Guests",
-    category: "romantic-jacuzzi-escapes",
-    description: "Standalone villa tucked among palms for extra privacy.",
-    pricePerNight: "$220/night",
-    location: "Baga, Goa",
-    images: ["/uploads/dummy4.svg", "/uploads/dummy5.svg", "/uploads/dummy6.svg"],
-    amenities: [
-      "Garden Patio",
-      "Queen Bed",
-      "Rain Shower",
-      "Breakfast",
-      "Meditation Area",
-      "Smart TV",
-      "Yoga Mat",
-      "Tea Set",
+    aboutContent: "Nestled in the heart of Assagao, the Royal Palms Garden Suite offers a tranquil escape from the bustling beaches. This boutique suite features high-vaulted ceilings, handcrafted teak furniture, and large French windows that open directly into a private botanical garden. \n\nDesigned for the discerning traveler, the suite includes a plush king-sized bed with organic linens, a dedicated meditation nook, and a spa-inspired bathroom with a signature rain shower. Every morning, wake up to the sound of tropical birds and enjoy a chef-prepared Goan breakfast served on your private patio.",
+    locationMapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3844.249454378949!2d73.74317137578207!3d15.525287453303666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfe96435c2b0c1%3A0xc0f19c35546b4f7a!2sPink%20Papaya%20Stay!5e0!3m2!1sen!2sin!4v1714856000000!5m2!1sen!2sin",
+    nearbyPlaces: [
+      { "name": "Gunpowder Restaurant", "distance": "2 mins walk" },
+      { "name": "Anjuna Beach", "distance": "12 mins drive" },
+      { "name": "Vagator Cliffs", "distance": "15 mins drive" },
+      { "name": "Saturday Night Market", "distance": "8 mins drive" }
     ],
-  },
-  {
-    id: "sea-view-suite",
-    title: "Sea View Suite",
-    imageUrl: "/uploads/dummy5.svg",
-    area: "600 sq. ft.",
-    bed: "1 King Bed",
-    guests: "2 Guests",
-    category: "walk-to-beach",
-    description: "Room with panoramic sea views and a private balcony.",
-    pricePerNight: "$180/night",
-    location: "Vagator, Goa",
-    images: ["/uploads/dummy5.svg", "/uploads/dummy1.svg", "/uploads/dummy6.svg"],
-    amenities: ["Garden Patio", "Queen Bed", "Rain Shower", "Breakfast", "Smart TV"],
-  },
-  {
-    id: "cozy-nook",
-    title: "Cozy Nook",
-    imageUrl: "/uploads/dummy6.svg",
-    area: "420 sq. ft.",
-    bed: "1 Queen Bed",
-    guests: "2 Guests",
-    category: "expansive-views",
-    description: "A compact, comfortable room ideal for solo travellers or couples.",
-    pricePerNight: "$120/night",
-    location: "Arpora, Goa",
-    images: ["/uploads/dummy6.svg", "/uploads/dummy2.svg", "/uploads/dummy3.svg"],
-    amenities: ["Breakfast", "Smart TV", "Tea Set"],
+    faqs: [
+      { "question": "Is the pool accessible from this suite?", "answer": "Yes, the Garden Suite has direct access to the central lap pool through the garden path." },
+      { "question": "Can I request an early check-in?", "answer": "Early check-in is subject to availability. Please notify us 24 hours in advance, and we will do our best to accommodate you." },
+      { "question": "Is there a safe in the room?", "answer": "Yes, every suite is equipped with a digital safe for your valuables." }
+    ]
   },
 ];

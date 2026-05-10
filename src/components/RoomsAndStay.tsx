@@ -2,95 +2,101 @@
 
 import * as React from "react";
 import Container from "@/components/Container";
-import HeaderContent from "@/components/headerContent";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-// Removed individual stay attribute icons - not needed anymore
 import { useRouter } from "next/navigation";
 import { stays as staysData, stayCategories } from "@/data/stays";
+import { ArrowRight } from "lucide-react";
 
 export default function RoomsAndStay() {
   const router = useRouter();
-  // show four categories only
   const categories = stayCategories.slice(0, 4);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [prevImageUrl, setPrevImageUrl] = React.useState<string | null>(null);
   const [showNew, setShowNew] = React.useState(true);
 
-  // For display, find a representative stay for the selected category
   function representativeFor(catId: string) {
     return staysData.find((s) => s.category === catId) ?? staysData[0];
   }
 
   const active = representativeFor(categories[activeIndex].id);
 
+  function handleSelect(idx: number) {
+    if (idx === activeIndex) return;
+    const current = representativeFor(categories[activeIndex].id);
+    setPrevImageUrl(current.imageUrl ?? null);
+    setShowNew(false);
+    setActiveIndex(idx);
+    requestAnimationFrame(() => {
+      setTimeout(() => setShowNew(true), 10);
+    });
+    setTimeout(() => setPrevImageUrl(null), 520);
+  }
+
   return (
-    <section className="py-30">
+    <section className="py-24 md:py-36">
       <Container>
-        <HeaderContent
-          align="left"
-          title="Curated collections"
-          titleSize="sm"
-          description={"Thoughtfully chosen stays, for every kind of getaway"}
-          descriptionPadding={{ left: "pl-2" }}
-          showCta={false}
-        />
+        {/* Section header */}
+        <div className="mb-12 md:mb-16">
+          <p className="font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold text-[#C07A5A] mb-3">
+            Collections
+          </p>
+          <h2 className="font-playfair text-[30px] sm:text-[38px] md:text-[46px] leading-[1.08] text-neutral-900 max-w-lg">
+            Curated for every kind of getaway
+          </h2>
+        </div>
 
         {/* Content grid */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
-          {/* Left list */}
-          <div className="md:col-span-6 min-h-[20rem] md:min-h-[420px]">
-            <ul className="divide-y divide-neutral-200">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-start">
+          {/* Left category list */}
+          <div className="md:col-span-6">
+            <ul className="divide-y divide-neutral-100">
               {categories.map((c, idx) => {
                 const selected = idx === activeIndex;
-                const rep = representativeFor(c.id);
                 return (
-                  <li key={c.id} className="p-6 md:p-8">
-                    <div className="flex items-start justify-between">
-                      <button
-                        className={
-                          // larger, prominent style for the selected category
-                          "text-left rounded-[10px] leading-tight " +
-                          (selected
-                            ? "text-4xl md:text-5xl font-playfair text-neutral-900"
-                            : "text-lg md:text-xl font-medium text-[#99C0C2] hover:underline")
-                        }
-                        onClick={() => {
-                          if (idx === activeIndex) return;
-                          const current = representativeFor(categories[activeIndex].id);
-                          setPrevImageUrl(current.imageUrl ?? null);
-                          // show new image hidden initially, then animate in
-                          setShowNew(false);
-                          setActiveIndex(idx);
-                          // trigger animation in next frame
-                          requestAnimationFrame(() => {
-                            // small timeout helps ensure browser paints the initial state
-                            setTimeout(() => setShowNew(true), 10);
-                          });
-                          // clear prev after animation completes (500ms)
-                          setTimeout(() => setPrevImageUrl(null), 520);
-                        }}
-                      >
-                        {c.name}
-                      </button>
+                  <li key={c.id}>
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => handleSelect(idx)}
+                      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleSelect(idx)}
+                      className={
+                        "w-full text-left py-6 md:py-7 px-2 transition-all duration-300 group " +
+                        (selected ? "cursor-default" : "cursor-pointer")
+                      }
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <span
+                          className={
+                            "font-playfair leading-snug transition-all duration-300 " +
+                            (selected
+                              ? "text-3xl md:text-4xl text-[#16323C]"
+                              : "text-lg md:text-xl text-neutral-300 group-hover:text-neutral-500")
+                          }
+                        >
+                          {c.name}
+                        </span>
 
-                      {selected ? (
-                        <div className="ml-4">
+                        {selected && (
                           <Button
-                            variant="outlineBlack"
-                            onClick={() => router.push(`/stays?category=${c.id}`)}
+                            size="sm"
+                            className="shrink-0 mt-1 gap-1.5"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              router.push(`/stays?category=${c.id}`);
+                            }}
                           >
                             Explore
+                            <ArrowRight className="h-3.5 w-3.5" />
                           </Button>
-                        </div>
-                      ) : null}
-                    </div>
-
-                    {selected ? (
-                      <div className="mt-3">
-                        <div className="text-base md:text-lg text-neutral-700">{c.description}</div>
+                        )}
                       </div>
-                    ) : null}
+
+                      {selected && (
+                        <p className="mt-3 text-sm md:text-[15px] text-neutral-500 leading-relaxed font-bricolage max-w-sm">
+                          {c.description}
+                        </p>
+                      )}
+                    </div>
                   </li>
                 );
               })}
@@ -99,36 +105,31 @@ export default function RoomsAndStay() {
 
           {/* Right image */}
           <div className="md:col-span-6">
-            <Card className="rounded-10 !border-0 overflow-hidden h-80 md:h-[420px] bg-neutral-200">
-              <div className="relative h-full w-full">
-                {/* Previous image (fades out) */}
-                {prevImageUrl ? (
-                  <div
-                    className={
-                      "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
-                      (showNew ? "opacity-0" : "opacity-100")
-                    }
-                    data-bg={`url(${prevImageUrl})`}
-                  />
-                ) : null}
-
-                {/* Active / incoming image (fades in) */}
+            <div className="relative rounded-2xl overflow-hidden h-80 md:h-[500px] bg-neutral-200">
+              {prevImageUrl && (
                 <div
                   className={
                     "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
-                    (showNew ? "opacity-100" : "opacity-0")
+                    (showNew ? "opacity-0" : "opacity-100")
                   }
-                  data-bg={`url(${active.imageUrl})`}
+                  style={{ backgroundImage: `url(${prevImageUrl})` }}
                 />
-
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-4">
-                  <div className="text-white font-playfair text-lg md:text-xl leading-tight">
-                    {active.description}
-                  </div>
-                </div>
+              )}
+              <div
+                className={
+                  "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
+                  (showNew ? "opacity-100" : "opacity-0")
+                }
+                style={{ backgroundImage: `url(${active.imageUrl})` }}
+              />
+              {/* Gradient scrim at bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6">
+                <p className="text-white font-playfair text-base md:text-lg leading-snug opacity-90">
+                  {active.description}
+                </p>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </Container>

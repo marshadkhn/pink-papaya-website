@@ -8,39 +8,69 @@ import Container from "@/components/Container";
 interface HeroProps extends HeaderContentProps {
   backgroundUrl?: string;
   backgroundColor?: string;
+  height?: string;
+  /** Pull hero up to sit behind the sticky navbar (homepage use case) */
+  coverNavbar?: boolean;
+  /** Compact page-header mode — ~35vh instead of full screen */
+  compact?: boolean;
 }
 
 export default function Hero({
   backgroundUrl,
   backgroundColor,
+  height,
+  coverNavbar = false,
+  compact = false,
   ...content
 }: HeroProps) {
+  const heightClass = coverNavbar
+    ? "min-h-screen -mt-[var(--navbar-h)] pt-[var(--navbar-h)]"
+    : compact
+    ? "min-h-[35vh] py-20 md:py-28"
+    : height
+    ? ""
+    : "min-h-[calc(100vh-var(--navbar-h))]";
+
   return (
     <section
       id="home"
       className={cn(
-        // pt-8 matches the fixed navbar height while reducing extra top
-        // spacing so hero feels less tall on landing. Keeps background
-        // extending beneath the navbar. Use 100dvh on small screens.
-        "relative isolate flex min-h-[100dvh] md:min-h-screen items-center overflow-hidden bg-black pt-8"
+        "relative isolate flex items-center overflow-hidden",
+        backgroundUrl ? "bg-black" : "bg-white",
+        heightClass
       )}
+      style={height && !coverNavbar && !compact ? { minHeight: height } : undefined}
     >
-      {backgroundUrl ? (
+      {/* Background image */}
+      {backgroundUrl && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center opacity-70"
-          data-bg={`url(${backgroundUrl})`}
+          className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${backgroundUrl})` }}
         />
-      ) : backgroundColor ? (
+      )}
+
+      {/* Solid color background */}
+      {!backgroundUrl && backgroundColor && (
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
           style={{ backgroundColor }}
         />
-      ) : null}
-      {backgroundUrl ? (
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/60 to-black/80 md:from-black/60 md:via-black/40 md:to-black/70" />
-      ) : null}
+      )}
+
+      {/* Gradient overlay for image backgrounds */}
+      {backgroundUrl && (
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(10,22,26,0.55) 0%, rgba(10,22,26,0.45) 40%, rgba(10,22,26,0.70) 100%)",
+          }}
+        />
+      )}
+
       <Container>
         <HeaderContent {...content} />
       </Container>

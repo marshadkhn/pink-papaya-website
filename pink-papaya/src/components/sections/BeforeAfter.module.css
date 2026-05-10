@@ -1,0 +1,11 @@
+.root {
+  --pos: 50%;
+}
+
+.afterLayer {
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+
+.handle {
+  left: var(--pos);
+}

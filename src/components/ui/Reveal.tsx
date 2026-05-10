@@ -10,9 +10,10 @@ type RevealProps = {
   className?: string;
   y?: number;
   duration?: number;
+  delay?: number;
 };
 
-export default function Reveal({ children, className = "", y = 24, duration = 0.7 }: PropsWithChildren<RevealProps>) {
+export default function Reveal({ children, className = "", y = 24, duration = 0.7, delay = 0 }: PropsWithChildren<RevealProps>) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function Reveal({ children, className = "", y = 24, duration = 0.
         y,
         opacity: 0,
         duration,
+        delay,
         ease: "power3.out",
         stagger: 0.08,
         scrollTrigger: {
@@ -37,7 +39,7 @@ export default function Reveal({ children, className = "", y = 24, duration = 0.
     return () => {
       ctx.revert();
     };
-  }, [y, duration]);
+  }, [y, duration, delay]);
 
   return (
     <div ref={ref} className={className}>

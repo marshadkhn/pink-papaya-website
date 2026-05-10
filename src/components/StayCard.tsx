@@ -2,10 +2,8 @@
 import * as React from "react";
 import { cn } from "@/utils/utils";
 import { formatPriceString } from "@/utils/formatCurrency";
-import { Card } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Link from "next/link";
-import { Button } from "./ui/button";
 import { Users, BedDouble, Square, MapPin } from "lucide-react";
 
 type StayCardProps = {
@@ -37,97 +35,104 @@ export default function StayCard({
   const displayImages = images && images.length > 0 ? images : [imageUrl];
   const showCarousel = displayImages.length > 1;
 
+  const ImageWrapper = href ? Link : "div";
+  const imageWrapperProps = href ? { href } : {};
+
   return (
-    <Card className={cn(
-      "group relative w-full overflow-hidden border-none bg-transparent transition-all duration-500",
-      className
-    )}>
+    <div className={cn("group relative w-full", className)}>
       {/* Image Container */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-neutral-100">
+      <ImageWrapper
+        {...(imageWrapperProps as any)}
+        className="block relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-neutral-100"
+      >
         {showCarousel ? (
-          <Carousel 
+          <Carousel
             className="h-full w-full"
             opts={{ loop: true }}
           >
             <CarouselContent className="h-full">
               {displayImages.slice(0, 5).map((src, idx) => (
                 <CarouselItem key={idx} className="h-full">
-                  <div 
-                    className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                  <div
+                    className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]"
                     style={{ backgroundImage: `url(${src})` }}
                   />
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* Absolute navigation dots or arrows if needed */}
-            <CarouselPrevious className="left-4 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/80" />
-            <CarouselNext className="right-4 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/80" />
+            <CarouselPrevious className="left-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/90 text-neutral-900 hover:bg-white" />
+            <CarouselNext className="right-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/90 text-neutral-900 hover:bg-white" />
           </Carousel>
         ) : (
-          <div 
-            className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+          <div
+            className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]"
             style={{ backgroundImage: `url(${imageUrl})` }}
           />
         )}
-        
-        {/* Price Tag Overlay */}
+
+        {/* Price Tag */}
         {pricePerNight && (
-          <div className="absolute top-4 right-4 z-10 rounded-full bg-white/90 backdrop-blur-sm px-4 py-1.5 text-xs font-bold text-neutral-900 shadow-sm font-bricolage">
-            {`${formatPriceString(pricePerNight)}${/night/i.test(String(pricePerNight)) ? " / night" : ""}`}
+          <div className="absolute top-3 right-3 z-10 rounded-lg bg-white/95 backdrop-blur-sm px-3 py-1.5 shadow-sm">
+            <span className="text-[11px] font-semibold text-[#16323C] font-bricolage tracking-wide">
+              {`${formatPriceString(pricePerNight)}${/night/i.test(String(pricePerNight)) ? " / night" : ""}`}
+            </span>
           </div>
         )}
-      </div>
+
+        {/* Bottom gradient scrim */}
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+      </ImageWrapper>
 
       {/* Content */}
-      <div className="mt-5 space-y-3 px-1">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <h3 className="font-playfair text-2xl text-neutral-900 group-hover:text-[#9A6648] transition-colors duration-300">
-              {title}
-            </h3>
-            <div className="flex items-center gap-1.5 text-neutral-500 text-xs font-medium uppercase tracking-widest font-bricolage">
-              <MapPin className="h-3 w-3 text-[#9A6648]" />
-              {location || "Goa"}
-            </div>
-          </div>
+      <div className="mt-4 space-y-2.5 px-0.5">
+        {/* Location */}
+        <div className="flex items-center gap-1.5 text-neutral-400 text-[10.5px] font-semibold uppercase tracking-[0.12em] font-bricolage">
+          <MapPin className="h-3 w-3 text-[#C07A5A] shrink-0" />
+          {location || "Goa"}
         </div>
 
-        {/* Essential Specs */}
-        <div className="flex items-center gap-4 text-[13px] text-neutral-600 font-bricolage border-t border-neutral-100 pt-3">
+        {/* Title */}
+        <h3
+          className={cn(
+            "font-playfair text-[1.35rem] leading-snug text-neutral-900 transition-colors duration-300",
+            href && "group-hover:text-[#9A6648]"
+          )}
+        >
+          {title}
+        </h3>
+
+        {/* Specs */}
+        <div className="flex items-center gap-4 text-[12.5px] text-neutral-500 font-bricolage border-t border-neutral-100 pt-3">
           <div className="flex items-center gap-1.5">
-            <Square className="h-3.5 w-3.5 opacity-60" />
+            <Square className="h-3 w-3 opacity-50" />
             <span>{area}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <BedDouble className="h-3.5 w-3.5 opacity-60" />
+            <BedDouble className="h-3 w-3 opacity-50" />
             <span>{bed}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Users className="h-3.5 w-3.5 opacity-60" />
+            <Users className="h-3 w-3 opacity-50" />
             <span>{guests}</span>
           </div>
         </div>
 
         {/* CTA */}
-        <div className="pt-2">
-          {href ? (
-            <Link href={href} className="block group/btn">
-              <div className="flex items-center justify-between py-3 border-b border-transparent group-hover/btn:border-[#9A6648] transition-all duration-300">
-                <span className="text-sm font-semibold tracking-wide text-neutral-900 group-hover/btn:text-[#9A6648]">
-                  EXPLORE STAY
+        {href && (
+          <div className="pt-1">
+            <Link href={href} className="block group/cta">
+              <div className="flex items-center justify-between py-2.5 border-b border-transparent group-hover/cta:border-[#9A6648]/50 transition-all duration-300">
+                <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-neutral-700 group-hover/cta:text-[#9A6648] transition-colors font-bricolage">
+                  View Details
                 </span>
-                <span className="text-xl leading-none transition-transform duration-300 group-hover/btn:translate-x-1 text-[#9A6648]">
+                <span className="text-[#9A6648] transition-transform duration-300 group-hover/cta:translate-x-1 text-lg leading-none">
                   →
                 </span>
               </div>
             </Link>
-          ) : (
-            <Button variant="outlineBlack" className="w-full h-12 rounded-xl text-xs font-bold uppercase tracking-widest">
-              View Details
-            </Button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </Card>
+    </div>
   );
 }

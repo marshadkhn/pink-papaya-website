@@ -1,56 +1,82 @@
 import Hero from "@/components/Hero";
 import Container from "@/components/Container";
-import HeaderContent from "@/components/headerContent";
 import { readPosts } from "@/lib/blogStore";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
+import LazyMediaObserver from "@/components/LazyMediaObserver";
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
+import { Suspense } from "react";
+import CategoryFilter from "@/components/blog/CategoryFilter";
 
-// A simple component for displaying a blog post card
 function BlogPostCard({ post }) {
+  const image = post.imageUrl || DEFAULT_PLACEHOLDER;
   return (
     <Link href={`/blog/${post.id}`} className="group block">
-      <Card className="rounded-10 !border-0 overflow-hidden bg-neutral-200">
-          <div className="relative w-full pt-[65%]">
+      <div className="rounded-10 overflow-hidden">
+        <div className="relative w-full pt-[140%] bg-neutral-200">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            data-bg={`url(${post.imageUrl})`}
+            data-bg={`url(${image})`}
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+          <div className="absolute left-4 top-4 flex items-center gap-3">
+            {post.category && (
+              <span className="text-[11px] text-white/90 bg-black/20 px-3 py-1 rounded-full uppercase tracking-wide">
+                {post.category}
+              </span>
+            )}
+            <span className="text-[11px] text-white/80">{post.date}</span>
+          </div>
+
+          <div className="absolute left-5 right-5 bottom-5">
+            <h3 className="font-playfair text-xl md:text-2xl text-white leading-tight drop-shadow-md">
+              {post.title}
+            </h3>
+          </div>
         </div>
-      </Card>
-      <div className="mt-3">
-        <h3 className="font-playfair text-lg md:text-xl text-neutral-900 leading-tight group-hover:underline">
-          {post.title}
-        </h3>
-        <p className="mt-1 text-sm text-neutral-500">
-          {post.author} • {post.date}
-        </p>
-        <p className="mt-1.5 text-sm text-neutral-700 line-clamp-2">
-          {post.excerpt}
-        </p>
       </div>
     </Link>
   );
 }
 
-export default async function BlogPage() {
-  const posts = await readPosts();
+export default async function BlogPage({ searchParams }) {
+  const { category } = await searchParams;
+  const allPosts = await readPosts();
+  const posts = category
+    ? allPosts.filter((p) => p.category?.toLowerCase() === category.toLowerCase())
+    : allPosts;
+
   return (
     <>
       <Hero
-        backgroundColor="#ffffff"
         title="Our Blog"
         description="Stories, insights, and updates from the world of Pink Papaya."
         align="center"
         showCta={false}
-        tone="light"
+        compact
       />
+
       <section className="py-12 md:py-16">
         <Container>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 md:gap-x-8 md:gap-y-16">
-            {posts.map((post) => (
-              <BlogPostCard key={post.id} post={post} />
-            ))}
+          <div className="flex justify-center mb-10">
+            <Suspense>
+              <CategoryFilter />
+            </Suspense>
           </div>
+
+          {posts.length === 0 ? (
+            <p className="text-center text-neutral-400 font-bricolage py-16">
+              No posts in this collection yet.
+            </p>
+          ) : (
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 md:gap-x-8 md:gap-y-16">
+              {posts.map((post) => (
+                <BlogPostCard key={post.id} post={post} />
+              ))}
+            </div>
+          )}
+
+          <LazyMediaObserver />
         </Container>
       </section>
     </>
