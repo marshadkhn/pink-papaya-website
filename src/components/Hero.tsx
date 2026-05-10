@@ -71,6 +71,11 @@ export default function Hero({
         />
       )}
 
+      {/* Extra 10% black overlay for legibility */}
+      {backgroundUrl && (
+        <div aria-hidden className="absolute inset-0 -z-10 bg-black/10" />
+      )}
+
       <Container>
         <HeaderContent {...content} />
       </Container>

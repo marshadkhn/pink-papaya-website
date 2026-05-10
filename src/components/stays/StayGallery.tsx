@@ -38,7 +38,7 @@ export default function StayGallery({ title, description, location, images = [] 
 
   return (
     <section
-      className="relative overflow-hidden bg-[#16323C]"
+      className="relative overflow-hidden bg-[#16323C] min-h-[480px]"
       style={{ height: "calc(100vh - var(--navbar-h))" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -64,6 +64,7 @@ export default function StayGallery({ title, description, location, images = [] 
             priority={index === 0}
           />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,22,26,0.55) 0%, rgba(10,22,26,0.45) 40%, rgba(10,22,26,0.70) 100%)" }} />
+          <div className="absolute inset-0 bg-black/10" />
         </motion.div>
       </AnimatePresence>
 

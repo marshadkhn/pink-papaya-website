@@ -115,7 +115,7 @@ export default function Navbar({ className }: { className?: string }) {
                 key={it.href}
                 href={it.href}
                 className={cn(
-                  "relative text-[13.5px] tracking-[0.04em] transition-colors group pb-1",
+                  "relative text-[15px] font-semibold tracking-[0.03em] transition-colors group pb-1",
                   transparent
                     ? active
                       ? "text-white"
@@ -161,7 +161,7 @@ export default function Navbar({ className }: { className?: string }) {
               >
                 <a
                   href="tel:+919226591522"
-                  className="flex items-center gap-3 px-5 py-4 text-[13px] text-[#16323C] hover:bg-[#F7F2EA] transition-colors font-bricolage"
+                  className="flex items-center gap-3 px-5 py-4 text-[13px] text-[#16323C] hover:bg-[#F7F2EA] hover:gap-4 active:scale-[0.98] transition-all duration-200 font-bricolage"
                 >
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA]">
                     <Phone size={13} className="text-[#C07A5A]" />
@@ -171,7 +171,7 @@ export default function Navbar({ className }: { className?: string }) {
                 <div className="h-px bg-neutral-100 mx-5" />
                 <a
                   href="mailto:reservations@pinkpapayastays.com"
-                  className="flex items-center gap-3 px-5 py-4 text-[13px] text-[#16323C] hover:bg-[#F7F2EA] transition-colors font-bricolage"
+                  className="flex items-center gap-3 px-5 py-4 text-[13px] text-[#16323C] hover:bg-[#F7F2EA] hover:gap-4 active:scale-[0.98] transition-all duration-200 font-bricolage"
                 >
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA]">
                     <Mail size={13} className="text-[#C07A5A]" />
@@ -212,10 +212,10 @@ export default function Navbar({ className }: { className?: string }) {
                   href={it.href}
                   onClick={() => setMenuOpen(false)}
                   className={cn(
-                    "py-4 text-[13.5px] transition-colors",
+                    "py-4 text-[15px] transition-colors",
                     active
                       ? "text-[#16323C] font-semibold"
-                      : "text-neutral-500 hover:text-[#16323C]"
+                      : "text-neutral-500 font-medium hover:text-[#16323C]"
                   )}
                 >
                   {it.label}

@@ -293,7 +293,7 @@ export default function WhiteNavbar({ className }: { className?: string }) {
         </div>
 
         <div className="flex-1 flex justify-center">
-          <nav className="hidden md:flex justify-center items-center gap-6 text-base font-bricolage">
+          <nav className="hidden md:flex justify-center items-center gap-6 text-[15px] font-semibold font-bricolage">
             {items.map((it) => (
               <Link
                 key={it.href}

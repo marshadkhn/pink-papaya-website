@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { SlidersHorizontal, X } from "lucide-react";
 import StayCard from "./StayCard";
 import FilterBar from "./FilterBar";
 import { stayCategories } from "@/data/stays";
@@ -36,6 +37,7 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const selectedCategory = searchParams.get("category") || "";
   const selectedLocation = searchParams.get("location") || "";
@@ -91,9 +93,30 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
     return filtered;
   }, [stays, locations, selectedCategory, selectedLocation, selectedGuests]);
 
+  const hasActiveFilters = selectedCategory || selectedLocation || selectedGuests;
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-      <aside className="lg:col-span-1">
+      {/* Mobile filter toggle */}
+      <div className="lg:hidden flex items-center justify-between">
+        <button
+          onClick={() => setMobileFiltersOpen((v) => !v)}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-neutral-200 text-sm font-medium text-neutral-700 hover:border-[#16323C]/40 hover:text-[#16323C] transition-all duration-200 active:scale-[0.97]"
+        >
+          {mobileFiltersOpen ? <X size={15} /> : <SlidersHorizontal size={15} />}
+          {mobileFiltersOpen ? "Close Filters" : "Filters"}
+          {hasActiveFilters && (
+            <span className="ml-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#16323C] text-white text-[9px] font-bold">
+              {[selectedCategory, selectedLocation, selectedGuests].filter(Boolean).length}
+            </span>
+          )}
+        </button>
+        <p className="text-sm text-neutral-500">
+          {filteredStays.length} {filteredStays.length === 1 ? "stay" : "stays"}
+        </p>
+      </div>
+
+      <aside className={`lg:col-span-1 ${mobileFiltersOpen ? "block" : "hidden"} lg:block`}>
         <div className="sticky top-24">
           <FilterBar
             categories={stayCategories}
@@ -101,17 +124,17 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
             selectedCategory={selectedCategory}
             selectedLocation={selectedLocation}
             selectedGuests={selectedGuests}
-            onCategoryChange={(val) => handleFilterChange("category", val)}
-            onLocationChange={(val) => handleFilterChange("location", val)}
-            onGuestsChange={(val) => handleFilterChange("guests", val)}
-            onClearFilters={handleClearFilters}
+            onCategoryChange={(val) => { handleFilterChange("category", val); setMobileFiltersOpen(false); }}
+            onLocationChange={(val) => { handleFilterChange("location", val); setMobileFiltersOpen(false); }}
+            onGuestsChange={(val) => { handleFilterChange("guests", val); setMobileFiltersOpen(false); }}
+            onClearFilters={() => { handleClearFilters(); setMobileFiltersOpen(false); }}
           />
         </div>
       </aside>
 
       <div className="lg:col-span-3">
-        {/* Results summary */}
-        <div className="flex items-center justify-between mb-8">
+        {/* Results summary — hidden on mobile (shown in filter toggle) */}
+        <div className="hidden lg:flex items-center justify-between mb-8">
           <div className="text-sm font-medium text-neutral-500 uppercase tracking-widest">
             Showing {filteredStays.length} {filteredStays.length === 1 ? "stay" : "stays"}
           </div>

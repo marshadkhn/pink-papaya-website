@@ -69,7 +69,7 @@ export default function BecomeHostPage() {
           <div className="flex items-center justify-center lg:justify-end px-8 md:px-12 lg:pr-16 py-16 lg:py-0">
             <Reveal delay={0.2}>
               <div
-                className="w-full max-w-lg rounded-[20px] p-10"
+                className="w-full max-w-xl rounded-[20px] p-12"
                 style={{
                   background: "rgba(255, 255, 255, 0.55)",
                   backdropFilter: "blur(20px)",

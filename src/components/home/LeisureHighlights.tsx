@@ -39,7 +39,7 @@ export default function LeisureHighlights() {
         <div className="mt-16 sm:mt-24 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-14 items-start">
           {leisureItems.map((item, i) => (
             <Reveal key={i}>
-              <div className={i === 1 ? "sm:-mt-16 md:-mt-24" : "sm:mt-6"}>
+              <div className={i === 1 ? "sm:-mt-16 md:-mt-24" : ""}>
                 {/* Image */}
                 <div className="relative w-full overflow-hidden rounded-2xl bg-neutral-200 aspect-[3/4]">
                   <div

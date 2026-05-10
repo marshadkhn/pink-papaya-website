@@ -43,6 +43,11 @@ export default function HeroWithCarousel({
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/70 via-black/60 to-black/80 md:from-black/60 md:via-black/40 md:to-black/70" />
       ) : null}
 
+      {/* Extra 10% black overlay for legibility */}
+      {((images && images.length) || backgroundUrl) ? (
+        <div aria-hidden className="absolute inset-0 -z-10 bg-black/10" />
+      ) : null}
+
       <Container>
         <HeaderContent {...content} />
       </Container>

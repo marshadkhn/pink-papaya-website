@@ -35,7 +35,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   target="_blank"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 transition-all hover:border-[#16323C] hover:text-[#16323C]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 transition-all duration-200 hover:border-[#16323C] hover:text-[#16323C] hover:-translate-y-0.5 hover:scale-[1.08] active:scale-[0.95]"
                   aria-label={label}
                 >
                   <Icon className="h-4 w-4" />
@@ -85,7 +85,7 @@ export default function Footer() {
                 { href: "/terms-and-conditions", label: "Terms" },
               ].map(({ href, label }) => (
                 <li key={href}>
-                  <Link className="hover:text-[#16323C] transition-colors" href={href}>
+                  <Link className="hover:text-[#16323C] hover:translate-x-1 transition-all duration-200 inline-block" href={href}>
                     {label}
                   </Link>
                 </li>
@@ -107,7 +107,7 @@ export default function Footer() {
                 { href: "/stays", label: "All Stays" },
               ].map(({ href, label }) => (
                 <li key={href}>
-                  <Link className="hover:text-[#16323C] transition-colors" href={href}>
+                  <Link className="hover:text-[#16323C] hover:translate-x-1 transition-all duration-200 inline-block" href={href}>
                     {label}
                   </Link>
                 </li>

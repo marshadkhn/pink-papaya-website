@@ -28,7 +28,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="mt-50 py-12 md:py-16">
+      <section className="py-12 md:py-16">
         <Container>
           <HeaderContent
             title="The Faces behind Pink Papaya"
