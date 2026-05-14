@@ -2,6 +2,8 @@ import Hero from "@/components/Hero";
 import Container from "@/components/Container";
 import { readStays } from "@/lib/staysStore";
 import { readLocations } from "@/lib/locationsStore";
+import { readCollections } from "@/lib/collectionsStore";
+import { readPropertyTypes } from "@/lib/propertyTypesStore";
 import StaysGridWithFilters from "@/components/StaysGridWithFilters";
 import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
@@ -15,9 +17,13 @@ export const metadata = {
 };
 
 export default async function StaysPage({ searchParams }) {
-  const { category, location, guests } = await searchParams;
-  const stays = await readStays({ category, location, guests });
-  const locations = await readLocations();
+  const { type, bedrooms, locs, cols } = await searchParams;
+  const [stays, locations, collections, propertyTypes] = await Promise.all([
+    readStays(),
+    readLocations(),
+    readCollections(),
+    readPropertyTypes(),
+  ]);
 
   return (
     <>
@@ -31,7 +37,12 @@ export default async function StaysPage({ searchParams }) {
       />
       <section className="py-14 md:py-20">
         <Container>
-          <StaysGridWithFilters stays={stays} locations={locations} />
+          <StaysGridWithFilters
+            stays={stays}
+            locations={locations}
+            collections={collections}
+            propertyTypes={propertyTypes}
+          />
         </Container>
       </section>
     </>

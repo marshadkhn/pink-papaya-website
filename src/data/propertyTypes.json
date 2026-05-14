@@ -1,0 +1,5 @@
+[
+  { "id": "all-homes", "name": "All Homes" },
+  { "id": "villas", "name": "Villas" },
+  { "id": "apartments", "name": "Apartments" }
+]

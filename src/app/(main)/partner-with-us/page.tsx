@@ -5,8 +5,8 @@ import Container from "@/components/Container";
 import Reveal from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 import Image from "next/image";
+import HostTestimonialsCarousel from "@/components/partner/HostTestimonialsCarousel";
 
 export default function BecomeHostPage() {
   const [formData, setFormData] = useState({
@@ -41,7 +41,7 @@ export default function BecomeHostPage() {
             className="object-cover object-center"
             priority
           />
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-black/55" />
           {/* Extra left-side gradient for text legibility */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
           {/* Soft white fade at the bottom */}
@@ -50,8 +50,8 @@ export default function BecomeHostPage() {
 
         {/* Content grid */}
         <div className="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-2">
-          {/* Left: text, bottom-aligned */}
-          <div className="flex flex-col justify-end pb-16 pt-12 px-8 md:px-16">
+          {/* Left: text, vertically centered */}
+          <div className="flex flex-col justify-center pb-16 pt-32 lg:pt-24 px-8 md:px-16">
             <Reveal>
               <h1 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-medium text-white leading-[1.1]">
                 Partner with
@@ -66,22 +66,22 @@ export default function BecomeHostPage() {
           </div>
 
           {/* Right: frosted glass form card, vertically centered */}
-          <div className="flex items-center justify-center lg:justify-end px-8 md:px-12 lg:pr-16 py-16 lg:py-0">
+          <div className="flex items-center justify-center px-6 md:px-10 lg:px-12 py-16 lg:py-0">
             <Reveal delay={0.2}>
               <div
-                className="w-full max-w-xl rounded-[20px] p-12"
+                className="w-full max-w-[720px] rounded-[20px] p-7"
                 style={{
-                  background: "rgba(255, 255, 255, 0.55)",
+                  background: "rgba(255, 255, 255, 0.52)",
                   backdropFilter: "blur(20px)",
                   WebkitBackdropFilter: "blur(20px)",
-                  border: "1px solid rgba(255,255,255,0.6)",
+                  border: "1px solid rgba(255,255,255,0.55)",
                   boxShadow: "0 8px 40px rgba(0,0,0,0.12)",
                 }}
               >
-                <p className="font-bricolage text-sm font-medium text-[#16323C] mb-6 tracking-wide">
+                <p className="font-playfair italic text-lg text-[#16323C] mb-5">
                   Get Started Today
                 </p>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3.5">
                   <div>
                     <label className="block font-bricolage text-[10px] uppercase tracking-[0.12em] text-[#16323C]/60 mb-1.5">
                       Full Name
@@ -92,8 +92,8 @@ export default function BecomeHostPage() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="Blair Home"
-                      className="h-11 border-0 bg-white/70 placeholder:text-neutral-400 text-[#16323C] text-sm rounded-[8px]"
+                      placeholder="Elias Thorne"
+                      className="h-11 border-0 bg-white/70 placeholder:text-neutral-400 text-[#16323C] text-sm rounded-full px-4"
                     />
                   </div>
                   <div>
@@ -107,7 +107,7 @@ export default function BecomeHostPage() {
                       value={formData.location}
                       onChange={handleChange}
                       placeholder="Tuscany, Italy"
-                      className="h-11 border-0 bg-white/70 placeholder:text-neutral-400 text-[#16323C] text-sm rounded-[8px]"
+                      className="h-11 border-0 bg-white/70 placeholder:text-neutral-400 text-[#16323C] text-sm rounded-full px-4"
                     />
                   </div>
                   <div>
@@ -120,17 +120,18 @@ export default function BecomeHostPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="elara@estate.com"
-                      className="h-11 border-0 bg-white/70 placeholder:text-neutral-400 text-[#16323C] text-sm rounded-[8px]"
+                      placeholder="elias@estate.com"
+                      className="h-11 border-0 bg-white/70 placeholder:text-neutral-400 text-[#16323C] text-sm rounded-full px-4"
                     />
                   </div>
-                  <Button
+                  <button
                     type="submit"
-                    className="w-full mt-2"
+                    className="w-full mt-1 h-11 rounded-full font-bricolage text-sm font-medium text-white transition-opacity hover:opacity-90"
+                    style={{ background: "#88ADA2" }}
                   >
                     Submit Interest
-                  </Button>
-                  <p className="mt-4 text-center text-[10px] font-bricolage text-[#16323C]/50">
+                  </button>
+                  <p className="pt-1 text-center text-[10px] font-bricolage text-[#16323C]/50">
                     We&apos;ll reach out within 24 hours.
                   </p>
                 </form>
@@ -273,58 +274,7 @@ export default function BecomeHostPage() {
       </section>
 
       {/* What Our Hosts Say */}
-      <section className="py-24 bg-[#F7F2EA]">
-        <Container>
-          <Reveal>
-            <div className="text-center mb-20">
-              <h2 className="font-playfair text-4xl md:text-6xl font-medium text-[#16323C]">
-                What <span className="italic font-normal">Our</span> Hosts Say
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Lucas Nguyen",
-                role: "Business Traveler",
-                review: "Quiet, stylish and comfortable. The garden patio was my favorite spot to unwind after meetings. Pink Papaya made my stay effortless.",
-                avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lucas"
-              },
-              {
-                name: "Rina Patel",
-                role: "Artist/Host",
-                review: "We love the design details and the breakfast. Pink Papaya transformed our home stay into a premium experience. Highly recommended!",
-                avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rina"
-              },
-              {
-                name: "Daniel Kim",
-                role: "Solar Panelist",
-                review: "The location and the surrounding nature were perfect. Staff were friendly and attentive. Highly recommend becoming a partner.",
-                avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Daniel"
-              }
-            ].map((host, idx) => (
-              <Reveal key={idx} delay={idx * 0.1}>
-                <Card className="p-8 bg-white border-0 rounded-[20px] shadow-sm hover:shadow-md transition-shadow">
-                  <p className="text-neutral-700 font-bricolage leading-relaxed mb-8 italic">
-                    &ldquo;{host.review}&rdquo;
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-neutral-100">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={host.avatar} alt={host.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div>
-                      <p className="font-playfair font-semibold text-[#16323C]">{host.name}</p>
-                      <p className="text-xs text-neutral-400 font-bricolage">{host.role}</p>
-                    </div>
-                  </div>
-                </Card>
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
+      <HostTestimonialsCarousel />
 
       {/* Bottom CTA */}
       <section className="py-32 bg-white text-center">

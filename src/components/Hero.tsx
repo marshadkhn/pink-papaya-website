@@ -24,12 +24,12 @@ export default function Hero({
   ...content
 }: HeroProps) {
   const heightClass = coverNavbar
-    ? "min-h-screen -mt-[var(--navbar-h)] pt-[var(--navbar-h)]"
+    ? "min-h-[80vh]"
     : compact
-    ? "min-h-[35vh] py-20 md:py-28"
+    ? "min-h-[35vh] py-20 md:py-28 pt-[calc(var(--navbar-h)+theme(spacing.20))]"
     : height
     ? ""
-    : "min-h-[calc(100vh-var(--navbar-h))]";
+    : "min-h-[80vh] pt-[var(--navbar-h)]";
 
   return (
     <section

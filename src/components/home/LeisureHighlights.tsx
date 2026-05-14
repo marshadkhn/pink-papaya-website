@@ -25,15 +25,17 @@ export default function LeisureHighlights() {
   ];
 
   return (
-    <section className="py-24 md:py-36 bg-[#F9F7F4]">
+    <section className="py-16 md:py-24 bg-[#F9F7F4]">
       <Container>
         <Reveal>
-          <HeaderContent
-            align="center"
-            showCta={false}
-            title="Experience more than a stay — a story you'll want to relive"
-            titleSize="sm"
-          />
+          <div className="pb-16">
+            <HeaderContent
+              align="center"
+              showCta={false}
+              title="Experience more than a stay, a story you'll want to relive"
+              titleSize="sm"
+            />
+          </div>
         </Reveal>
 
         <div className="mt-16 sm:mt-24 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-14 items-start">

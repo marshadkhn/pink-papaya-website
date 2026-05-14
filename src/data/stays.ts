@@ -5,8 +5,10 @@ export type Stay = {
   area: string;
   bed: string;
   guests: string;
-  /** category id from `stayCategories` */
+  /** category/collection id */
   category?: string;
+  /** property type id (e.g. villas, apartments) */
+  propertyType?: string;
   description?: string;
   pricePerNight?: string;
   images?: string[];
@@ -28,6 +30,7 @@ export const stayCategories = [
 export const stays: Stay[] = [
   {
     id: "test-stay",
+    propertyType: "villas",
     title: "Royal Palms Garden Suite",
     imageUrl: "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop",
     area: "650 sq. ft.",
@@ -67,5 +70,110 @@ export const stays: Stay[] = [
       { "question": "Can I request an early check-in?", "answer": "Early check-in is subject to availability. Please notify us 24 hours in advance, and we will do our best to accommodate you." },
       { "question": "Is there a safe in the room?", "answer": "Yes, every suite is equipped with a digital safe for your valuables." }
     ]
+  },
+  {
+    id: "seafront-villa-vagator",
+    propertyType: "villas",
+    title: "Seafront Villa Suite",
+    imageUrl: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070&auto=format&fit=crop",
+    area: "800 sq. ft.",
+    bed: "1 King Bed",
+    guests: "2 Guests",
+    category: "walk-to-beach",
+    description: "Waking up to the sound of waves with panoramic views of the Arabian Sea from your private terrace.",
+    pricePerNight: "$320/night",
+    location: "Vagator, Goa",
+    images: [
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=2070&auto=format&fit=crop",
+    ],
+    amenities: ["Sea View Terrace", "King Bed", "Infinity Pool", "Breakfast", "Beach Access", "Smart TV"],
+  },
+  {
+    id: "jungle-pool-villa-morjim",
+    propertyType: "villas",
+    title: "Jungle Pool Villa",
+    imageUrl: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?q=80&w=2070&auto=format&fit=crop",
+    area: "1200 sq. ft.",
+    bed: "2 King Beds",
+    guests: "4 Guests",
+    category: "luxury-villas",
+    description: "A secluded villa submerged in lush jungle canopy with a private plunge pool and outdoor shower.",
+    pricePerNight: "$480/night",
+    location: "Morjim, Goa",
+    images: [
+      "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1540541338287-41700207dee6?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1573052905904-34ad8c27f0cc?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1596436816851-d0c77bc2b3c6?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070&auto=format&fit=crop",
+    ],
+    amenities: ["Private Pool", "2 King Beds", "Outdoor Shower", "Breakfast", "Jungle Walk", "Smart TV"],
+  },
+  {
+    id: "heritage-courtyard-fontainhas",
+    propertyType: "apartments",
+    title: "Heritage Courtyard Room",
+    imageUrl: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop",
+    area: "550 sq. ft.",
+    bed: "1 Queen Bed",
+    guests: "2 Guests",
+    category: "expansive-views",
+    description: "A lovingly restored Indo-Portuguese townhouse room in the colourful lanes of Fontainhas.",
+    pricePerNight: "$180/night",
+    location: "Fontainhas, Goa",
+    images: [
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1455587734955-081b22074882?q=80&w=2070&auto=format&fit=crop",
+    ],
+    amenities: ["Courtyard Garden", "Queen Bed", "Rain Shower", "Breakfast", "Heritage Tour", "Smart TV"],
+  },
+  {
+    id: "cliffside-ocean-suite-arambol",
+    propertyType: "villas",
+    title: "Cliffside Ocean Suite",
+    imageUrl: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop",
+    area: "720 sq. ft.",
+    bed: "1 King Bed",
+    guests: "2 Guests",
+    category: "expansive-views",
+    description: "Perched on Arambol's dramatic cliffs with floor-to-ceiling glass and 270° ocean views.",
+    pricePerNight: "$360/night",
+    location: "Arambol, Goa",
+    images: [
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1618245318763-453825cd2b0f?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop",
+    ],
+    amenities: ["Ocean View", "King Bed", "Jacuzzi", "Breakfast", "Cliff Walk", "Smart TV"],
+  },
+  {
+    id: "white-house-studio-anjuna",
+    propertyType: "apartments",
+    title: "The White House Studio",
+    imageUrl: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
+    area: "450 sq. ft.",
+    bed: "1 Double Bed",
+    guests: "2 Guests",
+    category: "romantic-jacuzzi-escapes",
+    description: "A minimalist whitewashed studio with a private jacuzzi, steps from Anjuna's famous flea market.",
+    pricePerNight: "$160/night",
+    location: "Anjuna, Goa",
+    images: [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1618245318763-453825cd2b0f?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1496048977749-6c44d362880c?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1590392847226-d95245220a22?q=80&w=2070&auto=format&fit=crop",
+    ],
+    amenities: ["Private Jacuzzi", "Double Bed", "Rain Shower", "Breakfast", "Market Access", "Smart TV"],
   },
 ];

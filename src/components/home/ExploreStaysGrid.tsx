@@ -11,20 +11,22 @@ import { ArrowRight } from "lucide-react";
 
 export default function ExploreStaysGrid() {
   return (
-    <section id="explore" className="py-20 md:py-36">
+    <section id="explore" className="py-16 md:py-24">
       <Container>
         <Reveal>
           <div className="mb-14 md:mb-20">
             <HeaderContent
-              title="Curated spaces, effortless comfort"
+              title="Curated spaces, Effortless comfort"
               subTitle="Goa reimagined for you"
+              subTitlePosition="below"
+              subTitleClass="text-[24px]"
               titleSize="sm"
               align="center"
               showCta={false}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-x-10 md:gap-y-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {stays.slice(0, 6).map((s) => (
               <StayCard
                 key={s.id}
@@ -43,8 +45,8 @@ export default function ExploreStaysGrid() {
 
           <div className="mt-20 flex justify-center">
             <Link href="/stays">
-              <Button size="lg" className="gap-2.5 px-10">
-                View All Stays
+              <Button size="lg" variant="outline" className="gap-2.5 px-10 border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white">
+                Explore More Stays
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>

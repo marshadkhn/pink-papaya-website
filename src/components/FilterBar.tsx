@@ -1,80 +1,86 @@
 "use client";
 
+import { SlidersHorizontal } from "lucide-react";
 import { cn } from "@/utils/utils";
-import { ChevronDown } from "lucide-react";
+
+type PropertyType = { id: string; name: string };
+type Location = { id: string; name: string };
+type Collection = { id: string; name: string };
 
 type FilterBarProps = {
-  categories: { id: string; name: string }[];
-  locations: { id: string; name: string }[];
-  selectedCategory: string;
-  selectedLocation: string;
-  selectedGuests: string;
-  onCategoryChange: (category: string) => void;
-  onLocationChange: (location: string) => void;
-  onGuestsChange: (guests: string) => void;
+  propertyTypes: PropertyType[];
+  locations: Location[];
+  collections: Collection[];
+  selectedPropertyType: string;
+  selectedBedrooms: number;
+  selectedLocations: string[];
+  selectedCollections: string[];
+  onPropertyTypeChange: (id: string) => void;
+  onBedroomsChange: (val: number) => void;
+  onLocationsChange: (ids: string[]) => void;
+  onCollectionsChange: (ids: string[]) => void;
   onClearFilters: () => void;
   className?: string;
 };
 
-function SelectField({
-  label,
-  value,
-  onChange,
-  children,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  children: React.ReactNode;
-}) {
+function Divider() {
+  return <div className="h-px bg-neutral-200" />;
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="space-y-2">
-      <label className="block text-[10px] uppercase tracking-[0.16em] font-bold text-neutral-400">
-        {label}
-      </label>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={cn(
-            "w-full appearance-none bg-white border border-neutral-200 rounded-xl",
-            "px-4 py-3 text-[13.5px] text-neutral-800 font-bricolage font-medium",
-            "focus:outline-none focus:ring-2 focus:ring-[#16323C]/15 focus:border-[#16323C]/40",
-            "transition-all cursor-pointer",
-            value && "border-[#16323C]/40 text-[#16323C]"
-          )}
-        >
-          {children}
-        </select>
-        <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400 pointer-events-none" />
-      </div>
-    </div>
+    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-neutral-400 font-bricolage mb-3">
+      {children}
+    </p>
   );
 }
 
 export default function FilterBar({
-  categories,
+  propertyTypes,
   locations,
-  selectedCategory,
-  selectedLocation,
-  selectedGuests,
-  onCategoryChange,
-  onLocationChange,
-  onGuestsChange,
+  collections,
+  selectedPropertyType,
+  selectedBedrooms,
+  selectedLocations,
+  selectedCollections,
+  onPropertyTypeChange,
+  onBedroomsChange,
+  onLocationsChange,
+  onCollectionsChange,
   onClearFilters,
   className,
 }: FilterBarProps) {
-  const hasActiveFilters =
-    selectedCategory !== "" || selectedLocation !== "" || selectedGuests !== "";
+  const hasActive =
+    (selectedPropertyType && selectedPropertyType !== "all-homes") ||
+    selectedBedrooms > 1 ||
+    selectedLocations.length > 0 ||
+    selectedCollections.length > 0;
+
+  function toggleLocation(id: string) {
+    onLocationsChange(
+      selectedLocations.includes(id)
+        ? selectedLocations.filter((l) => l !== id)
+        : [...selectedLocations, id]
+    );
+  }
+
+  function toggleCollection(id: string) {
+    onCollectionsChange(
+      selectedCollections.includes(id)
+        ? selectedCollections.filter((c) => c !== id)
+        : [...selectedCollections, id]
+    );
+  }
 
   return (
-    <div className={cn("space-y-7", className)}>
+    <div className={cn("bg-white", className)}>
       {/* Header */}
-      <div className="flex items-baseline justify-between">
-        <h2 className="text-lg font-playfair font-semibold text-neutral-900">
-          Filters
-        </h2>
-        {hasActiveFilters && (
+      <div className="flex items-center justify-between pb-4">
+        <div className="flex items-center gap-2">
+          <SlidersHorizontal className="w-4 h-4 text-neutral-700" strokeWidth={2} />
+          <span className="font-semibold text-[15px] text-neutral-900 font-bricolage">Filters</span>
+        </div>
+        {hasActive && (
           <button
             onClick={onClearFilters}
             className="text-[11px] font-semibold uppercase tracking-wider text-[#9A6648] hover:text-[#7a4f34] transition-colors font-bricolage"
@@ -84,80 +90,152 @@ export default function FilterBar({
         )}
       </div>
 
-      {/* Divider */}
-      <div className="h-px bg-neutral-100" />
+      <Divider />
 
-      {/* Filters */}
-      <div className="space-y-5">
-        <SelectField
-          label="Category"
-          value={selectedCategory}
-          onChange={onCategoryChange}
-        >
-          <option value="">All Categories</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.name}
-            </option>
-          ))}
-        </SelectField>
-
-        <SelectField
-          label="Location"
-          value={selectedLocation}
-          onChange={onLocationChange}
-        >
-          <option value="">All Locations</option>
-          {locations.map((loc) => (
-            <option key={loc.id} value={loc.id}>
-              {loc.name}
-            </option>
-          ))}
-        </SelectField>
-
-        <SelectField
-          label="Guests"
-          value={selectedGuests}
-          onChange={onGuestsChange}
-        >
-          <option value="">Any Guests</option>
-          <option value="1">1 Guest</option>
-          <option value="2">2 Guests</option>
-          <option value="3">3 Guests</option>
-          <option value="4">4+ Guests</option>
-        </SelectField>
+      {/* Property Type */}
+      <div className="py-5">
+        <SectionLabel>Property Type</SectionLabel>
+        <div className="space-y-2.5">
+          {propertyTypes.map((pt) => {
+            const active = selectedPropertyType === pt.id || (!selectedPropertyType && pt.id === "all-homes");
+            return (
+              <label
+                key={pt.id}
+                className="flex items-center gap-2.5 cursor-pointer group"
+              >
+                <span
+                  className={cn(
+                    "flex-shrink-0 w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center transition-colors",
+                    active
+                      ? "border-neutral-900 bg-neutral-900"
+                      : "border-neutral-300 bg-white group-hover:border-neutral-500"
+                  )}
+                >
+                  {active && <span className="w-[6px] h-[6px] rounded-full bg-white" />}
+                </span>
+                <input
+                  type="radio"
+                  name="propertyType"
+                  value={pt.id}
+                  checked={active}
+                  onChange={() => onPropertyTypeChange(pt.id === "all-homes" ? "" : pt.id)}
+                  className="sr-only"
+                />
+                <span className={cn("text-[13.5px] font-bricolage", active ? "text-neutral-900 font-medium" : "text-neutral-600")}>
+                  {pt.name}
+                </span>
+              </label>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Active filter chips */}
-      {hasActiveFilters && (
-        <div className="pt-1 flex flex-wrap gap-2">
-          {selectedCategory && (
-            <button
-              onClick={() => onCategoryChange("")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#16323C]/8 text-[#16323C] text-[10.5px] font-semibold uppercase tracking-wider font-bricolage hover:bg-[#16323C]/15 transition-colors"
-            >
-              {categories.find((c) => c.id === selectedCategory)?.name}
-              <span className="text-[#16323C]/50 text-xs leading-none">×</span>
-            </button>
-          )}
-          {selectedLocation && (
-            <button
-              onClick={() => onLocationChange("")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#16323C]/8 text-[#16323C] text-[10.5px] font-semibold uppercase tracking-wider font-bricolage hover:bg-[#16323C]/15 transition-colors"
-            >
-              {locations.find((l) => l.id === selectedLocation)?.name}
-              <span className="text-[#16323C]/50 text-xs leading-none">×</span>
-            </button>
-          )}
-          {selectedGuests && (
-            <button
-              onClick={() => onGuestsChange("")}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#16323C]/8 text-[#16323C] text-[10.5px] font-semibold uppercase tracking-wider font-bricolage hover:bg-[#16323C]/15 transition-colors"
-            >
-              {selectedGuests}+ Guests
-              <span className="text-[#16323C]/50 text-xs leading-none">×</span>
-            </button>
-          )}
+      <Divider />
+
+      {/* Number of Bedrooms */}
+      <div className="py-5">
+        <SectionLabel>Number of Bedrooms</SectionLabel>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => onBedroomsChange(Math.max(1, selectedBedrooms - 1))}
+            className="w-7 h-7 rounded-full border border-neutral-300 flex items-center justify-center text-neutral-600 hover:border-neutral-500 hover:text-neutral-900 transition-colors text-base leading-none"
+            aria-label="Decrease bedrooms"
+          >
+            −
+          </button>
+          <span className="text-[15px] font-medium text-neutral-900 font-bricolage w-4 text-center">
+            {selectedBedrooms}
+          </span>
+          <button
+            onClick={() => onBedroomsChange(selectedBedrooms + 1)}
+            className="w-7 h-7 rounded-full border border-neutral-300 flex items-center justify-center text-neutral-600 hover:border-neutral-500 hover:text-neutral-900 transition-colors text-base leading-none"
+            aria-label="Increase bedrooms"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <Divider />
+
+      {/* Goa Locations */}
+      {locations.length > 0 && (
+        <>
+          <div className="py-5">
+            <SectionLabel>Goa Locations</SectionLabel>
+            <div className="space-y-2.5">
+              {locations.map((loc) => {
+                const checked = selectedLocations.includes(loc.id);
+                return (
+                  <label key={loc.id} className="flex items-center gap-2.5 cursor-pointer group">
+                    <span
+                      className={cn(
+                        "flex-shrink-0 w-[16px] h-[16px] rounded-sm border-2 flex items-center justify-center transition-colors",
+                        checked
+                          ? "border-neutral-900 bg-neutral-900"
+                          : "border-neutral-300 bg-white group-hover:border-neutral-500"
+                      )}
+                    >
+                      {checked && (
+                        <svg width="9" height="7" viewBox="0 0 9 7" fill="none">
+                          <path d="M1 3.5L3.5 6L8 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleLocation(loc.id)}
+                      className="sr-only"
+                    />
+                    <span className={cn("text-[13.5px] font-bricolage", checked ? "text-neutral-900 font-medium" : "text-neutral-600")}>
+                      {loc.name}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+          <Divider />
+        </>
+      )}
+
+      {/* Collections */}
+      {collections.length > 0 && (
+        <div className="py-5">
+          <SectionLabel>Collections</SectionLabel>
+          <div className="space-y-2.5">
+            {collections.map((col) => {
+              const checked = selectedCollections.includes(col.id);
+              return (
+                <label key={col.id} className="flex items-center gap-2.5 cursor-pointer group">
+                  <span
+                    className={cn(
+                      "flex-shrink-0 w-[16px] h-[16px] rounded-sm border-2 flex items-center justify-center transition-colors",
+                      checked
+                        ? "border-neutral-900 bg-neutral-900"
+                        : "border-neutral-300 bg-white group-hover:border-neutral-500"
+                    )}
+                  >
+                    {checked && (
+                      <svg width="9" height="7" viewBox="0 0 9 7" fill="none">
+                        <path d="M1 3.5L3.5 6L8 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleCollection(col.id)}
+                    className="sr-only"
+                  />
+                  <span className={cn("text-[13.5px] font-bricolage", checked ? "text-neutral-900 font-medium" : "text-neutral-600")}>
+                    {col.name}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

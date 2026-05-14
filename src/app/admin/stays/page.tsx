@@ -7,25 +7,29 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
-import { stayCategories } from "@/data/stays";
 import { formatPriceString } from "@/utils/formatCurrency";
 
 type Stay = {
   id: string; title: string; imageUrl: string; area: string; bed: string;
-  guests: string; category?: string; description?: string; pricePerNight?: string;
+  guests: string; category?: string; propertyType?: string; description?: string; pricePerNight?: string;
   images?: string[]; amenities?: string[]; location?: string; aboutContent?: string;
   locationMapUrl?: string; nearbyPlaces?: { name: string; distance: string }[];
   faqs?: { question: string; answer: string }[];
 };
 
+type Collection = { id: string; name: string };
+type PropertyType = { id: string; name: string };
+
 const EMPTY: Stay = {
-  id: "", title: "", imageUrl: "", area: "", bed: "", guests: "", category: "",
+  id: "", title: "", imageUrl: "", area: "", bed: "", guests: "", category: "", propertyType: "",
   description: "", pricePerNight: "", images: [], amenities: [], location: "",
   aboutContent: "", locationMapUrl: "", nearbyPlaces: [], faqs: [],
 };
 
 export default function AdminStaysPage() {
   const [stays, setStays] = useState<Stay[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [propertyTypes, setPropertyTypes] = useState<PropertyType[]>([]);
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -54,9 +58,14 @@ export default function AdminStaysPage() {
   async function load() {
     setLoading(true);
     try {
-      const res = await fetch("/api/stays");
-      if (!res.ok) { setLoading(false); return; }
-      setStays(await res.json());
+      const [staysRes, colsRes, ptsRes] = await Promise.all([
+        fetch("/api/stays"),
+        fetch("/api/collections"),
+        fetch("/api/property-types"),
+      ]);
+      if (staysRes.ok) setStays(await staysRes.json());
+      if (colsRes.ok) setCollections(await colsRes.json());
+      if (ptsRes.ok) setPropertyTypes(await ptsRes.json());
     } catch {}
     finally { setLoading(false); }
   }
@@ -127,7 +136,7 @@ export default function AdminStaysPage() {
 
   function beginEdit(s: Stay) {
     setEditingId(s.id);
-    setForm({ ...s, category: s.category ?? "", description: s.description ?? "", pricePerNight: s.pricePerNight ?? "", images: s.images ?? [], amenities: s.amenities ?? [], location: s.location ?? "", aboutContent: s.aboutContent ?? "", locationMapUrl: s.locationMapUrl ?? "", nearbyPlaces: s.nearbyPlaces ?? [], faqs: s.faqs ?? [] });
+    setForm({ ...s, category: s.category ?? "", propertyType: s.propertyType ?? "", description: s.description ?? "", pricePerNight: s.pricePerNight ?? "", images: s.images ?? [], amenities: s.amenities ?? [], location: s.location ?? "", aboutContent: s.aboutContent ?? "", locationMapUrl: s.locationMapUrl ?? "", nearbyPlaces: s.nearbyPlaces ?? [], faqs: s.faqs ?? [] });
     setFile(null); setGalleryFiles([]);
     setShowForm(true);
   }
@@ -218,14 +227,23 @@ export default function AdminStaysPage() {
                     </div>
                   ))}
 
-                  {/* Category */}
+                  {/* Collection */}
                   <div className="space-y-1">
-                    <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Category</Label>
+                    <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Collection</Label>
                     <Select value={form.category ?? ""} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}>
-                      <option value="">Choose a category</option>
-                      {stayCategories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                      <option value="">Choose a collection</option>
+                      {collections.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                     </Select>
                     {errors.category && <p className="text-xs text-red-600">{errors.category}</p>}
+                  </div>
+
+                  {/* Property Type */}
+                  <div className="space-y-1">
+                    <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Property Type</Label>
+                    <Select value={form.propertyType ?? ""} onChange={(e) => setForm((f) => ({ ...f, propertyType: e.target.value }))}>
+                      <option value="">Choose a property type</option>
+                      {propertyTypes.filter((p) => p.id !== "all-homes").map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+                    </Select>
                   </div>
 
                   {/* Image upload */}

@@ -4,7 +4,7 @@ import { cn } from "@/utils/utils";
 import { formatPriceString } from "@/utils/formatCurrency";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Link from "next/link";
-import { Users, BedDouble, Square, MapPin } from "lucide-react";
+import { Users, BedDouble, Bath } from "lucide-react";
 
 type StayCardProps = {
   title: string;
@@ -35,26 +35,24 @@ export default function StayCard({
   const displayImages = images && images.length > 0 ? images : [imageUrl];
   const showCarousel = displayImages.length > 1;
 
-  const ImageWrapper = href ? Link : "div";
-  const imageWrapperProps = href ? { href } : {};
+  const CardWrapper = href ? Link : "div";
+  const cardWrapperProps = href ? { href } : {};
+
+  const priceDisplay = pricePerNight
+    ? `From ${formatPriceString(pricePerNight)} + taxes`
+    : null;
 
   return (
-    <div className={cn("group relative w-full", className)}>
-      {/* Image Container */}
-      <ImageWrapper
-        {...(imageWrapperProps as any)}
-        className="block relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-neutral-100"
-      >
+    <div className={cn("group relative w-full rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300", className)}>
+      {/* Image */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
         {showCarousel ? (
-          <Carousel
-            className="h-full w-full"
-            opts={{ loop: true }}
-          >
+          <Carousel className="h-full w-full" opts={{ loop: true }}>
             <CarouselContent className="h-full">
               {displayImages.slice(0, 5).map((src, idx) => (
                 <CarouselItem key={idx} className="h-full">
                   <div
-                    className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]"
+                    className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
                     style={{ backgroundImage: `url(${src})` }}
                   />
                 </CarouselItem>
@@ -65,71 +63,55 @@ export default function StayCard({
           </Carousel>
         ) : (
           <div
-            className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.04]"
+            className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
             style={{ backgroundImage: `url(${imageUrl})` }}
           />
         )}
-
-        {/* Price Tag */}
-        {pricePerNight && (
-          <div className="absolute top-3 right-3 z-10 rounded-lg bg-white/95 backdrop-blur-sm px-3 py-1.5 shadow-sm">
-            <span className="text-[11px] font-semibold text-[#16323C] font-bricolage tracking-wide">
-              {`${formatPriceString(pricePerNight)}${/night/i.test(String(pricePerNight)) ? " / night" : ""}`}
-            </span>
-          </div>
-        )}
-
-        {/* Bottom gradient scrim */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-      </ImageWrapper>
+      </div>
 
       {/* Content */}
-      <div className="mt-4 space-y-2.5 px-0.5">
-        {/* Location */}
-        <div className="flex items-center gap-1.5 text-neutral-400 text-[10.5px] font-semibold uppercase tracking-[0.12em] font-bricolage">
-          <MapPin className="h-3 w-3 text-[#C07A5A] shrink-0" />
-          {location || "Goa"}
-        </div>
-
-        {/* Title */}
-        <h3
-          className={cn(
-            "font-playfair text-[1.35rem] leading-snug text-neutral-900 transition-colors duration-300",
-            href && "group-hover:text-[#9A6648]"
-          )}
-        >
+      <div className="p-4 space-y-1.5">
+        <h3 className="font-bricolage font-semibold text-[1rem] leading-snug text-neutral-900">
           {title}
         </h3>
 
-        {/* Specs */}
-        <div className="flex items-center gap-4 text-[12.5px] text-neutral-500 font-bricolage border-t border-neutral-100 pt-3">
-          <div className="flex items-center gap-1.5">
-            <Square className="h-3 w-3 opacity-50" />
+        <p className="text-[#9A2020] text-[13px] font-bricolage font-medium">
+          {location || "Goa"}
+        </p>
+
+        {priceDisplay && (
+          <p className="text-neutral-700 text-[13px] font-bricolage">
+            {priceDisplay}
+          </p>
+        )}
+
+        {/* Amenity row */}
+        <div className="flex items-center gap-0 text-[12px] text-neutral-600 font-bricolage pt-1 border-t border-neutral-100">
+          <div className="flex items-center gap-1.5 pr-3">
+            <Bath className="h-3.5 w-3.5 opacity-60 shrink-0" />
             <span>{area}</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <BedDouble className="h-3 w-3 opacity-50" />
+          <div className="w-px h-3.5 bg-neutral-300" />
+          <div className="flex items-center gap-1.5 px-3">
+            <BedDouble className="h-3.5 w-3.5 opacity-60 shrink-0" />
             <span>{bed}</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <Users className="h-3 w-3 opacity-50" />
+          <div className="w-px h-3.5 bg-neutral-300" />
+          <div className="flex items-center gap-1.5 pl-3">
+            <Users className="h-3.5 w-3.5 opacity-60 shrink-0" />
             <span>{guests}</span>
           </div>
         </div>
 
         {/* CTA */}
         {href && (
-          <div className="pt-1">
-            <Link href={href} className="block group/cta">
-              <div className="flex items-center justify-between py-2.5 border-b border-transparent group-hover/cta:border-[#9A6648]/50 transition-all duration-300">
-                <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-neutral-700 group-hover/cta:text-[#9A6648] transition-colors font-bricolage">
-                  View Details
-                </span>
-                <span className="text-[#9A6648] transition-transform duration-300 group-hover/cta:translate-x-1 text-lg leading-none">
-                  →
-                </span>
-              </div>
-            </Link>
+          <div className="pt-2">
+            <CardWrapper
+              {...(cardWrapperProps as any)}
+              className="block w-full text-center py-2 border border-neutral-300 rounded-lg text-[12.5px] font-semibold font-bricolage text-neutral-700 hover:border-neutral-900 hover:text-neutral-900 transition-colors duration-200"
+            >
+              View Stay
+            </CardWrapper>
           </div>
         )}
       </div>

@@ -5,7 +5,7 @@ import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { stays as staysData, stayCategories } from "@/data/stays";
-import { ArrowRight } from "lucide-react";
+
 
 export default function RoomsAndStay() {
   const router = useRouter();
@@ -33,16 +33,16 @@ export default function RoomsAndStay() {
   }
 
   return (
-    <section className="py-24 md:py-36">
+    <section className="py-16 md:py-24">
       <Container>
         {/* Section header */}
-        <div className="mb-12 md:mb-16">
-          <p className="font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold text-[#C07A5A] mb-3">
-            Collections
-          </p>
-          <h2 className="font-playfair text-[30px] sm:text-[38px] md:text-[46px] leading-[1.08] text-neutral-900 max-w-lg">
-            Curated for every kind of getaway
+        <div className="mb-12 md:mb-16 text-center flex flex-col items-center">
+          <h2 className="font-playfair font-semibold text-[30px] sm:text-[38px] md:text-[46px] leading-[1.08] text-neutral-900 mb-3">
+            Curated collections
           </h2>
+          <p className="font-bricolage text-[15px] md:text-base text-neutral-600">
+            Thoughtfully chosen stays, for every kind of getaway
+          </p>
         </div>
 
         {/* Content grid */}
@@ -60,41 +60,38 @@ export default function RoomsAndStay() {
                       onClick={() => handleSelect(idx)}
                       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleSelect(idx)}
                       className={
-                        "w-full text-left py-6 md:py-7 px-2 transition-all duration-300 group " +
+                        "w-full text-left py-5 md:py-6 px-2 transition-all duration-300 group " +
                         (selected ? "cursor-default" : "cursor-pointer")
                       }
                     >
-                      <div className="flex items-start justify-between gap-4">
-                        <span
-                          className={
-                            "font-playfair leading-snug transition-all duration-300 " +
-                            (selected
-                              ? "text-3xl md:text-4xl text-[#16323C]"
-                              : "text-lg md:text-xl text-neutral-300 group-hover:text-neutral-500")
-                          }
-                        >
-                          {c.name}
-                        </span>
-
-                        {selected && (
-                          <Button
-                            size="sm"
-                            className="shrink-0 mt-1 gap-1.5"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              router.push(`/stays?category=${c.id}`);
-                            }}
-                          >
-                            Explore
-                            <ArrowRight className="h-3.5 w-3.5" />
-                          </Button>
-                        )}
-                      </div>
-
-                      {selected && (
-                        <p className="mt-3 text-sm md:text-[15px] text-neutral-500 leading-relaxed font-bricolage max-w-sm">
-                          {c.description}
-                        </p>
+                      {selected ? (
+                        <div className="flex flex-col gap-4 w-full py-2">
+                          <span className="font-playfair text-3xl md:text-4xl text-[#6b302a] leading-snug">
+                            {c.name}
+                          </span>
+                          <div className="flex flex-row items-center justify-between gap-4 w-full">
+                            <p className="text-sm md:text-[14px] text-neutral-600 font-bricolage max-w-sm pr-4">
+                              {c.description}
+                            </p>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="rounded-lg px-5 h-9 text-[13px] font-bricolage border-neutral-300 text-neutral-800 hover:bg-neutral-50 shrink-0"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                router.push(`/stays?category=${c.id}`);
+                              }}
+                            >
+                              Explore
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="py-2">
+                          <span className="font-bricolage text-[15px] md:text-[16px] font-medium text-neutral-800 group-hover:text-black transition-colors">
+                            {c.name}
+                          </span>
+                        </div>
                       )}
                     </div>
                   </li>

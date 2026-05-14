@@ -25,6 +25,7 @@ export interface HeaderContentProps {
   titleClass?: string;
   subTitle?: string;
   subTitleClass?: string;
+  subTitlePosition?: "above" | "below";
   descriptionClass?: string;
   ctaSize?: "default" | "sm" | "lg" | "icon";
   ctaVariant?:
@@ -54,6 +55,7 @@ export default function HeroContent({
   titleClass,
   subTitle,
   subTitleClass,
+  subTitlePosition = "above",
   descriptionClass,
   ctaSize = "lg",
   ctaVariant = "default",
@@ -104,19 +106,28 @@ export default function HeroContent({
     </div>
   );
 
+  const subTitleEl = subTitle ? (
+    <p
+      className={cn(
+        subTitlePosition === "above"
+          ? cn(
+              "font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold mb-4",
+              tone === "dark" ? "text-white/60" : "text-[#C07A5A]"
+            )
+          : cn(
+              "font-playfair text-[18px] font-normal mt-3",
+              tone === "dark" ? "text-white/80" : "text-[#9A2020]"
+            ),
+        subTitleClass
+      )}
+    >
+      {subTitle}
+    </p>
+  ) : null;
+
   return (
     <div className={cn("flex flex-col px-1 sm:px-0", alignClass)}>
-      {subTitle && (
-        <p
-          className={cn(
-            "font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold mb-4",
-            tone === "dark" ? "text-white/60" : "text-[#C07A5A]",
-            subTitleClass
-          )}
-        >
-          {subTitle}
-        </p>
-      )}
+      {subTitlePosition === "above" && subTitleEl}
       <h1
         className={cn(
           "font-semibold font-playfair",
@@ -127,6 +138,7 @@ export default function HeroContent({
       >
         {title}
       </h1>
+      {subTitlePosition === "below" && subTitleEl}
       {description && (
         <p
           className={cn(

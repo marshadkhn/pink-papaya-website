@@ -20,7 +20,7 @@ export default function HeroWithCarousel({
     <section
       id="home"
       className={cn(
-        "relative isolate flex min-h-[calc(100vh-var(--navbar-h))] items-center overflow-hidden bg-black pt-8"
+        "relative isolate flex min-h-screen items-center overflow-hidden bg-black"
       )}
     >
       {images && images.length ? (

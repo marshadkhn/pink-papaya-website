@@ -4,7 +4,6 @@ import Link from "next/link";
 import { cn } from "@/utils/utils";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/Container";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Phone, Mail, Menu, X } from "lucide-react";
@@ -22,7 +21,9 @@ export default function Navbar({ className }: { className?: string }) {
   const [contactOpen, setContactOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const transparent = false;
+  const lightBgRoutes = ["/about"];
+  const isLightHero = lightBgRoutes.some((r) => pathname === r || pathname.startsWith(r + "/"));
+  const transparent = !scrolled && !isLightHero;
 
   const contactBtnRef = useRef<HTMLButtonElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -86,22 +87,20 @@ export default function Navbar({ className }: { className?: string }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 transition-all duration-500",
+        "fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500",
         scrolled
           ? "bg-white/95 backdrop-blur-md shadow-[0_2px_24px_rgba(0,0,0,0.08)]"
-          : "bg-white shadow-[0_1px_0_rgba(0,0,0,0.06)]",
+          : "bg-transparent",
         className
       )}
     >
       <Container className="flex items-center justify-between px-4 md:px-10 max-w-7xl h-[var(--navbar-h)]">
         {/* Logo */}
         <Link href="/" className="shrink-0 z-10">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={transparent ? "/logo-files/logo-white.svg" : "/logo-files/logo-black.svg"}
             alt="Pink Papaya"
-            width={128}
-            height={28}
-            priority
             className="h-auto w-[110px] md:w-[138px] transition-opacity duration-300"
           />
         </Link>

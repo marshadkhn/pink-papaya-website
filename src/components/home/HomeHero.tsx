@@ -17,6 +17,7 @@ export default function HomeHero() {
       ctaSize="lg"
       tone="dark"
       showCta={true}
+      coverNavbar={true}
     />
   );
 }

@@ -39,7 +39,7 @@ export default function StayGallery({ title, description, location, images = [] 
   return (
     <section
       className="relative overflow-hidden bg-[#16323C] min-h-[480px]"
-      style={{ height: "calc(100vh - var(--navbar-h))" }}
+      style={{ height: "calc(80vh - var(--navbar-h))" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >

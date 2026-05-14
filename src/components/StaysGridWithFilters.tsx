@@ -5,7 +5,6 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, X } from "lucide-react";
 import StayCard from "./StayCard";
 import FilterBar from "./FilterBar";
-import { stayCategories } from "@/data/stays";
 
 type Stay = {
   id: string;
@@ -15,6 +14,7 @@ type Stay = {
   bed: string;
   guests: string;
   category?: string;
+  propertyType?: string;
   description?: string;
   pricePerNight?: string;
   images?: string[];
@@ -22,78 +22,108 @@ type Stay = {
   location?: string;
 };
 
-type Location = {
-  id: string;
-  name: string;
-  stayIds: string[];
-};
+type Location = { id: string; name: string; stayIds: string[] };
+type PropertyType = { id: string; name: string };
+type Collection = { id: string; name: string };
 
-type StaysGridWithFiltersProps = {
+type Props = {
   stays: Stay[];
   locations: Location[];
+  propertyTypes: PropertyType[];
+  collections: Collection[];
 };
 
-export default function StaysGridWithFilters({ stays, locations }: StaysGridWithFiltersProps) {
+function parseBedrooms(bed: string): number {
+  const m = bed.match(/\d+/);
+  return m ? parseInt(m[0], 10) : 1;
+}
+
+export default function StaysGridWithFilters({ stays, locations, propertyTypes, collections }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  const selectedCategory = searchParams.get("category") || "";
-  const selectedLocation = searchParams.get("location") || "";
-  const selectedGuests = searchParams.get("guests") || "";
-
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(name, value);
-      } else {
-        params.delete(name);
-      }
-      return params.toString();
-    },
-    [searchParams]
+  const selectedPropertyType = searchParams.get("type") || "";
+  const selectedBedrooms = parseInt(searchParams.get("bedrooms") || "1", 10);
+  const locsParam = searchParams.get("locs") || "";
+  const colsParam = searchParams.get("cols") || "";
+  const selectedLocations = useMemo(
+    () => (locsParam ? locsParam.split(",").filter(Boolean) : []),
+    [locsParam]
+  );
+  const selectedCollections = useMemo(
+    () => (colsParam ? colsParam.split(",").filter(Boolean) : []),
+    [colsParam]
   );
 
-  const handleFilterChange = (name: string, value: string) => {
-    router.push(`${pathname}?${createQueryString(name, value)}`, { scroll: false });
+  const updateParam = useCallback(
+    (updates: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams.toString());
+      for (const [k, v] of Object.entries(updates)) {
+        if (v) params.set(k, v);
+        else params.delete(k);
+      }
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    },
+    [searchParams, pathname, router]
+  );
+
+  const handlePropertyType = (id: string) => {
+    updateParam({ type: id });
+    setMobileFiltersOpen(false);
+  };
+
+  const handleBedrooms = (val: number) => {
+    updateParam({ bedrooms: val > 1 ? String(val) : "" });
+  };
+
+  const handleLocations = (ids: string[]) => {
+    updateParam({ locs: ids.join(",") });
+  };
+
+  const handleCollections = (ids: string[]) => {
+    updateParam({ cols: ids.join(",") });
   };
 
   const handleClearFilters = () => {
     router.push(pathname, { scroll: false });
+    setMobileFiltersOpen(false);
   };
 
   const filteredStays = useMemo(() => {
     let filtered = [...stays];
 
-    // Filter by category
-    if (selectedCategory) {
-      filtered = filtered.filter((stay) => stay.category === selectedCategory);
+    if (selectedPropertyType && selectedPropertyType !== "all-homes") {
+      filtered = filtered.filter((s) => s.propertyType === selectedPropertyType);
     }
 
-    // Filter by guests (minimum required)
-    if (selectedGuests) {
-      const minGuests = parseInt(selectedGuests, 10);
-      filtered = filtered.filter((stay) => {
-        const stayGuestsMatch = (stay.guests || "").match(/\d+/);
-        const stayGuests = stayGuestsMatch ? parseInt(stayGuestsMatch[0], 10) : 0;
-        return stayGuests >= minGuests;
+    if (selectedBedrooms > 1) {
+      filtered = filtered.filter((s) => parseBedrooms(s.bed) >= selectedBedrooms);
+    }
+
+    if (selectedLocations.length > 0) {
+      filtered = filtered.filter((s) => {
+        return selectedLocations.some((locId) => {
+          const loc = locations.find((l) => l.id === locId);
+          return loc?.stayIds.includes(s.id);
+        });
       });
     }
 
-    // Filter by location
-    if (selectedLocation) {
-      const locationData = locations.find((loc) => loc.id === selectedLocation);
-      if (locationData) {
-        filtered = filtered.filter((stay) => locationData.stayIds.includes(stay.id));
-      }
+    if (selectedCollections.length > 0) {
+      filtered = filtered.filter((s) => s.category && selectedCollections.includes(s.category));
     }
 
     return filtered;
-  }, [stays, locations, selectedCategory, selectedLocation, selectedGuests]);
+  }, [stays, selectedPropertyType, selectedBedrooms, selectedLocations, selectedCollections, locations]);
 
-  const hasActiveFilters = selectedCategory || selectedLocation || selectedGuests;
+  const activeFilterCount = [
+    selectedPropertyType && selectedPropertyType !== "all-homes",
+    selectedBedrooms > 1,
+    selectedLocations.length > 0,
+    selectedCollections.length > 0,
+  ].filter(Boolean).length;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
@@ -105,9 +135,9 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
         >
           {mobileFiltersOpen ? <X size={15} /> : <SlidersHorizontal size={15} />}
           {mobileFiltersOpen ? "Close Filters" : "Filters"}
-          {hasActiveFilters && (
+          {activeFilterCount > 0 && (
             <span className="ml-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#16323C] text-white text-[9px] font-bold">
-              {[selectedCategory, selectedLocation, selectedGuests].filter(Boolean).length}
+              {activeFilterCount}
             </span>
           )}
         </button>
@@ -119,28 +149,29 @@ export default function StaysGridWithFilters({ stays, locations }: StaysGridWith
       <aside className={`lg:col-span-1 ${mobileFiltersOpen ? "block" : "hidden"} lg:block`}>
         <div className="sticky top-24">
           <FilterBar
-            categories={stayCategories}
+            propertyTypes={propertyTypes}
             locations={locations}
-            selectedCategory={selectedCategory}
-            selectedLocation={selectedLocation}
-            selectedGuests={selectedGuests}
-            onCategoryChange={(val) => { handleFilterChange("category", val); setMobileFiltersOpen(false); }}
-            onLocationChange={(val) => { handleFilterChange("location", val); setMobileFiltersOpen(false); }}
-            onGuestsChange={(val) => { handleFilterChange("guests", val); setMobileFiltersOpen(false); }}
-            onClearFilters={() => { handleClearFilters(); setMobileFiltersOpen(false); }}
+            collections={collections}
+            selectedPropertyType={selectedPropertyType}
+            selectedBedrooms={selectedBedrooms}
+            selectedLocations={selectedLocations}
+            selectedCollections={selectedCollections}
+            onPropertyTypeChange={handlePropertyType}
+            onBedroomsChange={handleBedrooms}
+            onLocationsChange={handleLocations}
+            onCollectionsChange={handleCollections}
+            onClearFilters={handleClearFilters}
           />
         </div>
       </aside>
 
       <div className="lg:col-span-3">
-        {/* Results summary — hidden on mobile (shown in filter toggle) */}
         <div className="hidden lg:flex items-center justify-between mb-8">
           <div className="text-sm font-medium text-neutral-500 uppercase tracking-widest">
             Showing {filteredStays.length} {filteredStays.length === 1 ? "stay" : "stays"}
           </div>
         </div>
 
-        {/* Stays grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredStays.length > 0 ? (
             filteredStays.map((s) => (
