@@ -1,17 +1,9 @@
 import Container from "@/components/Container";
 import { getInteriorProjectById, readInteriorProjects } from "@/lib/interiorStore";
 import { Card } from "@/components/ui/card";
-import { Bilbo_Swash_Caps } from "next/font/google";
 import HeaderContent from "@/components/headerContent";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-// Bilbo Swash Caps from Google Fonts
-const bilboSwash = Bilbo_Swash_Caps({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
 
 export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -78,9 +70,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
                   {project.headline || project.title}
                 </h1>
                 {project.tagline ? (
-                  <p
-                    className={`${bilboSwash.className} text-2xl md:text-3xl text-neutral-800`}
-                  >
+                  <p className="font-playfair italic text-2xl md:text-3xl text-[#16323C]">
                     {project.tagline}
                   </p>
                 ) : null}

@@ -2,11 +2,6 @@ import { readInteriorProjects } from "@/lib/interiorStore";
 import HeroSection from "./_components/HeroSection";
 import AboutSection from "./_components/AboutSection";
 import ProjectsSection from "./_components/ProjectsSection";
-import ProjectDetailSections from "./_components/ProjectDetailSections";
-import HostingReadySection from "./_components/HostingReadySection";
-import GalleriesSection from "./_components/GalleriesSection";
-import NarrativeSection from "./_components/NarrativeSection";
-import SideStorySection from "./_components/SideStorySection";
 import ServicesSection from "./_components/ServicesSection";
 import ContactSection from "./_components/ContactSection";
 
@@ -24,8 +19,6 @@ export default async function InteriorPage() {
       <HeroSection />
       <AboutSection />
       <ProjectsSection projects={projects} />
-      <ProjectDetailSections projects={projects} />
-      <HostingReadySection />
       <ServicesSection />
       <ContactSection />
     </div>

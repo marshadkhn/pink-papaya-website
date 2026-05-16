@@ -32,7 +32,7 @@ export default function LifecycleSection() {
                 <p className="font-bricolage text-[#16323C]/65 text-sm leading-relaxed flex-1">{item.body}</p>
                 <Link
                   href={item.href}
-                  className="mt-8 font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold text-[#88ADA2] border-b border-[#88ADA2] pb-0.5 self-start transition-opacity hover:opacity-70"
+                  className="mt-8 font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold text-[#C07A5A] border-b border-[#C07A5A] pb-0.5 self-start transition-opacity hover:opacity-70"
                 >
                   {item.cta}
                 </Link>

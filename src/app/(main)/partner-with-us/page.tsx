@@ -127,7 +127,7 @@ export default function BecomeHostPage() {
                   <button
                     type="submit"
                     className="w-full mt-1 h-11 rounded-full font-bricolage text-sm font-medium text-white transition-opacity hover:opacity-90"
-                    style={{ background: "#88ADA2" }}
+                    style={{ background: "#16323C" }}
                   >
                     Submit Interest
                   </button>
@@ -151,7 +151,7 @@ export default function BecomeHostPage() {
               { value: "24/7", label: "SUPPORT" },
             ].map((stat, idx) => (
               <div key={idx} className="flex flex-col items-center justify-center py-4 px-6 gap-2">
-                <span className="font-playfair text-4xl md:text-5xl text-[#88ADA2] tracking-tight">
+                <span className="font-playfair text-4xl md:text-5xl text-[#16323C] tracking-tight">
                   {stat.value}
                 </span>
                 <span className="font-bricolage text-[10px] uppercase tracking-[0.15em] text-neutral-400">
@@ -215,7 +215,7 @@ export default function BecomeHostPage() {
                 ].map((item, idx) => (
                   <Reveal key={idx} delay={idx * 0.1}>
                     <div className="flex items-start gap-5">
-                      <div className="flex-shrink-0 w-11 h-11 rounded-full bg-[#3D1515] flex items-center justify-center">
+                      <div className="flex-shrink-0 w-11 h-11 rounded-full bg-[#16323C] flex items-center justify-center">
                         {item.icon}
                       </div>
                       <div>

@@ -156,7 +156,7 @@ export default function Navbar({ className }: { className?: string }) {
             {contactOpen && (
               <div
                 ref={contactRef}
-                className="absolute right-0 top-full mt-2.5 w-[272px] rounded-xl bg-white border border-neutral-100 shadow-[0_8px_32px_rgba(0,0,0,0.1)] overflow-hidden z-50"
+                className="absolute right-0 top-full mt-2.5 w-[320px] rounded-xl bg-white border border-neutral-100 shadow-[0_8px_32px_rgba(0,0,0,0.1)] overflow-hidden z-50"
               >
                 <a
                   href="tel:+919226591522"
@@ -170,12 +170,12 @@ export default function Navbar({ className }: { className?: string }) {
                 <div className="h-px bg-neutral-100 mx-5" />
                 <a
                   href="mailto:reservations@pinkpapayastays.com"
-                  className="flex items-center gap-3 px-5 py-4 text-[13px] text-[#16323C] hover:bg-[#F7F2EA] hover:gap-4 active:scale-[0.98] transition-all duration-200 font-bricolage"
+                  className="flex items-center gap-3 px-5 py-4 hover:bg-[#F7F2EA] active:scale-[0.98] transition-all duration-200 font-bricolage min-w-0 overflow-hidden"
                 >
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA]">
                     <Mail size={13} className="text-[#C07A5A]" />
                   </span>
-                  reservations@pinkpapayastays.com
+                  <span className="text-[12px] text-[#16323C] truncate min-w-0">reservations@pinkpapayastays.com</span>
                 </a>
               </div>
             )}

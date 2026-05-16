@@ -8,7 +8,7 @@ export default function ContactPage() {
       <Container>
         {/* Header Section */}
         <div className="text-center mb-16 md:mb-24">
-          <h1 className="text-5xl md:text-7xl font-playfair text-[#9A6648] tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-playfair text-[#16323C] tracking-tight">
             Get In Touch
           </h1>
         </div>
@@ -23,7 +23,7 @@ export default function ContactPage() {
             <div className="space-y-10">
               {/* Phone */}
               <div className="flex items-start gap-5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5f2] text-[#9A6648]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA] text-[#C07A5A]">
                   <Phone className="h-5 w-5" />
                 </div>
                 <div>
@@ -39,7 +39,7 @@ export default function ContactPage() {
 
               {/* Email */}
               <div className="flex items-start gap-5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5f2] text-[#9A6648]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA] text-[#C07A5A]">
                   <Mail className="h-5 w-5" />
                 </div>
                 <div>
@@ -52,13 +52,13 @@ export default function ContactPage() {
 
               {/* WhatsApp */}
               <div className="flex items-start gap-5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f8f5f2] text-[#9A6648]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#F7F2EA] text-[#C07A5A]">
                   <MessageSquare className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-neutral-900">WhatsApp</h3>
                   <p className="text-neutral-500">Start a chat for quick support.</p>
-                  <a href="#" className="inline-flex items-center gap-1 text-[#9A6648] text-sm font-medium mt-2 hover:underline">
+                  <a href="#" className="inline-flex items-center gap-1 text-[#C07A5A] text-sm font-medium mt-2 hover:underline">
                     Message us now <span className="text-lg leading-none">→</span>
                   </a>
                 </div>
@@ -79,7 +79,7 @@ export default function ContactPage() {
                     type="text"
                     placeholder="Jane Doe"
                     required
-                    className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all"
+                    className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all"
                   />
                 </div>
                 <div className="space-y-2">
@@ -90,7 +90,7 @@ export default function ContactPage() {
                     id="phone-number"
                     type="tel"
                     placeholder="(555) 000-0000"
-                    className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all"
+                    className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all"
                   />
                 </div>
               </div>
@@ -104,7 +104,7 @@ export default function ContactPage() {
                   type="email"
                   placeholder="jane@example.com"
                   required
-                  className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all"
+                  className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all"
                 />
               </div>
 
@@ -117,7 +117,7 @@ export default function ContactPage() {
                   rows={4}
                   placeholder="How can we make your stay exceptional?"
                   required
-                  className="w-full rounded-xl bg-[#F9F7F4] border-none px-5 py-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#9A6648]/20 transition-all resize-none"
+                  className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all resize-none"
                 />
               </div>
 
