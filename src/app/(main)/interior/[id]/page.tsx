@@ -50,7 +50,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
                 <div className="relative w-full pt-[100%]">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
-                    data-bg={`url(${project.imageUrl})`}
+                    style={{ backgroundImage: `url(${project.imageUrl?.startsWith("http") ? project.imageUrl : "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80"})` }}
                   />
                 </div>
               </Card>
@@ -107,7 +107,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
                   <div className="relative w-full pt-[100%]">
                     <div
                       className="absolute inset-0 bg-cover bg-center"
-                      data-bg={`url(${src})`}
+                      style={{ backgroundImage: `url(${src?.startsWith("http") ? src : "https://images.unsplash.com/photo-1593696140826-c58b021acf8b?w=800&q=80"})` }}
                     />
                   </div>
                 </Card>
@@ -135,7 +135,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
                   <div className="relative w-full pt-[68%] md:pt-0 md:h-full">
                     <div
                       className="absolute inset-0 bg-cover bg-center"
-                      data-bg={`url(${src})`}
+                      style={{ backgroundImage: `url(${src?.startsWith("http") ? src : "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"})` }}
                     />
                   </div>
                 </Card>

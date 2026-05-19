@@ -177,51 +177,17 @@ const CarouselItem = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const { orientation } = useCarousel()
-  const carousel = useCarousel()
-  const localRef = React.useRef<HTMLDivElement | null>(null)
-  const [inView, setInView] = React.useState(false)
-
-  // combine forwarded ref and localRef
-  const setRefs = (el: HTMLDivElement | null) => {
-    localRef.current = el
-    if (!ref) return
-    if (typeof ref === "function") ref(el)
-    else (ref as React.MutableRefObject<HTMLDivElement | null>).current = el
-  }
-
-  React.useEffect(() => {
-    const node = localRef.current
-    // Embla returns a callback ref (function) in some versions, so avoid
-    // accessing `.current` which may not exist on the ref type. Use
-    // `null` so the IntersectionObserver falls back to the viewport.
-    const root = null
-    if (!node) return
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setInView(entry.isIntersecting && entry.intersectionRatio > 0.4)
-        })
-      },
-      { root: root as Element | null, threshold: [0.4] }
-    )
-
-    obs.observe(node)
-    return () => obs.disconnect()
-  }, [carousel])
 
   return (
     <div
-      ref={setRefs}
+      ref={ref}
       role="group"
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full transform-gpu transition-opacity transition-transform duration-700 ease-[cubic-bezier(.22,.9,.32,1)]",
+        "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
-        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
         className
       )}
-      style={{ willChange: "transform, opacity" }}
       {...props}
     />
   )

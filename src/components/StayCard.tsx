@@ -47,12 +47,12 @@ export default function StayCard({
       {/* Image */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
         {showCarousel ? (
-          <Carousel className="absolute inset-0" opts={{ loop: true }}>
-            <CarouselContent className="h-full ml-0">
+          <Carousel className="w-full h-full" opts={{ loop: true }}>
+            <CarouselContent className="h-full !ml-0">
               {displayImages.slice(0, 5).map((src, idx) => (
-                <CarouselItem key={idx} className="pl-0 relative h-full">
+                <CarouselItem key={idx} className="!pl-0 relative aspect-[4/3] w-full h-full">
                   <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="w-full h-full bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
                     style={{ backgroundImage: `url(${src})` }}
                   />
                 </CarouselItem>
@@ -63,7 +63,7 @@ export default function StayCard({
           </Carousel>
         ) : (
           <div
-            className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
+            className="h-full w-full bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
             style={{ backgroundImage: `url(${imageUrl})` }}
           />
         )}

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/Container";
@@ -60,26 +63,23 @@ export default function ProjectsSection({ projects }: { projects: InteriorProjec
 }
 
 function ProjectCard({ project }: { project: InteriorProject }) {
+  const defaultImage = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80";
+  const initialImg = project.imageUrl?.startsWith("http") ? project.imageUrl : defaultImage;
+  const [imgSrc, setImgSrc] = useState(initialImg);
+
   return (
     <Link href={`/interior/${project.id}`} className="group block">
       <div
         className="relative w-full overflow-hidden bg-neutral-200 rounded-sm shadow-[0_1px_4px_rgba(0,0,0,0.08)]"
         style={{ aspectRatio: "3 / 4" }}
       >
-        {project.imageUrl && (
-          <Image
-            src={project.imageUrl}
-            alt={project.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-          />
-        )}
-        {/* Subtle centered label on image (matches design placeholder text) */}
-        {!project.imageUrl && (
-          <span className="absolute inset-0 flex items-center justify-center font-bricolage text-[9px] uppercase tracking-[0.22em] text-neutral-400">
-            {project.headline || project.title}
-          </span>
-        )}
+        <Image
+          src={imgSrc}
+          alt={project.title}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+          onError={() => setImgSrc("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80")}
+        />
       </div>
       <h3
         className="font-playfair font-normal text-[#16323C] mt-4 group-hover:opacity-70 transition-opacity"
