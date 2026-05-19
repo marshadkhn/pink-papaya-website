@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import { cn } from "@/utils/utils";
 import HeaderContent, {
   type HeaderContentProps,
@@ -41,12 +42,15 @@ export default function Hero({
       )}
       style={height && !coverNavbar && !compact ? { minHeight: height } : undefined}
     >
-      {/* Background image */}
+      {/* Background image optimized for fast load */}
       {backgroundUrl && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${backgroundUrl})` }}
+        <Image
+          src={backgroundUrl}
+          alt="Hero Background"
+          fill
+          priority
+          quality={85}
+          className="pointer-events-none absolute inset-0 -z-10 object-cover object-center"
         />
       )}
 

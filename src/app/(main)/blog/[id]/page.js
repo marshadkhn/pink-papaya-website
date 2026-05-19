@@ -115,7 +115,7 @@ export default async function BlogPostPage({ params }) {
       {/* Hero image — full width, tall */}
       <div className="relative w-full" style={{ height: "calc(100vh - var(--navbar-h))" }}>
         <Image
-          src={post.imageUrl || DEFAULT_PLACEHOLDER}
+          src={post.imageUrl?.startsWith("http") ? post.imageUrl : DEFAULT_PLACEHOLDER}
           alt={post.title}
           fill
           className="object-cover"

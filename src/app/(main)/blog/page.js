@@ -8,14 +8,14 @@ import { Suspense } from "react";
 import CategoryFilter from "@/components/blog/CategoryFilter";
 
 function BlogPostCard({ post }) {
-  const image = post.imageUrl || DEFAULT_PLACEHOLDER;
+  const image = post.imageUrl?.startsWith("http") ? post.imageUrl : DEFAULT_PLACEHOLDER;
   return (
     <Link href={`/blog/${post.id}`} className="group block">
       <div className="rounded-10 overflow-hidden">
         <div className="relative w-full pt-[140%] bg-neutral-200">
           <div
             className="absolute inset-0 bg-cover bg-center"
-            data-bg={`url(${image})`}
+            style={{ backgroundImage: `url(${image})` }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 

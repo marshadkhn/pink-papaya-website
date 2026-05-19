@@ -139,8 +139,8 @@ export default function Navbar({ className }: { className?: string }) {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          {/* Contact dropdown */}
-          <div className="relative">
+          {/* Contact dropdown (Desktop only) */}
+          <div className="relative hidden md:block">
             <Button
               ref={contactBtnRef}
               size="sm"
@@ -197,49 +197,61 @@ export default function Navbar({ className }: { className?: string }) {
       </Container>
 
       {/* Mobile menu */}
-      {menuOpen && (
-        <div
-          ref={mobileMenuRef}
-          className="md:hidden border-t border-neutral-100 bg-white"
-        >
-          <nav className="flex flex-col font-bricolage divide-y divide-neutral-50 px-5">
-            {NAV_ITEMS.map((it) => {
-              const active = isActive(it.href);
-              return (
-                <Link
-                  key={it.href}
-                  href={it.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={cn(
-                    "py-4 text-[15px] transition-colors",
-                    active
-                      ? "text-[#16323C] font-semibold"
-                      : "text-neutral-500 font-medium hover:text-[#16323C]"
-                  )}
-                >
-                  {it.label}
-                </Link>
-              );
-            })}
-          </nav>
-          <div className="px-5 py-4 border-t border-neutral-100 space-y-3">
-            <a
-              href="tel:+919226591522"
-              className="flex items-center gap-2.5 text-[12.5px] text-neutral-500 font-bricolage hover:text-[#16323C] transition-colors"
-            >
-              <Phone size={12} className="text-[#C07A5A]" />
-              +91 9226591522
-            </a>
-            <a
-              href="mailto:reservations@pinkpapayastays.com"
-              className="flex items-center gap-2.5 text-[12.5px] text-neutral-500 font-bricolage hover:text-[#16323C] transition-colors"
-            >
-              <Mail size={12} className="text-[#C07A5A]" />
-              reservations@pinkpapayastays.com
-            </a>
+      <div
+        ref={mobileMenuRef}
+        className={cn(
+          "md:hidden absolute top-full left-0 right-0 bg-white overflow-hidden transition-all duration-500 ease-in-out border-b border-neutral-100",
+          menuOpen ? "max-h-[600px] opacity-100 shadow-[0_8px_32px_rgba(0,0,0,0.08)]" : "max-h-0 opacity-0 border-transparent shadow-none"
+        )}
+      >
+        <nav className="flex flex-col font-bricolage divide-y divide-neutral-50 px-5">
+          {NAV_ITEMS.map((it) => {
+            const active = isActive(it.href);
+            return (
+              <Link
+                key={it.href}
+                href={it.href}
+                onClick={() => setMenuOpen(false)}
+                className={cn(
+                  "py-4 text-[15px] transition-colors",
+                  active
+                    ? "text-[#16323C] font-semibold"
+                    : "text-neutral-500 font-medium hover:text-[#16323C]"
+                )}
+              >
+                {it.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <div className="px-5 py-4 border-t border-neutral-100 flex flex-col gap-3">
+          <Button
+            variant="default"
+            className="w-full justify-center font-bricolage"
+            onClick={() => setContactOpen(!contactOpen)}
+          >
+            Get in touch
+          </Button>
+          <div className={cn("overflow-hidden transition-all duration-300", contactOpen ? "max-h-32" : "max-h-0")}>
+            <div className="flex flex-col gap-3 pt-2">
+              <a
+                href="tel:+919226591522"
+                className="flex items-center gap-2.5 text-[13px] text-neutral-500 font-bricolage hover:text-[#16323C] transition-colors"
+              >
+                <Phone size={14} className="text-[#C07A5A]" />
+                +91 9226591522
+              </a>
+              <a
+                href="mailto:reservations@pinkpapayastays.com"
+                className="flex items-center gap-2.5 text-[13px] text-neutral-500 font-bricolage hover:text-[#16323C] transition-colors"
+              >
+                <Mail size={14} className="text-[#C07A5A]" />
+                reservations@pinkpapayastays.com
+              </a>
+            </div>
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
