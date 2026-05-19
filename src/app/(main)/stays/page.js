@@ -35,7 +35,7 @@ export default async function StaysPage({ searchParams }) {
         showCta={false}
         tone="dark"
       />
-      <section className="py-14 md:py-20">
+      <section className="py-[5%]">
         <Container>
           <StaysGridWithFilters
             stays={stays}

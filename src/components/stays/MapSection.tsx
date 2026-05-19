@@ -8,7 +8,7 @@ export default function MapSection({
   nearbyPlaces?: { name: string; distance: string }[];
 }) {
   return (
-    <section className="py-16">
+    <section className="py-[5%]">
       <p className="font-bricolage text-[11px] uppercase tracking-[0.14em] text-[#C07A5A] mb-3">
         Location
       </p>

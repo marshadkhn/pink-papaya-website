@@ -6,7 +6,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative bg-white overflow-hidden"
-      style={{ isolation: "isolate", minHeight: "calc(80vh - var(--navbar-h))" }}
+      style={{ isolation: "isolate", minHeight: "calc(80vh - var(--navbar-h))", marginTop: "5%" }}
     >
       <div
         className="absolute overflow-hidden shadow-2xl"

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function CTASection() {
   return (
-    <section className="bg-[#F7F2EA] flex flex-col items-center justify-center text-center py-32 md:py-44">
+    <section className="bg-[#F7F2EA] flex flex-col items-center justify-center text-center py-[5%]">
       <Reveal>
         <h2 className="font-playfair italic font-normal text-[#16323C] mb-10" style={{ fontSize: "clamp(2.4rem, 6vw, 6rem)", lineHeight: 1.05 }}>
           Inquire for your stay.

@@ -56,7 +56,7 @@ export default async function BlogPage({ searchParams }) {
         compact
       />
 
-      <section className="py-12 md:py-16">
+      <section className="py-[5%]">
         <Container>
           <div className="flex justify-center mb-10">
             <Suspense>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Testimonial = { id: string; name: string; role: string; quote: string };
 
@@ -51,7 +52,7 @@ export default function HostTestimonialsCarousel() {
 
   return (
     <section
-      className="py-24 md:py-32 bg-white"
+      className="py-[5%] bg-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -124,16 +125,34 @@ export default function HostTestimonialsCarousel() {
                   {current.quote}
                 </blockquote>
 
-                {/* Author */}
-                <div>
-                  <p className="font-bricolage text-sm font-semibold uppercase tracking-[0.14em] text-[#16323C]">
-                    {current.name}
-                  </p>
-                  {current.role && (
-                    <p className="font-bricolage text-xs uppercase tracking-[0.12em] text-neutral-400 mt-1">
-                      {current.role}
+                {/* Author + arrows */}
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="font-bricolage text-sm font-semibold uppercase tracking-[0.14em] text-[#16323C]">
+                      {current.name}
                     </p>
-                  )}
+                    {current.role && (
+                      <p className="font-bricolage text-xs uppercase tracking-[0.12em] text-neutral-400 mt-1">
+                        {current.role}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => goTo((index - 1 + items.length) % items.length, -1)}
+                      aria-label="Previous testimonial"
+                      className="flex items-center justify-center w-8 h-8 rounded-full border border-neutral-300 text-neutral-500 hover:border-[#16323C] hover:text-[#16323C] transition-colors duration-200"
+                    >
+                      <ChevronLeft size={15} />
+                    </button>
+                    <button
+                      onClick={() => goTo((index + 1) % items.length, 1)}
+                      aria-label="Next testimonial"
+                      className="flex items-center justify-center w-8 h-8 rounded-full border border-neutral-300 text-neutral-500 hover:border-[#16323C] hover:text-[#16323C] transition-colors duration-200"
+                    >
+                      <ChevronRight size={15} />
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>

@@ -11,7 +11,7 @@ export default function ProjectsSection({ projects }: { projects: InteriorProjec
   const rightCol = projects.filter((_, i) => i % 2 === 1);
 
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-[5%]">
       <Container>
         <div className="h-px bg-neutral-200 mb-14 md:mb-20" />
 

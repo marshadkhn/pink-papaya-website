@@ -14,7 +14,7 @@ export default function CancellationPolicyPage() {
         showCta={false}
         tone="light"
       />
-      <section className="py-12 md:py-16">
+      <section className="py-[5%]">
         <Container className="prose prose-neutral max-w-4xl mx-auto">
           <HeaderContent
             title="Cancellation and Refund Policy"

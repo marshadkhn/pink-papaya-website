@@ -11,7 +11,7 @@ const PHASES = [
 
 export default function LifecycleSection() {
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-[5%]">
       <Container>
         <Reveal>
           <div className="flex items-center gap-6 mb-16 md:mb-20">

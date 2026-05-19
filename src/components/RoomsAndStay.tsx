@@ -33,7 +33,7 @@ export default function RoomsAndStay() {
   }
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-[5%]">
       <Container>
         {/* Section header */}
         <div className="mb-12 md:mb-16 text-center flex flex-col items-center">

@@ -49,7 +49,7 @@ export default function BecomeHostPage() {
         </div>
 
         {/* Content grid */}
-        <div className="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-2">
+        <div className="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-[1fr_2fr]">
           {/* Left: text, vertically centered */}
           <div className="flex flex-col justify-center pb-16 pt-32 lg:pt-24 px-8 md:px-16">
             <Reveal>
@@ -66,10 +66,10 @@ export default function BecomeHostPage() {
           </div>
 
           {/* Right: frosted glass form card, vertically centered */}
-          <div className="flex items-center justify-center px-6 md:px-10 lg:px-12 py-16 lg:py-0">
-            <Reveal delay={0.2}>
+          <div className=" flex items-center justify-center relative px-4 md:px-8">
+            <Reveal delay={0.2} className="w-full max-w-lg md:max-w-xl lg:max-w-2xl">
               <div
-                className="w-full max-w-[720px] rounded-[20px] p-7"
+                className="rounded-[20px] p-9 border border-blue-200"
                 style={{
                   background: "rgba(255, 255, 255, 0.52)",
                   backdropFilter: "blur(20px)",
@@ -141,7 +141,7 @@ export default function BecomeHostPage() {
         </div>
       </section>
       {/* Stats Strip */}
-      <section className="bg-white py-10">
+      <section className="bg-white py-[5%]">
         <Container>
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-neutral-300">
             {[
@@ -164,7 +164,7 @@ export default function BecomeHostPage() {
       </section>
 
       {/* Why Host With Us Section */}
-      <section className="py-24 bg-white">
+      <section className="py-[5%] bg-white">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             {/* Left: Title + benefits list */}
@@ -277,7 +277,7 @@ export default function BecomeHostPage() {
       <HostTestimonialsCarousel />
 
       {/* Bottom CTA */}
-      <section className="py-32 bg-white text-center">
+      <section className="py-[5%] bg-white text-center">
         <Container>
           <Reveal>
             <h2 className="font-playfair text-4xl md:text-6xl font-medium text-[#16323C] mb-8 leading-tight">

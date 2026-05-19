@@ -47,12 +47,12 @@ export default function StayCard({
       {/* Image */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
         {showCarousel ? (
-          <Carousel className="h-full w-full" opts={{ loop: true }}>
-            <CarouselContent className="h-full">
+          <Carousel className="absolute inset-0" opts={{ loop: true }}>
+            <CarouselContent className="h-full ml-0">
               {displayImages.slice(0, 5).map((src, idx) => (
-                <CarouselItem key={idx} className="h-full">
+                <CarouselItem key={idx} className="pl-0 relative h-full">
                   <div
-                    className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-[1.03]"
                     style={{ backgroundImage: `url(${src})` }}
                   />
                 </CarouselItem>
@@ -75,7 +75,7 @@ export default function StayCard({
           {title}
         </h3>
 
-        <p className="text-[#9A2020] text-[13px] font-bricolage font-medium">
+        <p className="text-[#C07A5A] text-[13px] font-bricolage font-medium">
           {location || "Goa"}
         </p>
 

@@ -31,7 +31,7 @@ export default function AmenitiesSection({ amenities = [] }: { amenities?: strin
   const hasMore = amenities.length > INITIAL_SHOW;
 
   return (
-    <section className="py-16">
+    <section className="py-[5%]">
       <p className="font-bricolage text-[11px] uppercase tracking-[0.14em] text-[#C07A5A] mb-3">
         What&apos;s included
       </p>

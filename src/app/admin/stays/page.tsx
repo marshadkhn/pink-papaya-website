@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
+import NextImage from "next/image";
 import { formatPriceString } from "@/utils/formatCurrency";
 
 type Stay = {
@@ -15,6 +16,7 @@ type Stay = {
   images?: string[]; amenities?: string[]; location?: string; aboutContent?: string;
   locationMapUrl?: string; nearbyPlaces?: { name: string; distance: string }[];
   faqs?: { question: string; answer: string }[];
+  featuredOnHome?: boolean;
 };
 
 type Collection = { id: string; name: string };
@@ -23,7 +25,7 @@ type PropertyType = { id: string; name: string };
 const EMPTY: Stay = {
   id: "", title: "", imageUrl: "", area: "", bed: "", guests: "", category: "", propertyType: "",
   description: "", pricePerNight: "", images: [], amenities: [], location: "",
-  aboutContent: "", locationMapUrl: "", nearbyPlaces: [], faqs: [],
+  aboutContent: "", locationMapUrl: "", nearbyPlaces: [], faqs: [], featuredOnHome: false,
 };
 
 export default function AdminStaysPage() {
@@ -37,6 +39,9 @@ export default function AdminStaysPage() {
   const [form, setForm] = useState<Stay>(EMPTY);
   const [file, setFile] = useState<File | null>(null);
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [imageUrlInput, setImageUrlInput] = useState("");
+  const [galleryUploading, setGalleryUploading] = useState(false);
+  const galleryFileRef = useRef<HTMLInputElement>(null);
   const [amenityInput, setAmenityInput] = useState("");
   const [nearbyPlaceName, setNearbyPlaceName] = useState("");
   const [nearbyPlaceDistance, setNearbyPlaceDistance] = useState("");
@@ -126,8 +131,7 @@ export default function AdminStaysPage() {
     setSubmitting(true);
     try {
       const finalImageUrl = await uploadIfNeeded();
-      const finalImages = await uploadGalleryIfNeeded();
-      const res = await fetch("/api/stays", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, pricePerNight: normalizePrice(form.pricePerNight), imageUrl: finalImageUrl, images: finalImages, amenities: form.amenities ?? [] }) });
+      const res = await fetch("/api/stays", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, pricePerNight: normalizePrice(form.pricePerNight), imageUrl: finalImageUrl, images: form.images ?? [], amenities: form.amenities ?? [] }) });
       if (res.ok) { cancelEdit(); await load(); }
       else { const err = await res.json(); alert(err?.error || "Failed to create"); }
     } catch (e: any) { alert(e?.message ?? "Failed"); }
@@ -136,7 +140,7 @@ export default function AdminStaysPage() {
 
   function beginEdit(s: Stay) {
     setEditingId(s.id);
-    setForm({ ...s, category: s.category ?? "", propertyType: s.propertyType ?? "", description: s.description ?? "", pricePerNight: s.pricePerNight ?? "", images: s.images ?? [], amenities: s.amenities ?? [], location: s.location ?? "", aboutContent: s.aboutContent ?? "", locationMapUrl: s.locationMapUrl ?? "", nearbyPlaces: s.nearbyPlaces ?? [], faqs: s.faqs ?? [] });
+    setForm({ ...s, category: s.category ?? "", propertyType: s.propertyType ?? "", description: s.description ?? "", pricePerNight: s.pricePerNight ?? "", images: s.images ?? [], amenities: s.amenities ?? [], location: s.location ?? "", aboutContent: s.aboutContent ?? "", locationMapUrl: s.locationMapUrl ?? "", nearbyPlaces: s.nearbyPlaces ?? [], faqs: s.faqs ?? [], featuredOnHome: s.featuredOnHome ?? false });
     setFile(null); setGalleryFiles([]);
     setShowForm(true);
   }
@@ -149,9 +153,8 @@ export default function AdminStaysPage() {
     setSubmitting(true);
     try {
       const finalImageUrl = await uploadIfNeeded();
-      const finalImages = galleryFiles.length ? await uploadGalleryIfNeeded() : form.images ?? [];
       const { id: _omit, ...rest } = form as any;
-      const res = await fetch(`/api/stays/${editingId}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...rest, pricePerNight: normalizePrice(form.pricePerNight), imageUrl: finalImageUrl, images: finalImages, amenities: form.amenities ?? [] }) });
+      const res = await fetch(`/api/stays/${editingId}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...rest, pricePerNight: normalizePrice(form.pricePerNight), imageUrl: finalImageUrl, images: form.images ?? [], amenities: form.amenities ?? [] }) });
       if (res.ok) { cancelEdit(); await load(); }
       else { const err = await res.json(); alert(err?.error || "Failed to update"); }
     } catch (e: any) { alert(e?.message ?? "Failed"); }
@@ -168,6 +171,24 @@ export default function AdminStaysPage() {
     if (!confirm("Delete this stay?")) return;
     const res = await fetch(`/api/stays/${id}`, { method: "DELETE" });
     if (res.ok) await load();
+  }
+
+  async function addGalleryFiles(files: File[]) {
+    if (!files.length) return;
+    setGalleryUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const f of files) {
+        const fd = new FormData(); fd.append("file", f);
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        if (!res.ok) throw new Error("Upload failed");
+        urls.push((await res.json()).url as string);
+      }
+      setForm((f) => ({ ...f, images: [...(f.images ?? []), ...urls] }));
+      if (galleryFileRef.current) galleryFileRef.current.value = "";
+      setGalleryFiles([]);
+    } catch (e: any) { alert(e?.message ?? "Upload failed"); }
+    finally { setGalleryUploading(false); }
   }
 
   function addAmenity() {
@@ -252,10 +273,83 @@ export default function AdminStaysPage() {
                     <Input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
                   </div>
 
-                  <div className="space-y-1">
-                    <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Upload Gallery Images</Label>
-                    <Input type="file" accept="image/*" multiple onChange={(e) => setGalleryFiles(Array.from(e.target.files ?? []))} />
-                    <p className="text-xs text-neutral-400">Appear in the carousel on the stay page.</p>
+                  {/* Gallery images manager */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Gallery Images</Label>
+
+                    {/* Existing images with delete */}
+                    {(form.images ?? []).length > 0 && (
+                      <div className="grid grid-cols-3 gap-2">
+                        {(form.images ?? []).map((url, idx) => (
+                          <div key={idx} className="relative group rounded-lg overflow-hidden aspect-square bg-neutral-100">
+                            <NextImage src={url} alt="" fill className="object-cover" unoptimized />
+                            <button
+                              type="button"
+                              onClick={() => setForm((f) => ({ ...f, images: (f.images ?? []).filter((_, i) => i !== idx) }))}
+                              className="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            >×</button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Add by URL */}
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Paste image URL…"
+                        value={imageUrlInput}
+                        onChange={(e) => setImageUrlInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            const v = imageUrlInput.trim();
+                            if (v) { setForm((f) => ({ ...f, images: [...(f.images ?? []), v] })); setImageUrlInput(""); }
+                          }
+                        }}
+                      />
+                      <Button type="button" variant="outlineBlack" onClick={() => {
+                        const v = imageUrlInput.trim();
+                        if (v) { setForm((f) => ({ ...f, images: [...(f.images ?? []), v] })); setImageUrlInput(""); }
+                      }}>Add</Button>
+                    </div>
+
+                    {/* Upload files + Add button */}
+                    <div className="flex gap-2 items-center">
+                      <input
+                        ref={galleryFileRef}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => setGalleryFiles(Array.from(e.target.files ?? []))}
+                        className="flex-1 text-sm text-neutral-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-neutral-100 file:text-neutral-700 hover:file:bg-neutral-200 cursor-pointer"
+                      />
+                      <Button
+                        type="button"
+                        variant="outlineBlack"
+                        disabled={galleryUploading || galleryFiles.length === 0}
+                        onClick={() => addGalleryFiles(galleryFiles)}
+                      >
+                        {galleryUploading ? "Uploading…" : "Add"}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-neutral-400">Choose file(s) then click Add, or paste a URL above.</p>
+                  </div>
+
+                  {/* Featured on Home toggle */}
+                  <div className="flex items-center gap-3 pt-3 border-t border-neutral-100">
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={!!form.featuredOnHome}
+                      onClick={() => setForm((f) => ({ ...f, featuredOnHome: !f.featuredOnHome }))}
+                      className={`relative w-10 h-5 rounded-full transition-colors duration-200 ${form.featuredOnHome ? "bg-[#16323C]" : "bg-neutral-200"}`}
+                    >
+                      <span className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform duration-200 ${form.featuredOnHome ? "translate-x-5" : "translate-x-0"}`} />
+                    </button>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wide text-neutral-700 font-bricolage">Featured on Home</p>
+                      <p className="text-xs text-neutral-400 font-bricolage">Show in the 6×2 grid on the homepage</p>
+                    </div>
                   </div>
                 </div>
 
@@ -358,13 +452,18 @@ export default function AdminStaysPage() {
                 <div key={s.id} className="bg-white rounded-2xl border border-neutral-200/80 overflow-hidden">
                   <div className="relative w-full pt-[62%] bg-neutral-100">
                     <div className="absolute inset-0 bg-cover bg-center" data-bg={`url(${s.imageUrl})`} />
-                    {s.category && (
-                      <div className="absolute top-3 left-3">
+                    <div className="absolute top-3 left-3 flex gap-1.5">
+                      {s.featuredOnHome && (
+                        <span className="text-[10px] uppercase tracking-wide font-semibold bg-[#16323C] text-white px-2 py-0.5 rounded-full font-bricolage">
+                          Featured
+                        </span>
+                      )}
+                      {s.category && (
                         <span className="text-[10px] uppercase tracking-wide font-semibold bg-white/90 text-neutral-700 px-2 py-0.5 rounded-full font-bricolage">
                           {s.category}
                         </span>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                   <div className="p-4">
                     <div className="font-semibold text-neutral-900 font-bricolage leading-tight">{s.title}</div>

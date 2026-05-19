@@ -125,7 +125,7 @@ export default async function BlogPostPage({ params }) {
       </div>
 
       {/* Content */}
-      <div className="max-w-2xl mx-auto px-6 py-16 md:py-24">
+      <div className="max-w-2xl mx-auto px-6 py-[5%]">
         {/* Eyebrow */}
         {post.category && (
           <p className="font-bricolage text-[11px] uppercase tracking-[0.2em] text-[#C07A5A] text-center mb-5">

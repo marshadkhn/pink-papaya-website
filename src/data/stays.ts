@@ -18,6 +18,8 @@ export type Stay = {
   locationMapUrl?: string;
   nearbyPlaces?: { name: string; distance: string }[];
   faqs?: { question: string; answer: string }[];
+  /** show this stay in the home page 6×2 featured grid */
+  featuredOnHome?: boolean;
 };
 
 export const stayCategories = [
@@ -91,6 +93,7 @@ export const stays: Stay[] = [
       "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=2070&auto=format&fit=crop",
     ],
     amenities: ["Sea View Terrace", "King Bed", "Infinity Pool", "Breakfast", "Beach Access", "Smart TV"],
+    featuredOnHome: true,
   },
   {
     id: "jungle-pool-villa-morjim",
@@ -112,6 +115,7 @@ export const stays: Stay[] = [
       "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070&auto=format&fit=crop",
     ],
     amenities: ["Private Pool", "2 King Beds", "Outdoor Shower", "Breakfast", "Jungle Walk", "Smart TV"],
+    featuredOnHome: true,
   },
   {
     id: "heritage-courtyard-fontainhas",
@@ -133,6 +137,7 @@ export const stays: Stay[] = [
       "https://images.unsplash.com/photo-1455587734955-081b22074882?q=80&w=2070&auto=format&fit=crop",
     ],
     amenities: ["Courtyard Garden", "Queen Bed", "Rain Shower", "Breakfast", "Heritage Tour", "Smart TV"],
+    featuredOnHome: true,
   },
   {
     id: "cliffside-ocean-suite-arambol",
@@ -154,6 +159,7 @@ export const stays: Stay[] = [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop",
     ],
     amenities: ["Ocean View", "King Bed", "Jacuzzi", "Breakfast", "Cliff Walk", "Smart TV"],
+    featuredOnHome: true,
   },
   {
     id: "white-house-studio-anjuna",
@@ -175,5 +181,6 @@ export const stays: Stay[] = [
       "https://images.unsplash.com/photo-1590392847226-d95245220a22?q=80&w=2070&auto=format&fit=crop",
     ],
     amenities: ["Private Jacuzzi", "Double Bed", "Rain Shower", "Breakfast", "Market Access", "Smart TV"],
+    featuredOnHome: true,
   },
 ];

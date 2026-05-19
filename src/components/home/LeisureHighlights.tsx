@@ -25,7 +25,7 @@ export default function LeisureHighlights() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-[#F9F7F4]">
+    <section className="py-[5%] bg-[#F9F7F4]">
       <Container>
         <Reveal>
           <div className="pb-16">

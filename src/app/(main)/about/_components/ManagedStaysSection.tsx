@@ -3,7 +3,7 @@ import Reveal from "@/components/ui/Reveal";
 
 export default function ManagedStaysSection() {
   return (
-    <section className="bg-[#F7F2EA] py-20 md:py-28">
+    <section className="bg-[#F7F2EA] py-[5%]">
       <Container>
         <Reveal>
           <h2 className="font-playfair italic font-normal text-[#16323C] text-center mb-12 md:mb-16" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>

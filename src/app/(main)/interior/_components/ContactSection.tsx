@@ -12,7 +12,7 @@ const labelBase =
 
 export default function ContactSection() {
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-[5%]">
       <Container>
         <div className="h-px bg-neutral-200 mb-14 md:mb-20" />
 

@@ -99,7 +99,7 @@ export default async function StayDetailPage({ params }) {
                 <hr className="border-neutral-100" />
 
                 {/* FAQ Section */}
-                <section className="py-16">
+                <section className="py-[5%]">
                     <FAQ
                         badgeText="Helpful"
                         title="Frequently Asked Questions"
@@ -124,7 +124,7 @@ export default async function StayDetailPage({ params }) {
                 <hr className="border-neutral-100" />
 
                 {/* Recommendations Section */}
-                <section className="py-16 pb-24">
+                <section className="py-[5%]">
                     <div className="flex items-start justify-between mb-10">
                         <div>
                             <p className="font-bricolage text-[11px] uppercase tracking-[0.14em] text-[#C07A5A] mb-3">More escapes</p>

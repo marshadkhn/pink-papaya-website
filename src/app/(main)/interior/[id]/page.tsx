@@ -41,7 +41,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
 
   return (
     <>
-      <section className="py-16 md:py-20 mt-10">
+      <section className="py-[5%] mt-10">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-20 items-start">
             {/* Left: Image */}
@@ -91,7 +91,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
 
       {/* All Photos grid 2 by 3 */}
       {project.photos?.length ? (
-        <section className="py-12 md:py-16">
+        <section className="py-[5%]">
           <Container>
             <div className="mb-6 md:mb-8 ">
               <h2 className="font-playfair text-center text-2xl md:text-3xl text-neutral-900">
@@ -119,7 +119,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
 
       {/* Before and After */}
       {project.beforeAfter?.length ? (
-        <section className="py-12 md:py-16">
+        <section className="py-[5%]">
           <Container>
             <div className="mb-8 md:mb-12 ">
               <h2 className="font-playfair text-center text-2xl md:text-3xl text-neutral-900">
@@ -146,7 +146,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
       ) : null}
 
       {/* Contact Us Section */}
-      <section className="py-12 md:py-16">
+      <section className="py-[5%]">
         <Container>
           <div className="text-center">
             <HeaderContent
