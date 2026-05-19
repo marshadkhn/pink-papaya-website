@@ -11,7 +11,7 @@ export default function BookingWidget({ pricePerNight = "" }: { pricePerNight?: 
         {pricePerNight && (
           <div className="px-7 pt-7 pb-6 border-b border-neutral-100">
             <p className="font-bricolage text-[10px] uppercase tracking-[0.14em] text-neutral-400 mb-1.5">Starting from</p>
-            <p className="font-playfair text-4xl text-[#16323C] leading-none">{pricePerNight}</p>
+            <p className="font-playfair text-4xl text-[#16323C] leading-none">{pricePerNight.replace(/\$/g, '₹')}</p>
             <p className="font-bricolage text-xs text-neutral-400 mt-1.5">per night · taxes included</p>
           </div>
         )}

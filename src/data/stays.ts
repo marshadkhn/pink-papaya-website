@@ -40,7 +40,7 @@ export const stays: Stay[] = [
     guests: "2 Guests",
     category: "luxury-villas",
     description: "An exquisite blend of Indo-Portuguese architecture and modern luxury in the heart of Assagao.",
-    pricePerNight: "$240/night",
+    pricePerNight: "₹240/night",
     location: "Assagao, Goa",
     images: [
       "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop",
@@ -83,7 +83,7 @@ export const stays: Stay[] = [
     guests: "2 Guests",
     category: "walk-to-beach",
     description: "Waking up to the sound of waves with panoramic views of the Arabian Sea from your private terrace.",
-    pricePerNight: "$320/night",
+    pricePerNight: "₹320/night",
     location: "Vagator, Goa",
     images: [
       "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070&auto=format&fit=crop",
@@ -105,7 +105,7 @@ export const stays: Stay[] = [
     guests: "4 Guests",
     category: "luxury-villas",
     description: "A secluded villa submerged in lush jungle canopy with a private plunge pool and outdoor shower.",
-    pricePerNight: "$480/night",
+    pricePerNight: "₹480/night",
     location: "Morjim, Goa",
     images: [
       "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?q=80&w=2070&auto=format&fit=crop",
@@ -127,7 +127,7 @@ export const stays: Stay[] = [
     guests: "2 Guests",
     category: "expansive-views",
     description: "A lovingly restored Indo-Portuguese townhouse room in the colourful lanes of Fontainhas.",
-    pricePerNight: "$180/night",
+    pricePerNight: "₹180/night",
     location: "Fontainhas, Goa",
     images: [
       "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2070&auto=format&fit=crop",
@@ -149,7 +149,7 @@ export const stays: Stay[] = [
     guests: "2 Guests",
     category: "expansive-views",
     description: "Perched on Arambol's dramatic cliffs with floor-to-ceiling glass and 270° ocean views.",
-    pricePerNight: "$360/night",
+    pricePerNight: "₹360/night",
     location: "Arambol, Goa",
     images: [
       "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop",
@@ -171,7 +171,7 @@ export const stays: Stay[] = [
     guests: "2 Guests",
     category: "romantic-jacuzzi-escapes",
     description: "A minimalist whitewashed studio with a private jacuzzi, steps from Anjuna's famous flea market.",
-    pricePerNight: "$160/night",
+    pricePerNight: "₹160/night",
     location: "Anjuna, Goa",
     images: [
       "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
