@@ -4,6 +4,7 @@ import * as React from "react";
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { stays as staysData, stayCategories } from "@/data/stays";
 
 
@@ -104,20 +105,26 @@ export default function RoomsAndStay() {
           <div className="md:col-span-6">
             <div className="relative rounded-2xl overflow-hidden h-80 md:h-[500px] bg-neutral-200">
               {prevImageUrl && (
-                <div
+                <Image
+                  src={prevImageUrl}
+                  alt="Previous stay image"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className={
-                    "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
+                    "object-cover object-center transition-opacity duration-500 " +
                     (showNew ? "opacity-0" : "opacity-100")
                   }
-                  style={{ backgroundImage: `url(${prevImageUrl})` }}
                 />
               )}
-              <div
+              <Image
+                src={active.imageUrl!}
+                alt="Active stay image"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className={
-                  "absolute inset-0 bg-cover bg-center transition-opacity duration-500 " +
+                  "object-cover object-center transition-opacity duration-500 " +
                   (showNew ? "opacity-100" : "opacity-0")
                 }
-                style={{ backgroundImage: `url(${active.imageUrl})` }}
               />
               {/* Gradient scrim at bottom */}
               <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

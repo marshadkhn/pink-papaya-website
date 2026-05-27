@@ -6,8 +6,23 @@ import { PiInstagramLogo, PiSpotifyLogo, PiLinktreeLogo } from "react-icons/pi";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-white text-[#1a1a1a] pb-12 pt-16 md:pt-20 font-bricolage border-t border-neutral-100">
-      <Container>
+    <footer className="relative w-full bg-[#F9F7F4] text-[#1a1a1a] pb-12 pt-16 md:pt-20 font-bricolage shadow-[0_-8px_30px_rgba(0,0,0,0.05)] z-20">
+      
+      {/* Wrapper to clip background graphic without clipping the footer's shadow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Background Cartoon Graphic */}
+        <div className="absolute left-0 bottom-0 w-[350px] md:w-[500px] opacity-20 mix-blend-multiply z-0">
+          <Image 
+            src="/images/cartoon.svg" 
+            alt="Background illustration" 
+            width={500} 
+            height={500} 
+            className="w-full h-auto object-contain"
+          />
+        </div>
+      </div>
+
+      <Container className="relative z-10">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-12 md:gap-8">
           {/* Brand & Socials */}
           <div className="md:col-span-3 flex flex-col items-start gap-6">
@@ -20,8 +35,8 @@ export default function Footer() {
                 loading="lazy"
                 className="h-auto w-[120px] md:w-[136px]"
               />
-              <p className="text-[13px] text-neutral-400 max-w-[220px] leading-relaxed">
-                Thoughtfully designed stays for rest and calm in Goa.
+              <p className="text-[13px] text-neutral-500 max-w-[220px] leading-relaxed">
+                Thoughtfully designed stays for rest and calm in Goa. Experience the finest curated homes.
               </p>
             </div>
 
@@ -35,39 +50,13 @@ export default function Footer() {
                   key={label}
                   href={href}
                   target="_blank"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 transition-all duration-200 hover:border-[#16323C] hover:text-[#16323C] hover:-translate-y-0.5 hover:scale-[1.08] active:scale-[0.95]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 text-neutral-500 transition-all duration-200 hover:border-[#16323C] hover:text-[#16323C] hover:-translate-y-0.5 hover:scale-[1.08] active:scale-[0.95]"
                   aria-label={label}
                 >
                   <Icon className="h-4 w-4" />
                 </Link>
               ))}
             </div>
-          </div>
-
-          {/* Newsletter */}
-          <div className="sm:col-span-2 md:col-span-4 flex flex-col gap-5">
-            <div className="flex flex-col gap-1.5">
-              <h5 className="text-[13px] font-semibold uppercase tracking-[0.14em] text-neutral-800">
-                Stories from the coast
-              </h5>
-              <p className="text-[12.5px] text-neutral-400 leading-relaxed">
-                Interiors, escapes & thoughtful living — monthly
-              </p>
-            </div>
-
-            <form action="#" method="post" className="flex items-center gap-2 max-w-md w-full">
-              <input
-                id="footer-email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                required
-                className="flex-1 min-w-0 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-[12.5px] text-neutral-900 placeholder:text-neutral-400 outline-none focus:border-[#16323C]/40 transition-all h-[42px]"
-              />
-              <Button type="submit" size="sm" className="h-[42px] shrink-0 text-[12px] px-5">
-                Subscribe
-              </Button>
-            </form>
           </div>
 
           {/* Explore */}
@@ -82,8 +71,6 @@ export default function Footer() {
                 { href: "/interior", label: "Interior" },
                 { href: "/partner-with-us", label: "Partner with us" },
                 { href: "/blog", label: "Blog" },
-                { href: "/contact", label: "Contact us" },
-                { href: "/terms-and-conditions", label: "Terms" },
               ].map(({ href, label }) => (
                 <li key={href}>
                   <Link className="hover:text-[#16323C] hover:translate-x-1 transition-all duration-200 inline-block" href={href}>
@@ -104,7 +91,7 @@ export default function Footer() {
                 { href: "/stays?category=luxury", label: "Luxury Villas" },
                 { href: "/stays?category=beach", label: "Walk to the Beach" },
                 { href: "/stays?category=views", label: "Expansive Views" },
-                { href: "/stays?category=romantic", label: "Romantic Jacuzzi Escapes" },
+                { href: "/stays?category=romantic", label: "Romantic Jacuzzi" },
                 { href: "/stays", label: "All Stays" },
               ].map(({ href, label }) => (
                 <li key={href}>
@@ -114,6 +101,27 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="md:col-span-4 flex flex-col gap-6">
+            <div className="flex flex-col gap-5">
+              <h5 className="text-[11px] font-bold uppercase tracking-[0.16em] text-neutral-400">
+                Get in Touch
+              </h5>
+              <div className="flex flex-col gap-3 text-[13px] text-neutral-500 font-bricolage">
+                <p>
+                  <strong className="text-neutral-700 font-semibold block mb-0.5">Reservations & Enquiries</strong>
+                  <a href="mailto:hello@pinkpapayastays.com" className="hover:text-[#16323C] transition-colors">hello@pinkpapayastays.com</a><br/>
+                  <a href="tel:+919876543210" className="hover:text-[#16323C] transition-colors">+91 98765 43210</a>
+                </p>
+                <p>
+                  <strong className="text-neutral-700 font-semibold block mb-0.5">Office</strong>
+                  Pink Papaya Stays,<br/>
+                  Vagator, North Goa, 403509
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 

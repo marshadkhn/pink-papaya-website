@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import HostTestimonialsCarousel from "@/components/partner/HostTestimonialsCarousel";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function BecomeHostPage() {
   const [formData, setFormData] = useState({
@@ -14,11 +15,13 @@ export default function BecomeHostPage() {
     location: "",
     email: "",
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    alert("Thank you for your interest! We'll get back to you soon.");
+    setIsSubmitted(true);
+    setTimeout(() => setIsSubmitted(false), 5000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +48,7 @@ export default function BecomeHostPage() {
           {/* Extra left-side gradient for text legibility */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
           {/* Soft white fade at the bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-white via-white/80 to-transparent z-[1]" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-white to-transparent z-[1]" />
         </div>
 
         {/* Content grid */}
@@ -126,14 +129,38 @@ export default function BecomeHostPage() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full mt-1 h-11 rounded-full font-bricolage text-sm font-medium text-white transition-opacity hover:opacity-90"
+                    className="w-full mt-1 h-11 rounded-full font-bricolage text-sm font-medium text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(22,50,60,0.2)] active:scale-[0.98]"
                     style={{ background: "#16323C" }}
                   >
-                    Submit Interest
+                    {isSubmitted ? "Submitted!" : "Submit Interest"}
                   </button>
-                  <p className="pt-1 text-center text-[10px] font-bricolage text-[#16323C]/50">
-                    We&apos;ll reach out within 24 hours.
-                  </p>
+                  <div className="h-6 relative">
+                    <AnimatePresence mode="wait">
+                      {!isSubmitted ? (
+                        <motion.p
+                          key="default-msg"
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 5 }}
+                          transition={{ duration: 0.3 }}
+                          className="absolute inset-x-0 pt-1 text-center text-[10px] font-bricolage text-[#16323C]/50"
+                        >
+                          We&apos;ll reach out within 24 hours.
+                        </motion.p>
+                      ) : (
+                        <motion.p
+                          key="success-msg"
+                          initial={{ opacity: 0, y: -5, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                          transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
+                          className="absolute inset-x-0 pt-1 text-center text-[11px] font-bricolage font-medium text-[#16323C]"
+                        >
+                          Thank you! We&apos;ll be in touch soon.
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </form>
               </div>
             </Reveal>

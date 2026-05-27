@@ -21,7 +21,15 @@ export default function Navbar({ className }: { className?: string }) {
   const [contactOpen, setContactOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const lightBgRoutes = ["/about", "/interior", "/blog"];
+  const lightBgRoutes = [
+    "/about",
+    "/interior",
+    "/blog",
+    "/contact",
+    "/cancellation-and-refund-policy",
+    "/terms-and-conditions",
+    "/privacy-policy"
+  ];
   const isLightHero = lightBgRoutes.some((r) => pathname === r || pathname.startsWith(r + "/"));
   const transparent = !scrolled && !isLightHero;
 

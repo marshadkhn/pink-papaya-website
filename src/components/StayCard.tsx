@@ -4,6 +4,7 @@ import { cn } from "@/utils/utils";
 import { formatPriceString } from "@/utils/formatCurrency";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Link from "next/link";
+import Image from "next/image";
 import { Users, BedDouble, Bath } from "lucide-react";
 
 type StayCardProps = {
@@ -50,10 +51,13 @@ export default function StayCard({
           <Carousel className="w-full h-full" opts={{ loop: true }}>
             <CarouselContent className="h-full !ml-0">
               {displayImages.slice(0, 5).map((src, idx) => (
-                <CarouselItem key={idx} className="!pl-0 relative aspect-[4/3] w-full h-full">
-                  <div
-                    className="w-full h-full bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
-                    style={{ backgroundImage: `url(${src})` }}
+                <CarouselItem key={idx} className="!pl-0 relative aspect-[4/3] w-full h-full overflow-hidden">
+                  <Image
+                    src={src}
+                    alt={title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
                   />
                 </CarouselItem>
               ))}
@@ -62,43 +66,46 @@ export default function StayCard({
             <CarouselNext className="right-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/90 text-neutral-900 hover:bg-white" />
           </Carousel>
         ) : (
-          <div
-            className="h-full w-full bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
-            style={{ backgroundImage: `url(${imageUrl})` }}
+          <Image
+            src={imageUrl}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
           />
         )}
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-1.5">
-        <h3 className="font-bricolage font-semibold text-[1rem] leading-snug text-neutral-900">
+      <div className="p-4 space-y-2">
+        <h3 className="font-bricolage font-semibold text-[1.15rem] leading-snug text-neutral-900">
           {title}
         </h3>
 
-        <p className="text-[#C07A5A] text-[13px] font-bricolage font-medium">
+        <p className="text-[#C07A5A] text-[14px] font-bricolage font-medium">
           {location || "Goa"}
         </p>
 
         {priceDisplay && (
-          <p className="text-neutral-700 text-[13px] font-bricolage">
+          <p className="text-neutral-700 text-[14px] font-bricolage">
             {priceDisplay}
           </p>
         )}
 
         {/* Amenity row */}
-        <div className="flex items-center gap-0 text-[12px] text-neutral-600 font-bricolage pt-1 border-t border-neutral-100">
-          <div className="flex items-center gap-1.5 pr-3">
-            <Bath className="h-3.5 w-3.5 opacity-60 shrink-0" />
+        <div className="flex items-center justify-between text-[15px] text-neutral-600 font-bricolage pt-3 mt-3 border-t border-neutral-100">
+          <div className="flex items-center gap-2">
+            <Bath className="h-[18px] w-[18px] opacity-60 shrink-0" />
             <span>{area}</span>
           </div>
-          <div className="w-px h-3.5 bg-neutral-300" />
-          <div className="flex items-center gap-1.5 px-3">
-            <BedDouble className="h-3.5 w-3.5 opacity-60 shrink-0" />
+          <div className="w-px h-[18px] bg-neutral-300" />
+          <div className="flex items-center gap-2">
+            <BedDouble className="h-[18px] w-[18px] opacity-60 shrink-0" />
             <span>{bed}</span>
           </div>
-          <div className="w-px h-3.5 bg-neutral-300" />
-          <div className="flex items-center gap-1.5 pl-3">
-            <Users className="h-3.5 w-3.5 opacity-60 shrink-0" />
+          <div className="w-px h-[18px] bg-neutral-300" />
+          <div className="flex items-center gap-2">
+            <Users className="h-[18px] w-[18px] opacity-60 shrink-0" />
             <span>{guests}</span>
           </div>
         </div>
@@ -108,7 +115,7 @@ export default function StayCard({
           <div className="pt-2">
             <CardWrapper
               {...(cardWrapperProps as any)}
-              className="block w-full text-center py-2 border border-neutral-300 rounded-lg text-[12.5px] font-semibold font-bricolage text-neutral-700 hover:border-neutral-900 hover:text-neutral-900 transition-colors duration-200"
+              className="block w-full text-center py-2.5 border border-neutral-300 rounded-lg text-[13.5px] font-semibold font-bricolage text-neutral-700 hover:border-neutral-900 hover:text-neutral-900 transition-colors duration-200"
             >
               View Stay
             </CardWrapper>

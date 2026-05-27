@@ -49,6 +49,7 @@ export default function Hero({
           alt="Hero Background"
           fill
           priority
+          sizes="100vw"
           quality={85}
           className="pointer-events-none absolute inset-0 -z-10 object-cover object-center"
         />
@@ -80,7 +81,7 @@ export default function Hero({
         <div aria-hidden className="absolute inset-0 -z-10 bg-black/10" />
       )}
 
-      <Container>
+      <Container className="w-full relative z-10">
         <HeaderContent {...content} />
       </Container>
     </section>

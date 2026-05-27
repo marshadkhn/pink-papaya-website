@@ -1,5 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --color-neutral-50: #f5f5f5;
+  --color-neutral-100: #e5e5e5;
+  --color-neutral-200: #d4d4d4;
+  --color-neutral-300: #a3a3a3;
+  --color-neutral-400: #737373;
+  --color-neutral-500: #525252;
+  --color-neutral-600: #404040;
+  --color-neutral-700: #262626;
+  --color-neutral-800: #171717;
+  --color-neutral-900: #0a0a0a;
+  --color-neutral-950: #000000;
+}
 
 .font-playfair {
   font-family: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -9,20 +22,12 @@
   font-family: var(--font-bricolage), sans-serif;
 }
 
-@font-face {
-  font-family: "Bricolage Grotesque";
-  src: url('/font-files/BricolageGrotesque.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+
 
 html, body, :root { height: 100%; }
 
 :root {
   --rounded-10: 10px;
-  --font-bricolage: "Bricolage Grotesque";
-  --font-playfair: 'Playfair Display';
   --navbar-h: 80px;
   --color-primary: #16323C;
   --color-accent: #9A6648;

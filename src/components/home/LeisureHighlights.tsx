@@ -3,6 +3,7 @@
 import Reveal from "@/components/ui/Reveal";
 import Container from "@/components/Container";
 import HeaderContent from "@/components/headerContent";
+import Image from "next/image";
 import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
 export default function LeisureHighlights() {
@@ -41,12 +42,15 @@ export default function LeisureHighlights() {
         <div className="mt-16 sm:mt-24 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-14 items-start">
           {leisureItems.map((item, i) => (
             <Reveal key={i}>
-              <div className={i === 1 ? "sm:-mt-16 md:-mt-24" : ""}>
+              <div className={`${i === 1 ? "sm:-mt-16 md:-mt-24" : ""} w-3/4 mx-auto`}>
                 {/* Image */}
                 <div className="relative w-full overflow-hidden rounded-2xl bg-neutral-200 aspect-[3/4]">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-[1.04]"
-                    style={{ backgroundImage: `url(${item.img})` }}
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-700 hover:scale-[1.04]"
                   />
                   {/* Subtle overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
