@@ -44,6 +44,11 @@ export function getLogger(prefix = "APP") {
   };
 }
 
+declare global {
+  // Prevent repeated env dumps during dev recompiles/route reloads
+  var __envSummaryLogged: boolean | undefined;
+}
+
 function pick(obj: EnvShape, keys: string[]) {
   const out: Record<string, unknown> = {};
   for (const k of keys) {
@@ -53,6 +58,11 @@ function pick(obj: EnvShape, keys: string[]) {
 }
 
 export function logEnvironment(envObj: EnvShape) {
+  if (!isDev()) return;
+  if (process.env.LOG_ENV !== "true") return;
+  if (global.__envSummaryLogged) return;
+  global.__envSummaryLogged = true;
+
   const logger = getLogger("ENV");
 
   const mongodbKeys = ["MONGODB_URI", "MONGODB_DB_NAME", "MONGODB_DB"];

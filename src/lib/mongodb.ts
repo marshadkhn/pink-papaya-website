@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { env, assertMongoConfigured } from "@/lib/env";
-import getLogger, { logEnvironment } from "@/lib/logger";
+import getLogger from "@/lib/logger";
 
 const logger = getLogger("DB");
 
@@ -24,15 +24,11 @@ export async function connectToDatabase() {
     assertMongoConfigured();
     logger.info("Starting MongoDB connection", { dbName: env.MONGODB_DB_NAME });
 
-    // In development, enable mongoose query logging (structured)
-    if (env.NODE_ENV !== "production") {
+    // In development, enable mongoose query logging only when explicitly requested
+    if (env.NODE_ENV !== "production" && process.env.LOG_LEVEL === "debug") {
       mongoose.set("debug", function (coll, method, query, doc, options) {
         logger.debug("Mongoose query", { collection: coll, method, query, doc, options });
       });
-      // also log the masked environment for debugging purposes
-      try {
-        logEnvironment(process.env);
-      } catch (e) {}
     }
 
     cached.promise = mongoose.connect(env.MONGODB_URI!, {
@@ -43,8 +39,14 @@ export async function connectToDatabase() {
   }
 
   try {
-    cached.conn = await cached.promise;
-    logger.info("MongoDB connected", { dbName: env.MONGODB_DB_NAME });
+    const conn = await cached.promise;
+
+    // Multiple callers can await the same promise; only log once.
+    if (!cached.conn) {
+      cached.conn = conn;
+      logger.info("MongoDB connected", { dbName: env.MONGODB_DB_NAME });
+    }
+
     return cached.conn;
   } catch (err: any) {
     logger.error("MongoDB connection failed", { error: err?.message, stack: err?.stack });

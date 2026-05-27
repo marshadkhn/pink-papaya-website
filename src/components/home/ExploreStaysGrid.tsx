@@ -37,7 +37,7 @@ export default function ExploreStaysGrid() {
               title="Curated spaces, Effortless comfort"
               subTitle="Goa reimagined for you"
               subTitlePosition="below"
-              subTitleClass="text-[24px]"
+              subTitleClass="text-[18px] sm:text-[20px] md:text-[24px]"
               titleSize="sm"
               align="center"
               showCta={false}
@@ -45,7 +45,7 @@ export default function ExploreStaysGrid() {
           </div>
 
           {stays.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {stays.map((s) => (
                 <StayCard
                   key={s.id}
@@ -62,7 +62,7 @@ export default function ExploreStaysGrid() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="rounded-2xl bg-neutral-100 animate-pulse aspect-[4/3]" />
               ))}

@@ -130,7 +130,7 @@ export default function HeroContent({
       {subTitlePosition === "above" && subTitleEl}
       <h1
         className={cn(
-          "font-semibold font-playfair",
+          "font-semibold font-playfair max-w-full",
           textColor,
           titleSizeClass,
           titleClass

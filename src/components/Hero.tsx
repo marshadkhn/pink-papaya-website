@@ -25,9 +25,9 @@ export default function Hero({
   ...content
 }: HeroProps) {
   const heightClass = coverNavbar
-    ? "min-h-[80vh]"
+    ? "min-h-[80vh] pt-[var(--navbar-h)] pb-16 sm:pb-20 md:pb-24"
     : compact
-    ? "min-h-[35vh] py-20 md:py-28 pt-[calc(var(--navbar-h)+theme(spacing.20))]"
+    ? "min-h-[35vh] pb-20 md:pb-28 pt-[calc(var(--navbar-h)+theme(spacing.20))]"
     : height
     ? ""
     : "min-h-[80vh] pt-[var(--navbar-h)]";

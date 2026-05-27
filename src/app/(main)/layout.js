@@ -14,7 +14,7 @@ export default function MainLayout({ children }) {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      <div className="flex-grow grid relative w-full overflow-hidden">
+      <div className="flex-grow grid grid-cols-1 relative w-full overflow-hidden">
         <AnimatePresence>
           <motion.main
             key={pathname}
@@ -22,7 +22,7 @@ export default function MainLayout({ children }) {
             animate={{ y: 0 }}
             exit={{ y: "100vh" }}
             transition={{ duration: 0.8, ease: [0.64, 0, 0.13, 1] }}
-            className="col-start-1 row-start-1 flex-grow w-full bg-white flex flex-col shadow-2xl z-10 will-change-transform"
+            className="col-start-1 row-start-1 flex-grow w-full min-w-0 bg-white flex flex-col shadow-2xl z-10 will-change-transform"
           >
             <FrozenRoute>
               {children}
