@@ -1,25 +1,31 @@
 import { interiorFeedback as seedFeedback } from "@/data/interiorFeedback";
-import { addItem, deleteItem, getItemById, readCollection, updateItem } from "@/lib/contentStore";
 
 export type InteriorFeedbackItem = typeof seedFeedback[number];
-const COLLECTION = "interior-feedback";
+
+const memoryStore: Record<string, InteriorFeedbackItem> = {};
+seedFeedback.forEach(p => memoryStore[p.id] = p);
 
 export async function readInteriorFeedback(): Promise<InteriorFeedbackItem[]> {
-  return readCollection(COLLECTION, seedFeedback, 300);
+  return Object.values(memoryStore);
 }
 
 export async function getInteriorFeedbackById(id: string): Promise<InteriorFeedbackItem | undefined> {
-  return getItemById(COLLECTION, id, seedFeedback);
+  return memoryStore[id];
 }
 
 export async function addInteriorFeedback(feedback: InteriorFeedbackItem): Promise<InteriorFeedbackItem> {
-  return addItem(COLLECTION, feedback);
+  memoryStore[feedback.id] = feedback;
+  return feedback;
 }
 
 export async function updateInteriorFeedback(id: string, patch: Partial<InteriorFeedbackItem>): Promise<InteriorFeedbackItem> {
-  return updateItem(COLLECTION, id, patch);
+  const existing = memoryStore[id];
+  if (!existing) throw new Error("Not found");
+  const updated = { ...existing, ...patch };
+  memoryStore[id] = updated;
+  return updated;
 }
 
 export async function deleteInteriorFeedback(id: string): Promise<void> {
-  return deleteItem(COLLECTION, id);
+  delete memoryStore[id];
 }

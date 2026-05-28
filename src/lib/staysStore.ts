@@ -1,11 +1,12 @@
 import { stays as seedStays } from "@/data/stays";
-import { addItem, deleteItem, getItemById, readCollection, updateItem } from "@/lib/contentStore";
 
 export type Stay = typeof seedStays[number];
-const COLLECTION = "stays";
+
+const memoryStore: Record<string, Stay> = {};
+seedStays.forEach(p => memoryStore[p.id] = p);
 
 export async function readStays(filters?: { category?: string; location?: string; guests?: string }): Promise<Stay[]> {
-  const all = await readCollection(COLLECTION, seedStays, 180);
+  const all = Object.values(memoryStore);
   if (!filters) return all;
 
   return all.filter((stay) => {
@@ -29,17 +30,22 @@ export async function readStays(filters?: { category?: string; location?: string
 }
 
 export async function getStayById(id: string): Promise<Stay | undefined> {
-  return getItemById(COLLECTION, id, seedStays);
+  return memoryStore[id];
 }
 
 export async function addStay(stay: Stay): Promise<Stay> {
-  return addItem(COLLECTION, stay);
+  memoryStore[stay.id] = stay;
+  return stay;
 }
 
 export async function updateStay(id: string, patch: Partial<Stay>): Promise<Stay> {
-  return updateItem(COLLECTION, id, patch);
+  const existing = memoryStore[id];
+  if (!existing) throw new Error("Not found");
+  const updated = { ...existing, ...patch };
+  memoryStore[id] = updated;
+  return updated;
 }
 
 export async function deleteStay(id: string): Promise<void> {
-  return deleteItem(COLLECTION, id);
+  delete memoryStore[id];
 }

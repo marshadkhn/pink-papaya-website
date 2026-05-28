@@ -6,7 +6,7 @@ import HeaderContent from "@/components/headerContent";
 import Image from "next/image";
 import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
-export default function LeisureHighlights() {
+export default function LeisureHighlights({ content }: { content?: { heading?: string; description?: string } }) {
   const leisureItems = [
     {
       img: DEFAULT_PLACEHOLDER,
@@ -33,7 +33,8 @@ export default function LeisureHighlights() {
             <HeaderContent
               align="center"
               showCta={false}
-              title="Experience more than a stay, a story you'll want to relive"
+              title={content?.heading || "Experience more than a stay, a story you'll want to relive"}
+              subTitle={content?.description || ""}
               titleSize="sm"
             />
           </div>

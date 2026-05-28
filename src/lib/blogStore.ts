@@ -1,25 +1,32 @@
 import { posts as seedPosts } from "@/data/blog";
-import { addItem, deleteItem, getItemById, readCollection, updateItem } from "@/lib/contentStore";
 
 export type BlogPost = typeof seedPosts[number];
 const COLLECTION = "blog";
 
+const memoryStore: Record<string, BlogPost> = {};
+seedPosts.forEach(p => memoryStore[p.id] = p);
+
 export async function readPosts(): Promise<BlogPost[]> {
-  return readCollection(COLLECTION, seedPosts, 300);
+  return Object.values(memoryStore);
 }
 
 export async function getPostById(id: string): Promise<BlogPost | undefined> {
-  return getItemById(COLLECTION, id, seedPosts);
+  return memoryStore[id];
 }
 
 export async function addPost(post: BlogPost): Promise<BlogPost> {
-  return addItem(COLLECTION, post);
+  memoryStore[post.id] = post;
+  return post;
 }
 
 export async function updatePost(id: string, patch: Partial<BlogPost>): Promise<BlogPost> {
-  return updateItem(COLLECTION, id, patch);
+  const existing = memoryStore[id];
+  if (!existing) throw new Error("Not found");
+  const updated = { ...existing, ...patch };
+  memoryStore[id] = updated;
+  return updated;
 }
 
 export async function deletePost(id: string): Promise<void> {
-  return deleteItem(COLLECTION, id);
+  delete memoryStore[id];
 }

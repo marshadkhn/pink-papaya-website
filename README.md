@@ -78,7 +78,7 @@ Optional:
 - `AWS_S3_PUBLIC_BASE_URL` (CloudFront/custom domain)
 - `NEXT_PUBLIC_CDN_BASE_URL`
 - `NEXT_PUBLIC_SITE_URL`
-- `ADMIN_USERNAME`/`ADMIN_PASSWORD` (or `ADMIN1_...ADMIN4_...`)
+- `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` (seeds the first admin user if the admins collection is empty)
 
 ## Local Development
 

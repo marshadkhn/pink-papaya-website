@@ -1,5 +1,4 @@
 import seedLocations from "@/data/locations.json";
-import { addItem, deleteItem, getItemById, readCollection, updateItem } from "@/lib/contentStore";
 
 export type Location = {
   id: string;
@@ -7,24 +6,30 @@ export type Location = {
   stayIds: string[];
 };
 
-const COLLECTION = "locations";
+const memoryStore: Record<string, Location> = {};
+(seedLocations as Location[]).forEach(p => memoryStore[p.id] = p);
 
 export async function readLocations(): Promise<Location[]> {
-  return readCollection(COLLECTION, seedLocations as Location[], 300);
+  return Object.values(memoryStore);
 }
 
 export async function getLocationById(id: string): Promise<Location | undefined> {
-  return getItemById(COLLECTION, id, seedLocations as Location[]);
+  return memoryStore[id];
 }
 
 export async function addLocation(location: Location): Promise<Location> {
-  return addItem(COLLECTION, location);
+  memoryStore[location.id] = location;
+  return location;
 }
 
 export async function updateLocation(id: string, patch: Partial<Location>): Promise<Location> {
-  return updateItem(COLLECTION, id, patch);
+  const existing = memoryStore[id];
+  if (!existing) throw new Error("Not found");
+  const updated = { ...existing, ...patch };
+  memoryStore[id] = updated;
+  return updated;
 }
 
 export async function deleteLocation(id: string): Promise<void> {
-  return deleteItem(COLLECTION, id);
+  delete memoryStore[id];
 }

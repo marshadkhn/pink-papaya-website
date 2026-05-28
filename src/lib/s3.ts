@@ -1,4 +1,4 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { randomUUID } from "crypto";
 import path from "path";
 import { assertAwsConfigured, env } from "@/lib/env";
@@ -73,4 +73,18 @@ export async function uploadPublicAsset(input: {
 
   const url = `${getPublicBaseUrl()}/${key}`;
   return { key, url };
+}
+
+export async function deletePublicAsset(input: { key: string }) {
+  const client = getS3Client();
+  assertAwsConfigured();
+
+  await client.send(
+    new DeleteObjectCommand({
+      Bucket: env.AWS_S3_BUCKET,
+      Key: input.key,
+    })
+  );
+
+  logger.info("Deleted asset from S3", { bucket: env.AWS_S3_BUCKET, key: input.key });
 }

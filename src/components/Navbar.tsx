@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/utils/utils";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/Container";
@@ -105,10 +106,12 @@ export default function Navbar({ className }: { className?: string }) {
       <Container className="flex items-center justify-between px-4 md:px-10 max-w-7xl h-[var(--navbar-h)]">
         {/* Logo */}
         <Link href="/" className="shrink-0 z-10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={transparent ? "/logo-files/logo-white.svg" : "/logo-files/logo-black.svg"}
             alt="Pink Papaya"
+            width={138}
+            height={40}
+            priority
             className="h-auto w-[110px] md:w-[138px] transition-opacity duration-300"
           />
         </Link>

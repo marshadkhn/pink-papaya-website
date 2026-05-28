@@ -1,5 +1,4 @@
 import seedData from "@/data/hostTestimonials.json";
-import { addItem, deleteItem, getItemById, readCollection, updateItem } from "@/lib/contentStore";
 
 export type HostTestimonial = {
   id: string;
@@ -8,24 +7,30 @@ export type HostTestimonial = {
   role: string;
 };
 
-const COLLECTION = "hostTestimonials";
+const memoryStore: Record<string, HostTestimonial> = {};
+(seedData as HostTestimonial[]).forEach(p => memoryStore[p.id] = p);
 
 export async function readHostTestimonials(): Promise<HostTestimonial[]> {
-  return readCollection(COLLECTION, seedData as HostTestimonial[], 300);
+  return Object.values(memoryStore);
 }
 
 export async function getHostTestimonialById(id: string): Promise<HostTestimonial | undefined> {
-  return getItemById(COLLECTION, id, seedData as HostTestimonial[]);
+  return memoryStore[id];
 }
 
 export async function addHostTestimonial(item: HostTestimonial): Promise<HostTestimonial> {
-  return addItem(COLLECTION, item);
+  memoryStore[item.id] = item;
+  return item;
 }
 
 export async function updateHostTestimonial(id: string, patch: Partial<HostTestimonial>): Promise<HostTestimonial> {
-  return updateItem(COLLECTION, id, patch);
+  const existing = memoryStore[id];
+  if (!existing) throw new Error("Not found");
+  const updated = { ...existing, ...patch };
+  memoryStore[id] = updated;
+  return updated;
 }
 
 export async function deleteHostTestimonial(id: string): Promise<void> {
-  return deleteItem(COLLECTION, id);
+  delete memoryStore[id];
 }

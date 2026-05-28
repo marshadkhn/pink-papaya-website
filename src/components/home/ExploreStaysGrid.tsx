@@ -15,14 +15,14 @@ type Stay = {
   featuredOnHome?: boolean;
 };
 
-export default function ExploreStaysGrid() {
+export default function ExploreStaysGrid({ content }: { content?: { heading?: string; description?: string } }) {
   const [stays, setStays] = useState<Stay[]>([]);
 
   useEffect(() => {
     fetch("/api/stays")
       .then((r) => r.ok ? r.json() : [])
       .then((data: Stay[]) => {
-        const featured = data.filter((s) => s.featuredOnHome !== false).slice(0, 12);
+        const featured = data.filter((s) => s.featuredOnHome !== false).slice(0, 6);
         setStays(featured);
       })
       .catch(() => {});
@@ -34,8 +34,8 @@ export default function ExploreStaysGrid() {
         <Reveal>
           <div className="mb-14 md:mb-20">
             <HeaderContent
-              title="Curated spaces, Effortless comfort"
-              subTitle="Goa reimagined for you"
+              title={content?.heading || "Curated spaces, Effortless comfort"}
+              subTitle={content?.description || "Goa reimagined for you"}
               subTitlePosition="below"
               subTitleClass="text-[18px] sm:text-[20px] md:text-[24px]"
               titleSize="sm"
@@ -45,7 +45,7 @@ export default function ExploreStaysGrid() {
           </div>
 
           {stays.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {stays.map((s) => (
                 <StayCard
                   key={s.id}
@@ -62,7 +62,7 @@ export default function ExploreStaysGrid() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="rounded-2xl bg-neutral-100 animate-pulse aspect-[4/3]" />
               ))}

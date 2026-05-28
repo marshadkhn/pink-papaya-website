@@ -75,7 +75,16 @@ export async function setSessionCookie(
 }
 
 export async function clearSessionCookie() {
-  (await cookies()).set({ name: COOKIE_NAME, value: "", expires: new Date(0), path: "/" });
+  (await cookies()).set({
+    name: COOKIE_NAME,
+    value: "",
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    expires: new Date(0),
+    maxAge: 0,
+  });
 }
 
 export async function getSession(): Promise<SessionPayload | null> {

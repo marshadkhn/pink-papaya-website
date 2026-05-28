@@ -8,7 +8,7 @@ import Image from "next/image";
 import { stays as staysData, stayCategories } from "@/data/stays";
 
 
-export default function RoomsAndStay() {
+export default function RoomsAndStay({ content }: { content?: { heading?: string; description?: string } }) {
   const router = useRouter();
   const categories = stayCategories.slice(0, 4);
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -39,10 +39,10 @@ export default function RoomsAndStay() {
         {/* Section header */}
         <div className="mb-12 md:mb-16 text-center flex flex-col items-center">
           <h2 className="font-playfair font-semibold text-[30px] sm:text-[38px] md:text-[46px] leading-[1.08] text-neutral-900 mb-3">
-            Curated collections
+            {content?.heading || "Curated collections"}
           </h2>
           <p className="font-bricolage text-[15px] md:text-base text-neutral-600">
-            Thoughtfully chosen stays, for every kind of getaway
+            {content?.description || "Thoughtfully chosen stays, for every kind of getaway"}
           </p>
         </div>
 
