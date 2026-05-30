@@ -7,7 +7,7 @@ Production-ready web application built with Next.js App Router, optimized for Ve
 - Framework: Next.js 15 (App Router, Server Components)
 - Runtime: Node.js (Route Handlers + Server Utilities)
 - Database: MongoDB with Mongoose connection pooling
-- Storage: Amazon S3 for media uploads
+- Storage: Amazon S3 for media uploads.
 - CDN: Vercel Edge + optional CloudFront/Cloudflare via CDN base URL
 - Auth: Signed HTTP-only cookie session (HMAC SHA-256)
 
