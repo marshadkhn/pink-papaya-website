@@ -13,7 +13,7 @@ Production-ready web application built with Next.js App Router, optimized for Ve
 
 ## What Was Implemented
 
-- Migrated backend data storage from local JSON files to MongoDB-backed repositories.
+- Migrated backend data storage from local JSON files to MongoDB-backed repositories
 - Added shared cache-aware data layer with revalidation tags for fast repeated reads.
 - Switched upload API from local filesystem to Amazon S3.
 - Added centralized server environment validation.
