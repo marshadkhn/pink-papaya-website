@@ -112,6 +112,66 @@ export const cmsPageConfigs: CmsPageConfig[] = [
             type: "textarea",
             defaultValue: "Experience the comfort.",
           },
+          {
+            key: "title1",
+            label: "Title 1 (Luxury Villas)",
+            type: "text",
+          },
+          {
+            key: "desc1",
+            label: "Description 1",
+            type: "textarea",
+          },
+          {
+            key: "image1",
+            label: "Image 1",
+            type: "image",
+          },
+          {
+            key: "title2",
+            label: "Title 2 (Walk to the Beach)",
+            type: "text",
+          },
+          {
+            key: "desc2",
+            label: "Description 2",
+            type: "textarea",
+          },
+          {
+            key: "image2",
+            label: "Image 2",
+            type: "image",
+          },
+          {
+            key: "title3",
+            label: "Title 3 (Expansive Views)",
+            type: "text",
+          },
+          {
+            key: "desc3",
+            label: "Description 3",
+            type: "textarea",
+          },
+          {
+            key: "image3",
+            label: "Image 3",
+            type: "image",
+          },
+          {
+            key: "title4",
+            label: "Title 4 (Romantic Jacuzzi Escapes)",
+            type: "text",
+          },
+          {
+            key: "desc4",
+            label: "Description 4",
+            type: "textarea",
+          },
+          {
+            key: "image4",
+            label: "Image 4",
+            type: "image",
+          },
         ],
       },
       {
@@ -131,6 +191,51 @@ export const cmsPageConfigs: CmsPageConfig[] = [
             label: "Description",
             type: "textarea",
             defaultValue: "Unwind and relax.",
+          },
+          {
+            key: "title1",
+            label: "Title 1",
+            type: "text",
+          },
+          {
+            key: "desc1",
+            label: "Description 1",
+            type: "textarea",
+          },
+          {
+            key: "image1",
+            label: "Image 1",
+            type: "image",
+          },
+          {
+            key: "title2",
+            label: "Title 2",
+            type: "text",
+          },
+          {
+            key: "desc2",
+            label: "Description 2",
+            type: "textarea",
+          },
+          {
+            key: "image2",
+            label: "Image 2",
+            type: "image",
+          },
+          {
+            key: "title3",
+            label: "Title 3",
+            type: "text",
+          },
+          {
+            key: "desc3",
+            label: "Description 3",
+            type: "textarea",
+          },
+          {
+            key: "image3",
+            label: "Image 3",
+            type: "image",
           },
         ],
       },

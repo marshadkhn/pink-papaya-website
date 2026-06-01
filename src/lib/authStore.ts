@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/cms/store";
-import { CmsRoleKey } from "@prisma/client";
+import { User as UserModel } from "@/lib/models/User";
+import { connectToDatabase } from "@/lib/mongodb";
 import getLogger from "@/lib/logger";
 
 const logger = getLogger("AUTH");
@@ -16,14 +16,15 @@ let seeded = false;
 
 async function ensureSeeded() {
   if (seeded) return;
-  const count = await prisma.user.count();
+  await connectToDatabase();
+  const count = await UserModel.countDocuments();
   if (count > 0) {
-    const hasSuper = (await prisma.user.count({ where: { roleKey: "super_admin" } })) > 0;
+    const hasSuper = (await UserModel.countDocuments({ roleKey: "super_admin" })) > 0;
     if (!hasSuper) {
-      await prisma.user.updateMany({
-        where: { roleKey: "admin" },
-        data: { roleKey: "super_admin" }
-      });
+      await UserModel.updateMany(
+        { roleKey: "admin" },
+        { roleKey: "super_admin" }
+      );
     }
     seeded = true;
     return;
@@ -38,14 +39,14 @@ async function ensureSeeded() {
   }
 
   const hash = await bcrypt.hash(password, 12);
-  await prisma.user.create({ data: { email: email.toLowerCase().trim(), passwordHash: hash, roleKey: "super_admin" } });
+  await UserModel.create({ email: email.toLowerCase().trim(), passwordHash: hash, roleKey: "super_admin" });
   seeded = true;
   logger.info("Seeded initial admin", { email });
 }
 
-function toUser(doc: { id: string; email: string; passwordHash: string; roleKey: string }): User {
+function toUser(doc: any): User {
   return {
-    id: doc.id,
+    id: doc.id.toString(),
     username: doc.email,
     passwordHash: doc.passwordHash,
     role: doc.roleKey,
@@ -54,13 +55,13 @@ function toUser(doc: { id: string; email: string; passwordHash: string; roleKey:
 
 export async function readUsers(): Promise<User[]> {
   await ensureSeeded();
-  const admins = await prisma.user.findMany({ orderBy: { createdAt: 'asc' } });
+  const admins = await UserModel.find().sort({ createdAt: 1 });
   return admins.map(toUser);
 }
 
 export async function getUserByUsername(email: string): Promise<User | undefined> {
   await ensureSeeded();
-  const admin = await prisma.user.findUnique({ where: { email: email.toLowerCase().trim() } });
+  const admin = await UserModel.findOne({ email: email.toLowerCase().trim() });
   if (!admin) return undefined;
   return toUser(admin);
 }
@@ -82,16 +83,15 @@ export async function createAdmin(
   password: string,
   createdBy: string
 ): Promise<void> {
-  const existing = await prisma.user.findUnique({ where: { email: email.toLowerCase().trim() } });
+  await connectToDatabase();
+  const existing = await UserModel.findOne({ email: email.toLowerCase().trim() });
   if (existing) throw new Error("An admin with this email already exists");
   const hash = await bcrypt.hash(password, 12);
-  await prisma.user.create({
-    data: {
-      email: email.toLowerCase().trim(),
-      passwordHash: hash,
-      roleKey: "admin",
-      createdBy,
-    }
+  await UserModel.create({
+    email: email.toLowerCase().trim(),
+    passwordHash: hash,
+    roleKey: "admin",
+    createdBy,
   });
   logger.info("Admin created", { email, createdBy });
 }
@@ -102,29 +102,30 @@ export async function createCmsUser(input: {
   role: string;
   createdBy: string;
 }): Promise<void> {
-  const existing = await prisma.user.findUnique({ where: { email: input.email.toLowerCase().trim() } });
+  await connectToDatabase();
+  const existing = await UserModel.findOne({ email: input.email.toLowerCase().trim() });
   if (existing) throw new Error("A user with this email already exists");
   const hash = await bcrypt.hash(input.password, 12);
-  await prisma.user.create({
-    data: {
-      email: input.email.toLowerCase().trim(),
-      passwordHash: hash,
-      roleKey: input.role as CmsRoleKey,
-      createdBy: input.createdBy,
-    }
+  await UserModel.create({
+    email: input.email.toLowerCase().trim(),
+    passwordHash: hash,
+    roleKey: input.role,
+    createdBy: input.createdBy,
   });
   logger.info("CMS user created", { email: input.email, role: input.role, createdBy: input.createdBy });
 }
 
 export async function updateUserRoleById(id: string, role: string): Promise<void> {
-  await prisma.user.update({ where: { id }, data: { roleKey: role as CmsRoleKey } });
+  await connectToDatabase();
+  await UserModel.findByIdAndUpdate(id, { roleKey: role });
   logger.info("User role updated", { id, role });
 }
 
 export async function deleteAdminById(id: string): Promise<void> {
-  const count = await prisma.user.count();
+  await connectToDatabase();
+  const count = await UserModel.countDocuments();
   if (count <= 1) throw new Error("Cannot delete the last admin account");
-  await prisma.user.delete({ where: { id } });
+  await UserModel.findByIdAndDelete(id);
   logger.info("Admin deleted", { id });
 }
 
@@ -132,9 +133,9 @@ export async function listAdmins(): Promise<
   { id: string; email: string; role: string; createdBy?: string | null; createdAt: Date }[]
 > {
   await ensureSeeded();
-  const admins = await prisma.user.findMany({ orderBy: { createdAt: 'asc' } });
+  const admins = await UserModel.find().sort({ createdAt: 1 });
   return admins.map((a) => ({
-    id: a.id,
+    id: a.id.toString(),
     email: a.email,
     role: a.roleKey,
     createdBy: a.createdBy,
@@ -146,9 +147,9 @@ export async function listAllUsers(): Promise<
   { id: string; email: string; role: string; createdBy?: string | null; createdAt: Date }[]
 > {
   await ensureSeeded();
-  const users = await prisma.user.findMany({ orderBy: { createdAt: 'asc' } });
+  const users = await UserModel.find().sort({ createdAt: 1 });
   return users.map((u) => ({
-    id: u.id,
+    id: u.id.toString(),
     email: u.email,
     role: u.roleKey,
     createdBy: u.createdBy,
@@ -159,14 +160,14 @@ export async function listAllUsers(): Promise<
 export async function deleteUserById(id: string): Promise<void> {
   await ensureSeeded();
 
-  const user = await prisma.user.findUnique({ where: { id } });
+  const user = await UserModel.findById(id);
   if (!user) return;
 
   if (user.roleKey === "super_admin") {
-    const count = await prisma.user.count({ where: { roleKey: "super_admin" } });
+    const count = await UserModel.countDocuments({ roleKey: "super_admin" });
     if (count <= 1) throw new Error("Cannot delete the last super admin account");
   }
 
-  await prisma.user.delete({ where: { id } });
+  await UserModel.findByIdAndDelete(id);
   logger.info("User deleted", { id });
 }

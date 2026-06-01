@@ -18,8 +18,7 @@ function getPublicBaseUrl() {
     return env.AWS_S3_PUBLIC_BASE_URL;
   }
 
-  assertAwsConfigured();
-  return `https://${env.AWS_S3_BUCKET}.s3.${env.AWS_REGION}.amazonaws.com`;
+  return `/api/media`;
 }
 
 export function getS3Client() {

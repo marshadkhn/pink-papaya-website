@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/cms/store";
+import { MediaLibrary } from "@/lib/models/MediaLibrary";
+import { connectToDatabase } from "@/lib/mongodb";
 import { getSession } from "@/lib/auth";
 import { getRolePermissions } from "@/lib/cms/rbac";
 import { deletePublicAsset } from "@/lib/s3";
@@ -16,11 +17,12 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
 
     const { id } = await Promise.resolve(params);
 
-    const media = await prisma.mediaLibrary.findUnique({ where: { id } });
+    await connectToDatabase();
+    const media = await MediaLibrary.findById(id);
     if (!media) return NextResponse.json({ error: "Media not found" }, { status: 404 });
 
     await deletePublicAsset({ key: media.key });
-    await prisma.mediaLibrary.delete({ where: { id } });
+    await MediaLibrary.findByIdAndDelete(id);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import getLogger from "@/lib/logger";
-import { prisma } from "@/lib/cms/store";
+import { Role, RolePermission } from "@/lib/models/Cms";
+import { connectToDatabase } from "@/lib/mongodb";
 import { ALL_CMS_PERMISSION_KEYS } from "@/lib/cms/permissions";
 import { ensureCmsRbacSeeded, invalidateCmsRoleCache, requireCmsPermission } from "@/lib/cms/rbac";
 
@@ -13,14 +14,20 @@ export async function GET() {
   try {
     await requireCmsPermission("cms.roles.read");
     await ensureCmsRbacSeeded();
+    await connectToDatabase();
 
-    const roles = await prisma.role.findMany({ include: { rolePermissions: true }, orderBy: { key: 'asc' } });
+    const roles = await Role.find().sort({ key: 1 });
+    const allRolePerms = await RolePermission.find();
+    
     return NextResponse.json({
-      roles: roles.map((r) => ({
-        key: r.key,
-        name: r.name,
-        permissionKeys: r.rolePermissions.map(rp => rp.permissionKey) ?? [],
-      })),
+      roles: roles.map((r) => {
+        const perms = allRolePerms.filter(rp => rp.roleKey === r.key).map(rp => rp.permissionKey);
+        return {
+          key: r.key,
+          name: r.name,
+          permissionKeys: perms,
+        };
+      }),
     });
   } catch (e: any) {
     const status = e?.status ?? 500;
@@ -47,12 +54,14 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Invalid payload", details: parsed.error.flatten() }, { status: 400 });
     }
 
-    await prisma.$transaction([
-      prisma.rolePermission.deleteMany({ where: { roleKey: parsed.data.key } }),
-      prisma.rolePermission.createMany({
-        data: parsed.data.permissionKeys.map(k => ({ roleKey: parsed.data.key, permissionKey: k }))
-      })
-    ]);
+    await connectToDatabase();
+    
+    await RolePermission.deleteMany({ roleKey: parsed.data.key });
+    if (parsed.data.permissionKeys.length > 0) {
+       await RolePermission.insertMany(
+         parsed.data.permissionKeys.map(k => ({ roleKey: parsed.data.key, permissionKey: k }))
+       );
+    }
 
     await invalidateCmsRoleCache();
     return NextResponse.json({ ok: true });

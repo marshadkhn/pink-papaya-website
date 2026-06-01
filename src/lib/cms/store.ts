@@ -1,14 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { Page, PageContent, PageSeo } from "@/lib/models/Cms";
+import { connectToDatabase } from "@/lib/mongodb";
 import { cmsPageConfigs, getCmsPageConfig, cmsSectionSchema, cmsSeoSchema } from "@/lib/cms/config/pages";
 import { sanitizePlainText, sanitizeOptionalUrl } from "@/lib/cms/sanitize";
-
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log: ["query"],
-  });
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 export type CmsPublicPageContent = {
   slug: string;
@@ -25,17 +18,20 @@ let pagesSeeded = false;
 
 export async function ensureCmsPagesSeeded() {
   if (pagesSeeded) return;
+  await connectToDatabase();
 
   for (const p of cmsPageConfigs) {
-    await prisma.page.upsert({
-      where: { slug: p.slug },
-      update: {},
-      create: {
-        slug: p.slug,
-        label: p.label,
-        publicPath: p.publicPath,
+    await Page.findOneAndUpdate(
+      { slug: p.slug },
+      {
+        $setOnInsert: {
+          slug: p.slug,
+          label: p.label,
+          publicPath: p.publicPath,
+        }
       },
-    });
+      { upsert: true }
+    );
   }
 
   pagesSeeded = true;
@@ -43,9 +39,7 @@ export async function ensureCmsPagesSeeded() {
 
 export async function listCmsPages() {
   await ensureCmsPagesSeeded();
-  const pages = await prisma.page.findMany({
-    orderBy: { slug: "asc" },
-  });
+  const pages = await Page.find().sort({ slug: 1 });
   return pages.map((p) => ({
     slug: p.slug,
     label: p.label,
@@ -59,15 +53,11 @@ export async function readCmsPage(slug: string) {
   const config = getCmsPageConfig(slug);
   if (!config) throw new Error("Unknown CMS page");
 
-  const page = await prisma.page.findUnique({
-    where: { slug },
-    include: { seo: true },
-  });
+  const page = await Page.findOne({ slug });
   if (!page) throw new Error("CMS page missing");
 
-  const contentDocs = await prisma.pageContent.findMany({
-    where: { pageId: page.id },
-  });
+  const pageSeo = await PageSeo.findOne({ pageId: page._id });
+  const contentDocs = await PageContent.find({ pageId: page._id });
 
   const sections: Record<string, Record<string, string>> = {};
 
@@ -77,7 +67,6 @@ export async function readCmsPage(slug: string) {
       const doc = contentDocs.find((d) => d.sectionKey === section.key && d.fieldKey === field.key);
       let value = field.defaultValue ?? "";
       if (doc && doc.value !== null && doc.value !== undefined) {
-        // Prisma returns JSON values directly. If we stored it as string, it's a string.
         value = String(doc.value);
       }
       sections[section.key][field.key] = value;
@@ -89,10 +78,10 @@ export async function readCmsPage(slug: string) {
     config,
     content: { slug, sections },
     seo: {
-      title: page.seo?.title ?? "",
-      description: page.seo?.description ?? "",
-      keywords: page.seo?.keywords ?? [],
-      ogImageUrl: page.seo?.ogImageUrl ?? "",
+      title: pageSeo?.title ?? "",
+      description: pageSeo?.description ?? "",
+      keywords: pageSeo?.keywords ?? [],
+      ogImageUrl: pageSeo?.ogImageUrl ?? "",
     },
   };
 }
@@ -118,7 +107,7 @@ export async function updateCmsSectionContent(input: {
     throw err;
   }
 
-  const page = await prisma.page.findUnique({ where: { slug: input.slug } });
+  const page = await Page.findOne({ slug: input.slug });
   if (!page) throw new Error("CMS page missing");
 
   for (const field of section.fields) {
@@ -126,32 +115,14 @@ export async function updateCmsSectionContent(input: {
     const asString = String(raw ?? "");
     const value = field.type === "image" || field.type === "url" ? sanitizeOptionalUrl(asString) : sanitizePlainText(asString);
 
-    await prisma.pageContent.upsert({
-      where: {
-        pageId_sectionKey_fieldKey: {
-          pageId: page.id,
-          sectionKey: section.key,
-          fieldKey: field.key,
-        },
-      },
-      update: {
-        value,
-        updatedBy: input.updatedBy,
-      },
-      create: {
-        pageId: page.id,
-        sectionKey: section.key,
-        fieldKey: field.key,
-        value,
-        updatedBy: input.updatedBy,
-      },
-    });
+    await PageContent.findOneAndUpdate(
+      { pageId: page._id, sectionKey: section.key, fieldKey: field.key },
+      { value, updatedBy: input.updatedBy },
+      { upsert: true, new: true }
+    );
   }
 
-  await prisma.page.update({
-    where: { id: page.id },
-    data: { updatedAt: new Date() },
-  });
+  await Page.findByIdAndUpdate(page._id, { updatedAt: new Date() });
 }
 
 export async function updateCmsSeo(input: {
@@ -180,26 +151,16 @@ export async function updateCmsSeo(input: {
     throw err;
   }
 
-  const page = await prisma.page.findUnique({ where: { slug: input.slug } });
+  const page = await Page.findOne({ slug: input.slug });
   if (!page) throw new Error("CMS page missing");
 
-  await prisma.pageSeo.upsert({
-    where: { pageId: page.id },
-    update: {
-      ...parsed.data,
-      updatedBy: input.updatedBy,
-    },
-    create: {
-      pageId: page.id,
-      ...parsed.data,
-      updatedBy: input.updatedBy,
-    },
-  });
+  await PageSeo.findOneAndUpdate(
+    { pageId: page._id },
+    { ...parsed.data, updatedBy: input.updatedBy },
+    { upsert: true, new: true }
+  );
 
-  await prisma.page.update({
-    where: { id: page.id },
-    data: { updatedAt: new Date() },
-  });
+  await Page.findByIdAndUpdate(page._id, { updatedAt: new Date() });
 }
 
 export async function getCmsPublicContent(slug: string): Promise<CmsPublicPageContent> {

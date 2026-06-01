@@ -291,6 +291,42 @@ export default function CmsPageEditorClient({ slug, permissions }: { slug: strin
                             placeholder={f.placeholder}
                             rows={4}
                           />
+                        ) : f.type === "image" ? (
+                          <div className="flex gap-2 items-center">
+                            <Input
+                              value={value}
+                              onChange={(e) => setField(activeSection.key, f.key, e.target.value)}
+                              placeholder={f.placeholder ?? "Paste URL or upload image"}
+                              className="flex-1"
+                            />
+                            <div className="relative">
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                disabled={!canWriteContent}
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  try {
+                                    show({ type: "success", message: "Uploading..." });
+                                    const form = new FormData();
+                                    form.append("file", file);
+                                    const res = await fetch("/api/cms/media/upload", { method: "POST", body: form });
+                                    const json = await res.json();
+                                    if (!res.ok) throw new Error(json?.error ?? "Upload failed");
+                                    setField(activeSection.key, f.key, json.media.url);
+                                    show({ type: "success", message: "Image uploaded" });
+                                  } catch (err: any) {
+                                    show({ type: "error", message: err.message });
+                                  } finally {
+                                    e.target.value = "";
+                                  }
+                                }}
+                              />
+                              <Button type="button" variant="outline" disabled={!canWriteContent}>Upload</Button>
+                            </div>
+                          </div>
                         ) : (
                           <Input
                             value={value}

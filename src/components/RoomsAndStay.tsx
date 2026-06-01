@@ -8,22 +8,28 @@ import Image from "next/image";
 import { stays as staysData, stayCategories } from "@/data/stays";
 
 
-export default function RoomsAndStay({ content }: { content?: { heading?: string; description?: string } }) {
+export default function RoomsAndStay({ content }: { content?: any }) {
   const router = useRouter();
-  const categories = stayCategories.slice(0, 4);
+  const categories = stayCategories.slice(0, 4).map((c, idx) => ({
+    ...c,
+    name: content?.[`title${idx + 1}`] || c.name,
+    description: content?.[`desc${idx + 1}`] || c.description,
+  }));
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [prevImageUrl, setPrevImageUrl] = React.useState<string | null>(null);
   const [showNew, setShowNew] = React.useState(true);
 
-  function representativeFor(catId: string) {
-    return staysData.find((s) => s.category === catId) ?? staysData[0];
+  function representativeFor(catId: string, idx: number) {
+    const s = staysData.find((s) => s.category === catId) ?? staysData[0];
+    const customImage = content?.[`image${idx + 1}`];
+    return { ...s, imageUrl: customImage || s.imageUrl };
   }
 
-  const active = representativeFor(categories[activeIndex].id);
+  const active = representativeFor(categories[activeIndex].id, activeIndex);
 
   function handleSelect(idx: number) {
     if (idx === activeIndex) return;
-    const current = representativeFor(categories[activeIndex].id);
+    const current = representativeFor(categories[activeIndex].id, activeIndex);
     setPrevImageUrl(current.imageUrl ?? null);
     setShowNew(false);
     setActiveIndex(idx);

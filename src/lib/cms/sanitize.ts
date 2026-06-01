@@ -12,6 +12,11 @@ export function sanitizePlainText(value: string) {
 export function sanitizeOptionalUrl(value: string) {
   const v = String(value ?? "").trim();
   if (!v) return "";
+
+  if (v.startsWith("/")) {
+    return v;
+  }
+
   try {
     const u = new URL(v);
     if (u.protocol !== "http:" && u.protocol !== "https:") return "";

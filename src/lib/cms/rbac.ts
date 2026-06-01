@@ -1,7 +1,9 @@
 import { getSession } from "@/lib/auth";
-import { prisma } from "@/lib/cms/store";
+import { Role, Permission, RolePermission } from "@/lib/models/Cms";
+import { connectToDatabase } from "@/lib/mongodb";
 import { CMS_PERMISSIONS, type CmsPermissionKey, ALL_CMS_PERMISSION_KEYS } from "@/lib/cms/permissions";
-import { CmsRoleKey } from "@prisma/client";
+
+type CmsRoleKey = "super_admin" | "admin" | "editor" | "content_manager" | string;
 
 const DEFAULT_ROLE_DEFS: Array<{ key: CmsRoleKey; name: string; permissionKeys: CmsPermissionKey[] }> = [
   {
@@ -46,29 +48,29 @@ let rolePermCache: Map<string, Set<CmsPermissionKey>> | null = null;
 
 export async function ensureCmsRbacSeeded() {
   if (seeded) return;
+  await connectToDatabase();
 
   for (const perm of CMS_PERMISSIONS) {
-    await prisma.permission.upsert({
-      where: { key: perm.key },
-      create: { key: perm.key, label: perm.label, description: perm.description },
-      update: {},
-    });
+    await Permission.findOneAndUpdate(
+      { key: perm.key },
+      { label: perm.label, description: perm.description },
+      { upsert: true }
+    );
   }
 
   for (const role of DEFAULT_ROLE_DEFS) {
-    await prisma.role.upsert({
-      where: { key: role.key },
-      create: { key: role.key, name: role.name },
-      update: {},
-    });
+    await Role.findOneAndUpdate(
+      { key: role.key },
+      { name: role.name },
+      { upsert: true }
+    );
     
-    // update permissions
     for (const pKey of role.permissionKeys) {
-       await prisma.rolePermission.upsert({
-         where: { roleKey_permissionKey: { roleKey: role.key, permissionKey: pKey } },
-         create: { roleKey: role.key, permissionKey: pKey },
-         update: {},
-       });
+       await RolePermission.findOneAndUpdate(
+         { roleKey: role.key, permissionKey: pKey },
+         {}, 
+         { upsert: true, setDefaultsOnInsert: true }
+       );
     }
   }
 
@@ -77,8 +79,14 @@ export async function ensureCmsRbacSeeded() {
 
 async function loadRolePermissionCache() {
   await ensureCmsRbacSeeded();
-  const roles = await prisma.role.findMany({ include: { rolePermissions: true } });
-  rolePermCache = new Map(roles.map((r) => [r.key, new Set(r.rolePermissions.map(rp => rp.permissionKey as CmsPermissionKey))]));
+  const roles = await Role.find();
+  const allRolePerms = await RolePermission.find();
+  
+  rolePermCache = new Map();
+  for (const r of roles) {
+     const pKeys = allRolePerms.filter(rp => rp.roleKey === r.key).map(rp => rp.permissionKey as CmsPermissionKey);
+     rolePermCache.set(r.key, new Set(pKeys));
+  }
 }
 
 export async function getRolePermissions(role: string | undefined): Promise<Set<CmsPermissionKey>> {

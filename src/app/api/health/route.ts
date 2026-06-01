@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/cms/store";
+import mongoose from "mongoose";
+import { connectToDatabase } from "@/lib/mongodb";
 import { env } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    await prisma.$queryRaw`SELECT 1`;
+    await connectToDatabase();
+    await mongoose.connection.db?.admin().ping();
 
     return NextResponse.json({
       ok: true,
