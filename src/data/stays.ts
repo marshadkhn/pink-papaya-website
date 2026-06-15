@@ -7,6 +7,8 @@ export type Stay = {
   guests: string;
   /** category/collection id */
   category?: string;
+  /** all collection ids this stay belongs to */
+  categories?: string[];
   /** property type id (e.g. villas, apartments) */
   propertyType?: string;
   description?: string;

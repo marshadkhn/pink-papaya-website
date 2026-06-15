@@ -4,15 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Phone, Mail } from "lucide-react";
 
 export default function BookingWidget({ pricePerNight = "" }: { pricePerNight?: string }) {
+  const hasPrice = /\d/.test(pricePerNight);
+
   return (
     <div className="sticky top-[calc(var(--navbar-h)+28px)]">
       <div className="rounded-[20px] border border-neutral-100 bg-white shadow-[0_4px_40px_rgba(0,0,0,0.06)] overflow-hidden">
         {/* Price header */}
         {pricePerNight && (
           <div className="px-7 pt-7 pb-6 border-b border-neutral-100">
-            <p className="font-bricolage text-[10px] uppercase tracking-[0.14em] text-neutral-400 mb-1.5">Starting from</p>
-            <p className="font-playfair text-4xl text-[#16323C] leading-none">{pricePerNight.replace(/\$/g, '₹')}</p>
-            <p className="font-bricolage text-xs text-neutral-400 mt-1.5">per night · taxes included</p>
+            <p className="font-bricolage text-[10px] uppercase tracking-[0.14em] text-neutral-400 mb-1.5">
+              {hasPrice ? "Starting from" : "Pricing"}
+            </p>
+            <p className="font-playfair text-4xl text-[#16323C] leading-none">
+              {hasPrice ? pricePerNight.replace(/\$/g, "₹") : pricePerNight}
+            </p>
+            {hasPrice && (
+              <p className="font-bricolage text-xs text-neutral-400 mt-1.5">per night · taxes included</p>
+            )}
           </div>
         )}
 

@@ -14,6 +14,7 @@ type Stay = {
   bed: string;
   guests: string;
   category?: string;
+  categories?: string[];
   propertyType?: string;
   description?: string;
   pricePerNight?: string;
@@ -112,7 +113,10 @@ export default function StaysGridWithFilters({ stays, locations, propertyTypes, 
     }
 
     if (selectedCollections.length > 0) {
-      filtered = filtered.filter((s) => s.category && selectedCollections.includes(s.category));
+      filtered = filtered.filter((s) => {
+        const cats = s.categories?.length ? s.categories : s.category ? [s.category] : [];
+        return cats.some((c) => selectedCollections.includes(c));
+      });
     }
 
     return filtered;

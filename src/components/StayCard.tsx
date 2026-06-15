@@ -42,7 +42,9 @@ export default function StayCard({
   const cardWrapperProps = href ? { href } : {};
 
   const priceDisplay = pricePerNight
-    ? `From ${formatPriceString(pricePerNight)} + taxes`
+    ? /\d/.test(pricePerNight)
+      ? `From ${formatPriceString(pricePerNight)} + taxes`
+      : `Price ${pricePerNight}`
     : null;
 
   return (
