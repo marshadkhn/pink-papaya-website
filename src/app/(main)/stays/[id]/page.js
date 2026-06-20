@@ -98,33 +98,33 @@ export default async function StayDetailPage({ params }) {
                 </div>
 
                 <hr className="border-neutral-100" />
+            </Container>
 
-                {/* FAQ Section */}
-                <section className="py-8 md:py-[5%]">
-                    <FAQ
-                        badgeText="Helpful"
-                        title="Frequently Asked Questions"
-                        description="Quick answers to common questions about staying at Pink Papaya."
-                        faqs={stay.faqs || [
-                            {
-                                question: "What time is check-in and check-out?",
-                                answer: "Check-in is from 2:00 PM and check-out is by 11:00 AM. Early check-in and late check-out are available on request, subject to availability.",
-                            },
-                            {
-                                question: "Is breakfast included?",
-                                answer: "Yes. A complimentary breakfast is included with every stay, with vegetarian options available.",
-                            },
-                            {
-                                question: "Do you have Wi‑Fi?",
-                                answer: "High-speed Wi‑Fi is available throughout the property at no extra cost.",
-                            }
-                        ]}
-                    />
-                </section>
+            {/* FAQ Section */}
+            <FAQ
+                badgeText="Helpful"
+                title="Frequently Asked Questions"
+                description="Quick answers to common questions about staying at Pink Papaya."
+                faqs={stay.faqs || [
+                    {
+                        question: "What time is check-in and check-out?",
+                        answer: "Check-in is from 2:00 PM and check-out is by 11:00 AM. Early check-in and late check-out are available on request, subject to availability.",
+                    },
+                    {
+                        question: "Is breakfast included?",
+                        answer: "Yes. A complimentary breakfast is included with every stay, with vegetarian options available.",
+                    },
+                    {
+                        question: "Do you have Wi‑Fi?",
+                        answer: "High-speed Wi‑Fi is available throughout the property at no extra cost.",
+                    }
+                ]}
+            />
 
+            {/* Recommendations Section */}
+            <Container>
                 <hr className="border-neutral-100" />
 
-                {/* Recommendations Section */}
                 <section className="py-8 md:py-[5%]">
                     <div className="flex items-start justify-between mb-6 md:mb-10">
                         <div>

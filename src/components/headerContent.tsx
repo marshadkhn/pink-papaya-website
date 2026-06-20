@@ -126,7 +126,7 @@ export default function HeroContent({
   ) : null;
 
   return (
-    <div className={cn("flex flex-col px-1 sm:px-0", alignClass)}>
+    <div className={cn("flex flex-col", alignClass)}>
       {subTitlePosition === "above" && subTitleEl}
       <h1
         className={cn(
