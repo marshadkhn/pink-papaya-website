@@ -13,9 +13,9 @@ const labelBase =
 
 export default function ContactSection() {
   return (
-    <section className="bg-white py-8 lg:py-[5%]">
+    <section className="bg-white pt-3 pb-8 lg:pt-4 lg:pb-10">
       <Container>
-        <div className="h-px bg-neutral-200 mb-14 md:mb-20" />
+        <div className="h-px bg-neutral-200 mb-10 md:mb-14" />
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-16 items-start">
 
