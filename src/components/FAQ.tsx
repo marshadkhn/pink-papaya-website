@@ -24,9 +24,9 @@ export default function FAQ({
   const [openIdx, setOpenIdx] = React.useState<number | null>(null);
 
   return (
-    <section id="faq" className={cn("py-[5%]", className)}>
+    <section id="faq" className={cn("py-8 md:py-[5%]", className)}>
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-16">
           {/* Left heading */}
           <div className="lg:col-span-4">
             <HeaderContent
@@ -48,7 +48,7 @@ export default function FAQ({
                     <button
                       onClick={() => setOpenIdx(isOpen ? null : idx)}
                       aria-expanded={isOpen}
-                      className="w-full flex items-center justify-between gap-4 py-5 md:py-6 text-left group"
+                      className="w-full flex items-center justify-between gap-4 py-3.5 md:py-6 text-left group"
                     >
                       <span
                         className={cn(

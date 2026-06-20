@@ -38,10 +38,9 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
       </Container>
     );
   }
-
   return (
     <>
-      <section className="py-[5%] mt-10">
+      <section className="py-8 lg:py-[5%] mt-10">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-20 items-start">
             {/* Left: Image */}
@@ -50,7 +49,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
                 <div className="relative w-full pt-[100%]">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${project.imageUrl?.startsWith("http") ? project.imageUrl : "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80"})` }}
+                    style={{ backgroundImage: `url(${project.imageUrl ? project.imageUrl : "/images/coastal-calm.png"})` }}
                   />
                 </div>
               </Card>
@@ -61,23 +60,23 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
               <div className="flex flex-col gap-4">
                 {project.badge ? (
                   <div>
-                    <span className="inline-block text-xs tracking-wide uppercase py-1">
+                    <span className="font-bricolage text-[11px] uppercase tracking-[0.14em] text-[#C07A5A] font-semibold">
                       {project.badge}
                     </span>
                   </div>
                 ) : null}
-                <h1 className="font-playfair text-3xl md:text-4xl text-neutral-900">
+                <h1 className="font-playfair text-3xl md:text-4xl text-[#16323C]">
                   {project.headline || project.title}
                 </h1>
                 {project.tagline ? (
-                  <p className="font-playfair italic text-2xl md:text-3xl text-[#16323C]">
+                  <p className="font-playfair italic text-2xl md:text-3xl text-[#C07A5A]">
                     {project.tagline}
                   </p>
                 ) : null}
                 {project.longDescription?.length ? (
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 mt-4">
                     {project.longDescription.map((para, idx) => (
-                      <p key={idx} className="text-neutral-700 leading-relaxed">
+                      <p key={idx} className="font-bricolage text-[15px] text-neutral-600 leading-[1.75]">
                         {para}
                       </p>
                     ))}
@@ -91,10 +90,10 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
 
       {/* All Photos grid 2 by 3 */}
       {project.photos?.length ? (
-        <section className="py-[5%]">
+        <section className="py-8 lg:py-[5%]">
           <Container>
             <div className="mb-6 md:mb-8 ">
-              <h2 className="font-playfair text-center text-2xl md:text-3xl text-neutral-900">
+              <h2 className="font-playfair text-center text-2xl md:text-3xl text-[#16323C]">
                 All Photos
               </h2>
             </div>
@@ -107,7 +106,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
                   <div className="relative w-full pt-[100%]">
                     <div
                       className="absolute inset-0 bg-cover bg-center"
-                      style={{ backgroundImage: `url(${src?.startsWith("http") ? src : "https://images.unsplash.com/photo-1593696140826-c58b021acf8b?w=800&q=80"})` }}
+                      style={{ backgroundImage: `url(${src ? src : "/images/coastal-calm.png"})` }}
                     />
                   </div>
                 </Card>
@@ -119,10 +118,10 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
 
       {/* Before and After */}
       {project.beforeAfter?.length ? (
-        <section className="py-[5%]">
+        <section className="py-8 lg:py-[5%]">
           <Container>
             <div className="mb-8 md:mb-12 ">
-              <h2 className="font-playfair text-center text-2xl md:text-3xl text-neutral-900">
+              <h2 className="font-playfair text-center text-2xl md:text-3xl text-[#16323C]">
                 Before and After
               </h2>
             </div>
@@ -135,7 +134,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
                   <div className="relative w-full pt-[68%] md:pt-0 md:h-full">
                     <div
                       className="absolute inset-0 bg-cover bg-center"
-                      style={{ backgroundImage: `url(${src?.startsWith("http") ? src : "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80"})` }}
+                      style={{ backgroundImage: `url(${src ? src : "/images/coastal-calm.png"})` }}
                     />
                   </div>
                 </Card>
@@ -146,7 +145,7 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
       ) : null}
 
       {/* Contact Us Section */}
-      <section className="py-[5%]">
+      <section className="py-8 lg:py-[5%]">
         <Container>
           <div className="text-center">
             <HeaderContent
@@ -155,8 +154,8 @@ export default async function InteriorDetailPage(props: { params: Promise<{ id: 
               align="center"
               showCta={false}
             />
-            <div className="mt-6">
-              <Button asChild variant="black" size="lg">
+            <div className="mt-6 flex justify-center">
+              <Button asChild variant="black">
                 <Link href="/contact">Get in touch</Link>
               </Button>
             </div>

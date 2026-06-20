@@ -26,10 +26,10 @@ export default function LeisureHighlights({ content }: { content?: any }) {
   ];
 
   return (
-    <section className="py-[5%] bg-[#F9F7F4]">
+    <section className="py-8 md:py-[5%] bg-[#F9F7F4]">
       <Container>
         <Reveal>
-          <div className="pb-16">
+          <div className="pb-6 md:pb-16">
             <HeaderContent
               align="center"
               showCta={false}
@@ -40,7 +40,7 @@ export default function LeisureHighlights({ content }: { content?: any }) {
           </div>
         </Reveal>
 
-        <div className="mt-16 sm:mt-24 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-14 items-start">
+        <div className="mt-6 sm:mt-24 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-14 items-start">
           {leisureItems.map((item, i) => (
             <Reveal key={i}>
               <div className={`${i === 1 ? "sm:-mt-16 md:-mt-24" : ""} w-full`}>

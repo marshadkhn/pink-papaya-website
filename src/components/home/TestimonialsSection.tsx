@@ -10,10 +10,10 @@ export default function TestimonialsSection() {
   const carouselRef = React.useRef<TestimonialsCarouselHandle>(null);
 
   return (
-    <section className="py-[5%] bg-white overflow-hidden">
+    <section className="py-8 md:py-[5%] bg-white overflow-hidden">
       <Container>
         <Reveal>
-          <div className="flex items-end justify-between mb-12 md:mb-16">
+          <div className="flex items-end justify-between mb-6 md:mb-16">
             <div>
               <h2 className="font-playfair font-semibold text-[30px] sm:text-[38px] md:text-[46px] leading-[1.08] text-neutral-900">
                 From Our Guests

@@ -36,9 +36,9 @@ const buttonVariants = cva(
           "bg-[#9A6648] text-white hover:bg-[#8a5a3e] active:scale-[0.98] shadow-sm",
       },
       size: {
-        default: "h-11 px-8 py-3 text-sm tracking-wide",
+        default: "h-11 px-8 text-sm tracking-wide",
         sm: "h-9 px-5 text-xs tracking-wide",
-        lg: "h-14 px-10 text-base tracking-wide",
+        lg: "h-11 px-6 text-sm sm:h-14 sm:px-10 sm:text-base tracking-wide",
         icon: "h-10 w-10",
         amenity:
           "h-auto py-5 px-10 sm:py-6 sm:px-12 md:py-8 md:px-16 text-2xl sm:text-3xl md:text-4xl",

@@ -96,7 +96,7 @@ export default function HeroContent({
       )}
     >
       <Button
-        className="w-full sm:w-auto"
+        className="w-fit sm:w-auto"
         size={ctaSize}
         variant={ctaVariant}
         onClick={onCtaClick}

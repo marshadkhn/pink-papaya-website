@@ -29,10 +29,10 @@ export default function ExploreStaysGrid({ content }: { content?: { heading?: st
   }, []);
 
   return (
-    <section id="explore" className="py-[5%]">
+    <section id="explore" className="py-8 md:py-[5%]">
       <Container>
         <Reveal>
-          <div className="mb-14 md:mb-20">
+          <div className="mb-6 md:mb-20">
             <HeaderContent
               title={content?.heading || "Curated spaces, Effortless comfort"}
               subTitle={content?.description || "Goa reimagined for you"}
@@ -69,7 +69,7 @@ export default function ExploreStaysGrid({ content }: { content?: { heading?: st
             </div>
           )}
 
-          <div className="mt-20 flex justify-center">
+          <div className="mt-10 md:mt-20 flex justify-center">
             <Link href="/stays">
               <Button size="lg" variant="outline" className="gap-2.5 px-10 border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white">
                 Explore More Stays

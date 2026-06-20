@@ -10,7 +10,7 @@ const LIST_ITEMS = [
 
 export default function AboutSection() {
   return (
-    <section className="bg-white py-[5%]">
+    <section className="bg-white py-8 lg:py-[5%]">
       <Container>
         <div className="h-px bg-neutral-200 mb-16 md:mb-24" />
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] gap-12 lg:gap-20">

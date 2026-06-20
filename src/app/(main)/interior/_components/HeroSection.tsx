@@ -9,18 +9,16 @@ export default function HeroSection() {
       className="bg-white grid grid-cols-1 lg:grid-cols-2"
       style={{ minHeight: "calc(100vh - var(--navbar-h))", paddingTop: "var(--navbar-h)" }}
     >
-      <div className="flex flex-col justify-center px-8 md:px-14 lg:px-16 xl:px-20 py-16 lg:py-24">
+      <div className="flex flex-col justify-center px-[5%] sm:px-8 md:px-14 lg:px-16 xl:px-20 py-16 lg:py-24">
         <Reveal>
           <h1
             className="font-playfair font-normal text-[#16323C] leading-[1.08]"
             style={{ fontSize: "clamp(2.8rem, 5vw, 4.8rem)" }}
           >
-            Refined Spaces.<br />
-            Effortlessly Lived<br />
-            In. Designed with<br />
-            precision.<br />
-            Experienced with<br />
-            ease.
+            Refined Spaces.<br className="hidden md:inline" />{" "}
+            Effortlessly Lived In.<br className="hidden md:inline" />{" "}
+            Designed with precision.<br className="hidden md:inline" />{" "}
+            Experienced with ease.
           </h1>
 
           <p className="font-bricolage text-neutral-500 text-[14px] leading-relaxed mt-10 max-w-[400px]">
@@ -51,7 +49,7 @@ export default function HeroSection() {
           </div>
 
           <div className="mt-10">
-            <Button asChild variant="black" size="default" className="font-bricolage uppercase tracking-[0.16em] rounded-none px-10 h-12">
+            <Button asChild variant="black" size="lg" className="font-bricolage uppercase tracking-[0.16em]">
               <Link href="/contact">Enquire Now</Link>
             </Button>
           </div>
@@ -62,7 +60,7 @@ export default function HeroSection() {
         <Reveal className="w-full max-w-[480px] h-full" delay={0.15}>
           <div className="relative w-full rounded-2xl overflow-hidden bg-neutral-100" style={{ aspectRatio: "3 / 4" }}>
             <Image
-              src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=900&q=80"
+              src="/images/coastal-calm.png"
               alt="Pink Papaya interior"
               fill
               className="object-cover"

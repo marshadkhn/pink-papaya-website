@@ -58,11 +58,11 @@ export default async function StayDetailPage({ params }) {
             />
 
             <Container>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 py-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 py-8 lg:py-16">
                     {/* Main Content Column */}
                     <div className="lg:col-span-8">
                         {/* About Section */}
-                        <section className="mb-16">
+                        <section className="mb-8 lg:mb-16">
                             <p className="font-bricolage text-[11px] uppercase tracking-[0.14em] text-[#C07A5A] mb-3">Overview</p>
                             <h2 className="font-playfair text-3xl md:text-4xl text-[#16323C] mb-8">About this stay</h2>
                             <div className="space-y-4">
@@ -87,11 +87,12 @@ export default async function StayDetailPage({ params }) {
                         <MapSection
                             mapUrl={stay.locationMapUrl}
                             nearbyPlaces={stay.nearbyPlaces}
+                            location={stay.location}
                         />
                     </div>
 
                     {/* Sidebar Column */}
-                    <div className="lg:col-span-4">
+                    <div className="lg:col-span-4 order-first lg:order-last">
                         <BookingWidget pricePerNight={stay.pricePerNight} />
                     </div>
                 </div>
@@ -99,7 +100,7 @@ export default async function StayDetailPage({ params }) {
                 <hr className="border-neutral-100" />
 
                 {/* FAQ Section */}
-                <section className="py-[5%]">
+                <section className="py-8 md:py-[5%]">
                     <FAQ
                         badgeText="Helpful"
                         title="Frequently Asked Questions"
@@ -124,8 +125,8 @@ export default async function StayDetailPage({ params }) {
                 <hr className="border-neutral-100" />
 
                 {/* Recommendations Section */}
-                <section className="py-[5%]">
-                    <div className="flex items-start justify-between mb-10">
+                <section className="py-8 md:py-[5%]">
+                    <div className="flex items-start justify-between mb-6 md:mb-10">
                         <div>
                             <p className="font-bricolage text-[11px] uppercase tracking-[0.14em] text-[#C07A5A] mb-3">More escapes</p>
                             <h2 className="font-playfair text-3xl md:text-4xl text-[#16323C]">You might also love</h2>

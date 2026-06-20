@@ -3,6 +3,7 @@
 import Container from "@/components/Container";
 import Reveal from "@/components/ui/Reveal";
 import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const inputBase =
   "w-full bg-transparent border-0 border-b border-neutral-300 focus:border-[#16323C] outline-none font-bricolage text-[13.5px] text-[#16323C] placeholder:text-transparent py-2 transition-colors duration-200";
@@ -12,7 +13,7 @@ const labelBase =
 
 export default function ContactSection() {
   return (
-    <section className="bg-white py-[5%]">
+    <section className="bg-white py-8 lg:py-[5%]">
       <Container>
         <div className="h-px bg-neutral-200 mb-14 md:mb-20" />
 
@@ -44,7 +45,7 @@ export default function ContactSection() {
               <form className="flex flex-col gap-8">
 
                 {/* Row 1 — Name + Email */}
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                   <div>
                     <label className={labelBase}>Name</label>
                     <input type="text" name="name" required className={inputBase} />
@@ -56,7 +57,7 @@ export default function ContactSection() {
                 </div>
 
                 {/* Row 2 — Phone + Project Location */}
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                   <div>
                     <label className={labelBase}>Phone</label>
                     <input type="tel" name="phone" className={inputBase} />
@@ -68,7 +69,7 @@ export default function ContactSection() {
                 </div>
 
                 {/* Row 3 — Project Scale + Timeline */}
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                   <div>
                     <label className={labelBase}>Project Scale</label>
                     <div className="relative">
@@ -125,12 +126,12 @@ export default function ContactSection() {
 
                 {/* Submit */}
                 <div className="flex justify-end">
-                  <button
+                  <Button
                     type="submit"
-                    className="font-bricolage text-[11px] uppercase tracking-[0.22em] font-semibold bg-[#16323C] text-white px-10 py-4 hover:bg-[#1a3d49] transition-colors duration-200"
+                    className="font-bricolage text-[11px] uppercase tracking-[0.22em] font-semibold h-12 px-10"
                   >
                     Submit
-                  </button>
+                  </Button>
                 </div>
 
               </form>

@@ -14,7 +14,7 @@ export default function ProjectsSection({ projects }: { projects: InteriorProjec
   const rightCol = projects.filter((_, i) => i % 2 === 1);
 
   return (
-    <section className="bg-white py-[5%]">
+    <section className="bg-white py-8 lg:py-[5%]">
       <Container>
         <div className="h-px bg-neutral-200 mb-14 md:mb-20" />
 
@@ -63,8 +63,8 @@ export default function ProjectsSection({ projects }: { projects: InteriorProjec
 }
 
 function ProjectCard({ project }: { project: InteriorProject }) {
-  const defaultImage = "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80";
-  const initialImg = project.imageUrl?.startsWith("http") ? project.imageUrl : defaultImage;
+  const defaultImage = "/images/coastal-calm.png";
+  const initialImg = project.imageUrl ? project.imageUrl : defaultImage;
   const [imgSrc, setImgSrc] = useState(initialImg);
 
   return (
@@ -78,7 +78,7 @@ function ProjectCard({ project }: { project: InteriorProject }) {
           alt={project.title}
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-          onError={() => setImgSrc("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80")}
+          onError={() => setImgSrc("/images/coastal-calm.png")}
         />
       </div>
       <h3
@@ -87,6 +87,16 @@ function ProjectCard({ project }: { project: InteriorProject }) {
       >
         {project.headline || project.title}
       </h3>
+      {project.tagline && (
+        <span className="font-bricolage text-[#C07A5A] text-[11px] uppercase tracking-[0.14em] font-semibold mt-1.5 block group-hover:opacity-70 transition-opacity">
+          {project.tagline}
+        </span>
+      )}
+      {project.description && (
+        <p className="font-bricolage text-neutral-500 text-[13.5px] leading-relaxed mt-2 line-clamp-2 group-hover:opacity-70 transition-opacity">
+          {project.description}
+        </p>
+      )}
     </Link>
   );
 }

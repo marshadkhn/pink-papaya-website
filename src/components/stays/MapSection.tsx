@@ -3,12 +3,19 @@ import { MapPin } from "lucide-react";
 export default function MapSection({
   mapUrl,
   nearbyPlaces = [],
+  location,
 }: {
   mapUrl?: string;
   nearbyPlaces?: { name: string; distance: string }[];
+  location?: string;
 }) {
+  const fallbackMapUrl = location
+    ? `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=14&ie=UTF8&iwloc=&output=embed`
+    : null;
+  const activeMapUrl = mapUrl || fallbackMapUrl;
+
   return (
-    <section className="py-[5%]">
+    <section className="py-6 md:py-[5%]">
       <p className="font-bricolage text-[11px] uppercase tracking-[0.14em] text-[#C07A5A] mb-3">
         Location
       </p>
@@ -42,9 +49,9 @@ export default function MapSection({
 
         <div className={nearbyPlaces.length > 0 ? "md:col-span-8" : "md:col-span-12"}>
           <div className="w-full h-[380px] md:h-[460px] rounded-[20px] overflow-hidden shadow-sm border border-neutral-100">
-            {mapUrl ? (
+            {activeMapUrl ? (
               <iframe
-                src={mapUrl}
+                src={activeMapUrl}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
