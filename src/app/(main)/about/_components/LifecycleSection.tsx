@@ -11,10 +11,10 @@ const PHASES = [
 
 export default function LifecycleSection() {
   return (
-    <section className="bg-white py-[5%]">
+    <section className="bg-white py-8 md:py-[5%]">
       <Container>
         <Reveal>
-          <div className="flex items-center gap-6 mb-16 md:mb-20">
+          <div className="flex items-center gap-6 mb-8 md:mb-20">
             <h2 className="font-playfair italic font-normal text-[#16323C] shrink-0" style={{ fontSize: "clamp(2.2rem, 4.5vw, 4rem)" }}>
               Lifecycle of Stay
             </h2>
@@ -24,15 +24,15 @@ export default function LifecycleSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {PHASES.map((item, i) => (
             <Reveal key={item.phase} delay={i * 0.08}>
-              <div className="flex flex-col h-full bg-[#F7F2EA] rounded-2xl p-7 md:p-8 min-h-[420px]">
-                <p className="font-bricolage text-[10px] uppercase tracking-[0.18em] text-neutral-400 mb-6">{item.phase}</p>
-                <h3 className="font-playfair italic font-normal text-[#16323C] mb-6 whitespace-pre-line" style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", lineHeight: 1.15 }}>
+              <div className="flex flex-col h-full bg-[#F7F2EA] rounded-2xl p-6 md:p-8 min-h-[300px] sm:min-h-[420px]">
+                <p className="font-bricolage text-[10px] uppercase tracking-[0.18em] text-neutral-400 mb-4 md:mb-6">{item.phase}</p>
+                <h3 className="font-playfair italic font-normal text-[#16323C] mb-4 md:mb-6 whitespace-pre-line" style={{ fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", lineHeight: 1.15 }}>
                   {item.title}
                 </h3>
                 <p className="font-bricolage text-[#16323C]/65 text-sm leading-relaxed flex-1">{item.body}</p>
                 <Link
                   href={item.href}
-                  className="mt-8 font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold text-[#C07A5A] border-b border-[#C07A5A] pb-0.5 self-start transition-opacity hover:opacity-70"
+                  className="mt-6 md:mt-8 font-bricolage text-[11px] uppercase tracking-[0.16em] font-semibold text-[#C07A5A] border-b border-[#C07A5A] pb-0.5 self-start transition-opacity hover:opacity-70"
                 >
                   {item.cta}
                 </Link>

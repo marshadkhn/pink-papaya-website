@@ -10,10 +10,10 @@ const CURATORS = [
 
 export default function CuratorsSection() {
   return (
-    <section className="bg-white py-[5%]">
+    <section className="bg-white py-8 md:py-[5%]">
       <Container>
         <Reveal>
-          <h2 className="font-playfair italic font-normal text-[#16323C] text-center mb-16 md:mb-20" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)" }}>
+          <h2 className="font-playfair italic font-normal text-[#16323C] text-center mb-8 md:mb-20" style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)" }}>
             The Curators
           </h2>
         </Reveal>

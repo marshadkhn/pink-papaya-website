@@ -10,9 +10,9 @@ const ITEMS = [
 
 export default function OriginSection() {
   return (
-    <section className="bg-white py-[5%]">
+    <section className="bg-white py-8 md:py-[5%]">
       <Container>
-        <div className="h-px bg-neutral-200 mb-16 md:mb-20" />
+        <div className="h-px bg-neutral-200 mb-8 md:mb-20" />
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-16 lg:gap-24">
           <Reveal>
             <h2 className="font-playfair italic font-normal text-[#16323C]" style={{ fontSize: "clamp(2.2rem, 4vw, 3.2rem)", lineHeight: 1.1 }}>

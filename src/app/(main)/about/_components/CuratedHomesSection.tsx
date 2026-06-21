@@ -6,9 +6,9 @@ export default function CuratedHomesSection() {
     <section className="bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
         <Reveal>
-          <div className="flex flex-col justify-center h-full px-8 md:px-16 lg:px-20 xl:px-28 py-20 lg:py-28">
-            <p className="font-bricolage text-[11px] uppercase tracking-[0.18em] text-[#C07A5A] mb-5">Our Curation</p>
-            <h2 className="font-playfair font-medium text-[#16323C] mb-8 leading-tight" style={{ fontSize: "clamp(2.2rem, 4vw, 3.5rem)" }}>
+          <div className="flex flex-col justify-center h-full px-4 sm:px-8 md:px-16 lg:px-20 xl:px-28 py-10 md:py-20 lg:py-28">
+            <p className="font-bricolage text-[11px] uppercase tracking-[0.18em] text-[#C07A5A] mb-3 md:mb-5">Our Curation</p>
+            <h2 className="font-playfair font-medium text-[#16323C] mb-4 md:mb-8 leading-tight" style={{ fontSize: "clamp(2.2rem, 4vw, 3.5rem)" }}>
               Curated Homes
             </h2>
             <p className="font-bricolage text-[#16323C]/70 text-[15px] leading-relaxed max-w-[440px]">
