@@ -7,7 +7,10 @@ export default function BookingWidget({ pricePerNight = "" }: { pricePerNight?: 
   const hasPrice = /\d/.test(pricePerNight);
 
   return (
-    <div className="sticky top-[calc(var(--navbar-h)+28px)]">
+    <div 
+      className="sticky" 
+      style={{ top: "calc(var(--navbar-h) + 28px)" }}
+    >
       <div className="rounded-[20px] border border-neutral-100 bg-white shadow-[0_4px_40px_rgba(0,0,0,0.06)] overflow-hidden">
         {/* Price header */}
         {pricePerNight && (
