@@ -5,8 +5,8 @@ import Reveal from "@/components/ui/Reveal";
 export default function HeroSection() {
   return (
     <section
-      className="relative bg-white overflow-hidden"
-      style={{ isolation: "isolate", minHeight: "calc(80vh - var(--navbar-h))", marginTop: "5%" }}
+      className="relative bg-white overflow-hidden min-h-[calc(50vh_-_var(--navbar-h))] md:min-h-[calc(80vh_-_var(--navbar-h))] mt-6 md:mt-[5%]"
+      style={{ isolation: "isolate" }}
     >
       <div
         className="absolute overflow-hidden shadow-2xl w-[28%] md:w-[25%] left-[45%] md:left-[40%] top-[calc(var(--navbar-h)_+_16px)]"
