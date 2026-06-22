@@ -52,9 +52,11 @@ export default function BecomeHostPage() {
         </div>
 
         {/* Content grid */}
-        <div className="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-[1fr_2fr]">
+        <div className="relative z-10 min-h-screen">
+        <Container className="h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 min-h-screen">
           {/* Left: text, vertically centered */}
-          <div className="flex flex-col justify-center pb-16 pt-32 lg:pt-24 px-8 md:px-16">
+          <div className="flex flex-col justify-center pb-16 pt-32 lg:pt-24">
             <Reveal>
               <h1 className="font-playfair text-5xl md:text-6xl lg:text-7xl font-medium text-white leading-[1.1]">
                 Partner with
@@ -69,7 +71,7 @@ export default function BecomeHostPage() {
           </div>
 
           {/* Right: frosted glass form card, vertically centered */}
-          <div className=" flex items-center justify-center relative px-4 md:px-8">
+          <div className="flex items-center justify-center lg:justify-end relative">
             <Reveal delay={0.2} className="w-full max-w-lg md:max-w-xl lg:max-w-2xl">
               <div
                 className="rounded-[20px] p-9 border border-blue-200"
@@ -165,6 +167,8 @@ export default function BecomeHostPage() {
               </div>
             </Reveal>
           </div>
+        </div>
+        </Container>
         </div>
       </section>
       {/* Stats Strip */}
