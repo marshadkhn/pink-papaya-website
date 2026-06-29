@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { DEFAULT_PLACEHOLDER } from "@/utils/image";
+import { isPreOptimizedMedia } from "@/lib/media-url";
 
 function estimateReadTime(content) {
   const words = content.split(/\s+/).length;
@@ -60,7 +61,13 @@ function renderContent(content) {
       elements.push(
         <figure key={i} className="my-10">
           <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-neutral-100">
-            <Image src={url || DEFAULT_PLACEHOLDER} alt={caption} fill className="object-cover" />
+            <Image
+              src={url || DEFAULT_PLACEHOLDER}
+              alt={caption}
+              fill
+              className="object-cover"
+              unoptimized={isPreOptimizedMedia(url || DEFAULT_PLACEHOLDER)}
+            />
           </div>
           {caption && (
             <figcaption className="mt-3 text-center text-[12px] text-neutral-400 font-bricolage">
@@ -120,6 +127,7 @@ export default async function BlogPostPage({ params }) {
           fill
           className="object-cover"
           priority
+          unoptimized={isPreOptimizedMedia(post.imageUrl?.startsWith("http") ? post.imageUrl : DEFAULT_PLACEHOLDER)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
       </div>

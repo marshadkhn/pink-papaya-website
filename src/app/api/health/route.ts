@@ -13,7 +13,7 @@ export async function GET() {
     return NextResponse.json({
       ok: true,
       database: "connected",
-      s3Configured: Boolean(env.AWS_S3_BUCKET && env.AWS_REGION),
+      mediaDir: env.MEDIA_DIR || "(default: public/uploads)",
       nodeEnv: env.NODE_ENV,
       timestamp: new Date().toISOString(),
     });

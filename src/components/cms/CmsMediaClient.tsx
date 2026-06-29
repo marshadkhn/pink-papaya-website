@@ -153,7 +153,7 @@ export default function CmsMediaClient({ permissions }: { permissions: string[] 
           {filtered.map((m) => (
             <div key={m.id} className="bg-white rounded-2xl border border-neutral-200/80 overflow-hidden">
               <div className="relative aspect-[4/3] bg-neutral-100">
-                <Image src={m.url} alt={m.alt || m.fileName} fill className="object-cover" sizes="400px" />
+                <Image src={m.url} alt={m.alt || m.fileName} fill className="object-cover" sizes="400px" unoptimized />
               </div>
               <div className="p-4 space-y-2">
                 <div className="text-sm font-semibold text-neutral-900 font-bricolage truncate" title={m.fileName}>

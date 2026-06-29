@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { isPreOptimizedMedia } from "@/lib/media-url";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,6 +63,7 @@ export default function StayGallery({ title, description, location, images = [] 
             className="object-cover"
             sizes="100vw"
             priority={index === 0}
+            unoptimized={isPreOptimizedMedia(mainImage)}
           />
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,22,26,0.55) 0%, rgba(10,22,26,0.45) 40%, rgba(10,22,26,0.70) 100%)" }} />
           <div className="absolute inset-0 bg-black/10" />

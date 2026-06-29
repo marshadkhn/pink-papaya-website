@@ -20,6 +20,9 @@ arshad
 # production
 /build
 
+# local media uploads (dev fallback; production uses MEDIA_DIR outside the repo)
+/public/uploads
+
 # misc
 .DS_Store
 *.pem

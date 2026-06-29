@@ -6,6 +6,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Link from "next/link";
 import Image from "next/image";
 import { Users, BedDouble, Bath } from "lucide-react";
+import { isPreOptimizedMedia } from "@/lib/media-url";
 
 type StayCardProps = {
   title: string;
@@ -36,8 +37,6 @@ export default function StayCard({
   const displayImages = images && images.length > 0 ? images : [imageUrl];
   const showCarousel = displayImages.length > 1;
 
-  const isUnsplash = (src: string) => src.startsWith("https://images.unsplash.com/");
-
   const CardWrapper = href ? Link : "div";
   const cardWrapperProps = href ? { href } : {};
 
@@ -60,7 +59,7 @@ export default function StayCard({
                     src={src}
                     alt={title}
                     fill
-                    unoptimized={isUnsplash(src)}
+                    unoptimized={isPreOptimizedMedia(src)}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
                   />
@@ -75,7 +74,7 @@ export default function StayCard({
             src={imageUrl}
             alt={title}
             fill
-            unoptimized={isUnsplash(imageUrl)}
+            unoptimized={isPreOptimizedMedia(imageUrl)}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
           />

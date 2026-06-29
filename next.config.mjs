@@ -30,6 +30,15 @@ const nextConfig = {
 		minimumCacheTTL: 60 * 60 * 24,
 		deviceSizes: [360, 414, 640, 750, 828, 1080, 1200],
 	},
+	async rewrites() {
+		// Dev-only fallback; Nginx serves /media/ directly from MEDIA_DIR in production.
+		return [
+			{
+				source: "/media/:path*",
+				destination: "/api/media/:path*",
+			},
+		];
+	},
 	async headers() {
 		return [
 			{
@@ -61,6 +70,16 @@ const nextConfig = {
 			},
 			{
 				source: "/font-files/:path*",
+				headers: [
+					{
+						key: "Cache-Control",
+						value: "public, max-age=31536000, immutable",
+					},
+				],
+			},
+			{
+				// Dev-only fallback; Nginx serves /media/ directly in production.
+				source: "/media/:path*",
 				headers: [
 					{
 						key: "Cache-Control",
