@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { uploadPublicAsset } from "@/lib/s3";
+import { uploadPublicAsset } from "@/lib/media-storage";
 
 export const runtime = "nodejs";
 

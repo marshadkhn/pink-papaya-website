@@ -3,7 +3,7 @@ import { MediaLibrary } from "@/lib/models/MediaLibrary";
 import { connectToDatabase } from "@/lib/mongodb";
 import { getSession } from "@/lib/auth";
 import { getRolePermissions } from "@/lib/cms/rbac";
-import { deletePublicAsset } from "@/lib/s3";
+import { deletePublicAsset } from "@/lib/media-storage";
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {

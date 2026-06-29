@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { stays as staysData, stayCategories } from "@/data/stays";
+import { isPreOptimizedMedia } from "@/lib/media-url";
 
 
 export default function RoomsAndStay({ content }: { content?: any }) {
@@ -116,6 +117,7 @@ export default function RoomsAndStay({ content }: { content?: any }) {
                   alt="Previous stay image"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized={isPreOptimizedMedia(prevImageUrl)}
                   className={
                     "object-cover object-center transition-opacity duration-500 " +
                     (showNew ? "opacity-0" : "opacity-100")
@@ -127,6 +129,7 @@ export default function RoomsAndStay({ content }: { content?: any }) {
                 alt="Active stay image"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
+                unoptimized={isPreOptimizedMedia(active.imageUrl!)}
                 className={
                   "object-cover object-center transition-opacity duration-500 " +
                   (showNew ? "opacity-100" : "opacity-0")

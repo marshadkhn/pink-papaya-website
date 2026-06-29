@@ -5,6 +5,7 @@ import Container from "@/components/Container";
 import HeaderContent from "@/components/headerContent";
 import Image from "next/image";
 import { DEFAULT_PLACEHOLDER } from "@/utils/image";
+import { isPreOptimizedMedia } from "@/lib/media-url";
 
 export default function LeisureHighlights({ content }: { content?: any }) {
   const leisureItems = [
@@ -51,6 +52,7 @@ export default function LeisureHighlights({ content }: { content?: any }) {
                     alt={item.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
+                    unoptimized={isPreOptimizedMedia(item.img)}
                     className="object-cover transition-transform duration-700 hover:scale-[1.04]"
                   />
                   {/* Subtle overlay */}
