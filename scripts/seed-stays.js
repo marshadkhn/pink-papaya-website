@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 
-const uri = process.env.MONGODB_URI || 'mongodb+srv://pink-papaya:c3Nr2vYQZfJJuiFz@pinkpapaya.ohd1bmr.mongodb.net/pink-papaya?appName=pinkpapaya';
+const uri = process.env.MONGODB_URI;
+if (!uri) { console.error('MONGODB_URI env var required'); process.exit(1); }
 
 const stays = [
   {"title":"Sempre","area":"Aldona, North Goa","bed":"4 Beds","guests":"12 Guests","category":"Villa","collections":["Romantic Luxury Escapes","Expansive Views"],"description":"A 100+ year old Portuguese heritage villa in Aldona, lovingly curated by Pink Papaya Stays. Sempre is where history meets barefoot luxury in the quietest corner of North Goa.","aboutContent":"Built in 1828, Sempre is a living testament to Goa's Portuguese legacy. Nestled in the slow-paced village of Aldona, this four-bedroom heritage home has been thoughtfully restored by Pink Papaya Stays to honour its past while welcoming modern comfort. Sun-dappled verandahs, hand-painted walls, heritage art, and a private pool create a setting unlike any other in Goa.","nearbyPlaces":[{"name":"Aldona Village Market","distance":"5 min walk"},{"name":"Corjuem Fort","distance":"10 min drive"},{"name":"Mapusa Friday Market","distance":"20 min drive"},{"name":"Chapora Fort & Vagator Beach","distance":"30 min drive"}]},
