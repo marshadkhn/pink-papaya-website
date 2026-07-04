@@ -90,7 +90,7 @@ export default function LoginPage() {
                 ref={emailRef}
                 type="email"
                 className="w-full rounded-xl border border-neutral-200 bg-[#F9F7F4] px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#9A6648]/30 focus:border-[#9A6648] transition font-bricolage"
-                placeholder="admin@example.com"
+                placeholder=""
                 autoComplete="email"
                 autoFocus
                 onKeyDown={handleKeyDown}
@@ -111,7 +111,7 @@ export default function LoginPage() {
                 ref={passwordRef}
                 type="password"
                 className="w-full rounded-xl border border-neutral-200 bg-[#F9F7F4] px-4 py-3 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-[#9A6648]/30 focus:border-[#9A6648] transition font-bricolage"
-                placeholder="••••••••"
+                placeholder=""
                 autoComplete="current-password"
                 onKeyDown={handleKeyDown}
                 required

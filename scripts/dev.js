@@ -46,7 +46,7 @@ function parseStartPort(argv) {
     args.push(userArgs[i]);
   }
 
-  const child = spawn('npx', args, { stdio: 'inherit' });
+  const child = spawn('npx', args, { stdio: 'inherit', shell: true });
   child.on('close', (code) => process.exit(code === null ? 0 : code));
   child.on('error', (err) => { console.error(err); process.exit(1); });
 })();

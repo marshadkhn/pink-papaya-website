@@ -4,23 +4,22 @@ import Reveal from "@/components/ui/Reveal";
 import Container from "@/components/Container";
 import HeaderContent from "@/components/headerContent";
 import Image from "next/image";
-import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 import { isPreOptimizedMedia } from "@/lib/media-url";
 
 export default function LeisureHighlights({ content }: { content?: any }) {
   const leisureItems = [
     {
-      img: content?.image1 || DEFAULT_PLACEHOLDER,
+      img: content?.image1 || "",
       title: content?.title1 || "Always there, never in the way",
       desc: content?.desc1 || "Attentive yet effortless — our on-ground team handles every detail, so your stay feels seamless from arrival to departure.",
     },
     {
-      img: content?.image2 || DEFAULT_PLACEHOLDER,
+      img: content?.image2 || "",
       title: content?.title2 || "Wheels for every mood",
       desc: content?.desc2 || "Glide through Goa in style with curated transport — from chic scooters to chauffeured rides.",
     },
     {
-      img: content?.image3 || DEFAULT_PLACEHOLDER,
+      img: content?.image3 || "",
       title: content?.title3 || "Goa, beyond the guidebooks",
       desc: content?.desc3 || "Hidden beaches, private tables, sunset rituals — discover a side of Goa reserved only for you.",
     },
@@ -47,16 +46,19 @@ export default function LeisureHighlights({ content }: { content?: any }) {
               <div className={`${i === 1 ? "sm:-mt-16 md:-mt-24" : ""} w-full`}>
                 {/* Image */}
                 <div className="relative w-full overflow-hidden rounded-2xl bg-neutral-200 aspect-square">
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    unoptimized={isPreOptimizedMedia(item.img)}
-                    className="object-cover transition-transform duration-700 hover:scale-[1.04]"
-                  />
-                  {/* Subtle overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                  {item.img && (
+                    <>
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        unoptimized={isPreOptimizedMedia(item.img)}
+                        className="object-cover transition-transform duration-700 hover:scale-[1.04]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                    </>
+                  )}
                 </div>
 
                 {/* Text */}

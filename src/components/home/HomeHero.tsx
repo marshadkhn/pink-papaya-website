@@ -1,7 +1,6 @@
 "use client";
 
 import Hero from "@/components/Hero";
-import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
 type Props = {
   content?: {
@@ -15,7 +14,7 @@ type Props = {
 export default function HomeHero({ content }: Props) {
   return (
     <Hero
-      backgroundUrl={content?.backgroundUrl || DEFAULT_PLACEHOLDER}
+      backgroundUrl={content?.backgroundUrl || ""}
       title={content?.title || "Stay where every moment feels like a mood"}
       description={content?.description || "Handpicked homes in Goa made for unforgettable getaways"}
       titleSize="md"

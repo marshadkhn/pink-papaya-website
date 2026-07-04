@@ -7,8 +7,8 @@ import getLogger from "@/lib/logger";
 
 const logger = getLogger("Media");
 
-const MAX_DIMENSION = 2000;
-const WEBP_QUALITY = 80;
+const MAX_DIMENSION = 1200;
+const WEBP_QUALITY = 65;
 
 function getMediaDir() {
   return env.MEDIA_DIR || path.join(process.cwd(), "public", "uploads");
@@ -53,7 +53,7 @@ export async function uploadPublicAsset(input: {
         fit: "inside",
         withoutEnlargement: true,
       })
-      .webp({ quality: WEBP_QUALITY })
+      .webp({ quality: WEBP_QUALITY, effort: 6, smartSubsample: true })
       .withMetadata({})
       .toFile(destPath);
   } else {

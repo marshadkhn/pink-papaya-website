@@ -1,0 +1,54 @@
+# /etc/nginx/sites-available/pink-papaya
+# Cloudflare Origin Certificate (Full strict) + HTTP → HTTPS redirect
+
+# Redirect all HTTP traffic to HTTPS
+server {
+    listen 80;
+    server_name pinkpapayastays.com www.pinkpapayastays.com;
+    return 301 https://$host$request_uri;
+}
+
+# HTTPS origin block — Cloudflare talks to this
+server {
+    listen 443 ssl;
+    server_name pinkpapayastays.com www.pinkpapayastays.com;
+
+    ssl_certificate     /etc/nginx/ssl/papaya-origin.pem;
+    ssl_certificate_key /etc/nginx/ssl/papaya-origin.key;
+
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 1d;
+
+    client_max_body_size 50m;
+
+    # Persistent client-uploaded media (outside the repo)
+    location /media/ {
+        alias /srv/papaya-media/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    # Next.js static assets — long cache
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3000;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    # Everything else → Next.js app
+    location / {
+        proxy_pass         http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade          $http_upgrade;
+        proxy_set_header   Connection       "upgrade";
+        proxy_set_header   Host             $host;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+}
