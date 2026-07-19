@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import NextImage from "next/image";
 import { Stay, Collection, PropertyType } from "@/app/admin/stays/types";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const EMPTY: Stay = {
   id: "", title: "", imageUrl: "", area: "", bed: "", guests: "", category: "", propertyType: "",
@@ -164,6 +165,14 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
   if (loading) {
     return <div className="text-sm font-bricolage text-neutral-500 py-10">Loading configuration...</div>;
   }
+
+  const candidateImages = [];
+  if (file) candidateImages.push(URL.createObjectURL(file));
+  else if (form.imageUrl) candidateImages.push(form.imageUrl);
+  if (form.images && form.images.length > 0) candidateImages.push(...form.images);
+  
+  const validImages = candidateImages.filter((s) => typeof s === "string" && s.trim() !== "");
+  const showCarousel = validImages.length > 1;
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-8 items-start w-full">
@@ -383,10 +392,22 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
       {/* Live Preview */}
       <div className="sticky top-8 flex flex-col gap-4">
         <h3 className="text-sm font-bold uppercase tracking-wide text-neutral-500 font-bricolage px-1">Live Preview</h3>
-        <div className="bg-white rounded-2xl border border-neutral-200/80 overflow-hidden flex flex-col shadow-sm">
+        <div className="bg-white rounded-2xl border border-neutral-200/80 overflow-hidden flex flex-col shadow-sm group">
           <div className="relative w-full pt-[62%] bg-neutral-100">
-            {form.imageUrl || file ? (
-              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${file ? URL.createObjectURL(file) : form.imageUrl})` }} />
+            {showCarousel ? (
+              <Carousel className="absolute inset-0 w-full h-full" opts={{ loop: true }}>
+                <CarouselContent className="h-full !ml-0">
+                  {validImages.slice(0, 5).map((src, idx) => (
+                    <CarouselItem key={idx} className="!pl-0 relative w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]" style={{ backgroundImage: `url(${src})` }} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/90 text-neutral-900 hover:bg-white" />
+                <CarouselNext className="right-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/90 text-neutral-900 hover:bg-white" />
+              </Carousel>
+            ) : validImages.length > 0 ? (
+              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]" style={{ backgroundImage: `url(${validImages[0]})` }} />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-neutral-400 text-sm font-bricolage">No Main Image</div>
             )}

@@ -1,6 +1,7 @@
 import { stays as seedStays } from "@/data/stays";
 import connectToDatabase from "@/lib/mongodb";
 import { Stay as StayModel } from "@/lib/models/Stay";
+import mongoose from "mongoose";
 
 export type Stay = typeof seedStays[number];
 
@@ -21,7 +22,10 @@ async function ensureSeeded() {
 
 function toStay(doc: any): Stay {
   const { _id, __v, createdAt, updatedAt, ...rest } = doc;
-  return rest as Stay;
+  return {
+    ...rest,
+    id: rest.id || _id.toString(),
+  } as Stay;
 }
 
 export async function readStays(filters?: { category?: string; location?: string; guests?: string }): Promise<Stay[]> {
@@ -54,7 +58,10 @@ export async function readStays(filters?: { category?: string; location?: string
 
 export async function getStayById(id: string): Promise<Stay | undefined> {
   await ensureSeeded();
-  const doc = await StayModel.findOne({ id }).lean();
+  let doc = await StayModel.findOne({ id }).lean();
+  if (!doc && mongoose.isValidObjectId(id)) {
+    doc = await StayModel.findById(id).lean();
+  }
   return doc ? toStay(doc) : undefined;
 }
 
@@ -70,8 +77,13 @@ export async function addStay(stay: Stay): Promise<Stay> {
 
 export async function updateStay(id: string, patch: Partial<Stay>): Promise<Stay> {
   await ensureSeeded();
+  let query: any = { id };
+  if (mongoose.isValidObjectId(id)) {
+    const existing = await StayModel.findOne({ id }).lean();
+    if (!existing) query = { _id: id };
+  }
   const doc = await StayModel.findOneAndUpdate(
-    { id },
+    query,
     { $set: patch },
     { new: true }
   ).lean();
@@ -81,5 +93,10 @@ export async function updateStay(id: string, patch: Partial<Stay>): Promise<Stay
 
 export async function deleteStay(id: string): Promise<void> {
   await ensureSeeded();
-  await StayModel.deleteOne({ id });
+  let query: any = { id };
+  if (mongoose.isValidObjectId(id)) {
+    const existing = await StayModel.findOne({ id }).lean();
+    if (!existing) query = { _id: id };
+  }
+  await StayModel.deleteOne(query);
 }
