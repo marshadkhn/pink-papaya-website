@@ -4,7 +4,7 @@ import { env } from "@/lib/env";
 const COOKIE_NAME = "auth";
 
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
-const PUBLIC_WRITE_API_PATHS = new Set(["/api/login", "/api/logout"]);
+const PUBLIC_WRITE_API_PATHS = new Set(["/api/login", "/api/logout", "/api/contact"]);
 const ALWAYS_PROTECTED_API_PREFIXES = ["/api/admin", "/api/cms", "/api/debug"];
 
 function constantTimeEqual(a: string, b: string): boolean {

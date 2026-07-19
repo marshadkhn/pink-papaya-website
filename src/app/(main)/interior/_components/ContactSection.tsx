@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, FormEvent } from "react";
 import Container from "@/components/Container";
 import Reveal from "@/components/ui/Reveal";
 import { ChevronDown } from "lucide-react";
@@ -12,6 +13,31 @@ const labelBase =
   "font-bricolage text-[9px] uppercase tracking-[0.22em] font-semibold text-neutral-400 block mb-2";
 
 export default function ContactSection() {
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const website = String(fd.get("website") || "");
+    const data = Object.fromEntries(fd.entries()) as Record<string, string>;
+    delete data.website;
+
+    setStatus("submitting");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formType: "interior", website, data }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section className="bg-white pt-3 pb-8 lg:pt-4 lg:pb-10">
       <Container>
@@ -42,7 +68,7 @@ export default function ContactSection() {
           {/* Right — form box */}
           <Reveal delay={0.1}>
             <div className="border border-neutral-200 p-8 md:p-10">
-              <form className="flex flex-col gap-8">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-8">
 
                 {/* Row 1 — Name + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -124,13 +150,35 @@ export default function ContactSection() {
                   />
                 </div>
 
+                {/* Honeypot — hidden from real users */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
+
                 {/* Submit */}
-                <div className="flex justify-end">
+                <div className="flex items-center justify-between gap-4">
+                  <p
+                    className="font-bricolage text-[11px]"
+                    aria-live="polite"
+                  >
+                    {status === "success" && (
+                      <span className="text-[#16323C]">Thank you — we&apos;ll be in touch.</span>
+                    )}
+                    {status === "error" && (
+                      <span className="text-red-600">Something went wrong. Please try again.</span>
+                    )}
+                  </p>
                   <Button
                     type="submit"
-                    className="font-bricolage text-[11px] uppercase tracking-[0.22em] font-semibold h-12 px-10"
+                    disabled={status === "submitting"}
+                    className="font-bricolage text-[11px] uppercase tracking-[0.22em] font-semibold h-12 px-10 disabled:opacity-70"
                   >
-                    Submit
+                    {status === "submitting" ? "Sending..." : status === "success" ? "Sent" : "Submit"}
                   </Button>
                 </div>
 

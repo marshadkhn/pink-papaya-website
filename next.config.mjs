@@ -7,6 +7,11 @@ const nextConfig = {
 		optimizePackageImports: ["lucide-react", "react-icons"],
 	},
 	images: {
+		// In dev, the optimizer lazily compiles and fetches each source image by
+		// calling back into the dev server; a full page of images (plus media
+		// proxied from the VPS) makes first loads flaky. Serve images directly in
+		// dev; production keeps full optimization.
+		unoptimized: process.env.NODE_ENV !== "production",
 		formats: ["image/avif", "image/webp"],
 		qualities: [25, 50, 75, 85, 90, 100],
 		remotePatterns: [
@@ -31,11 +36,18 @@ const nextConfig = {
 		deviceSizes: [360, 414, 640, 750, 828, 1080, 1200],
 	},
 	async rewrites() {
-		// Dev-only fallback; Nginx serves /media/ directly from MEDIA_DIR in production.
+		// In dev, uploaded media lives on the VPS disk, not locally. If a proxy
+		// origin is configured, pull /media/* straight from the server so CMS
+		// images (hero, etc.) render locally. Otherwise fall back to the local
+		// /api/media handler. Nginx serves /media/ directly in production.
+		const mediaProxy = process.env.MEDIA_PROXY_ORIGIN;
+		const useProxy = process.env.NODE_ENV !== "production" && mediaProxy;
 		return [
 			{
 				source: "/media/:path*",
-				destination: "/api/media/:path*",
+				destination: useProxy
+					? `${mediaProxy}/media/:path*`
+					: "/api/media/:path*",
 			},
 		];
 	},

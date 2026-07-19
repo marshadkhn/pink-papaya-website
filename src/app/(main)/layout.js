@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import InstagramFeed from "@/components/InstagramFeed";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 import FrozenRoute from "@/components/FrozenRoute";
@@ -40,6 +41,7 @@ export default function MainLayout({ children }) {
           </motion.main>
         </AnimatePresence>
       </div>
+      <InstagramFeed />
       <Footer />
       <WhatsAppButton />
     </div>

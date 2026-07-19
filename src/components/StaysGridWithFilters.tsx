@@ -93,7 +93,9 @@ export default function StaysGridWithFilters({ stays, locations, propertyTypes, 
   };
 
   const filteredStays = useMemo(() => {
-    let filtered = [...stays];
+    // Guard against malformed records (missing id): they can't produce a valid
+    // detail link or a unique React key, so they must not be rendered.
+    let filtered = stays.filter((s) => s.id);
 
     if (selectedPropertyType && selectedPropertyType !== "all-homes") {
       filtered = filtered.filter((s) => s.propertyType === selectedPropertyType);

@@ -5,21 +5,22 @@ import Container from "@/components/Container";
 import HeaderContent from "@/components/headerContent";
 import Image from "next/image";
 import { isPreOptimizedMedia } from "@/lib/media-url";
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
 export default function LeisureHighlights({ content }: { content?: any }) {
   const leisureItems = [
     {
-      img: content?.image1 || "",
+      img: content?.image1 || DEFAULT_PLACEHOLDER,
       title: content?.title1 || "Always there, never in the way",
       desc: content?.desc1 || "Attentive yet effortless — our on-ground team handles every detail, so your stay feels seamless from arrival to departure.",
     },
     {
-      img: content?.image2 || "",
+      img: content?.image2 || DEFAULT_PLACEHOLDER,
       title: content?.title2 || "Wheels for every mood",
       desc: content?.desc2 || "Glide through Goa in style with curated transport — from chic scooters to chauffeured rides.",
     },
     {
-      img: content?.image3 || "",
+      img: content?.image3 || DEFAULT_PLACEHOLDER,
       title: content?.title3 || "Goa, beyond the guidebooks",
       desc: content?.desc3 || "Hidden beaches, private tables, sunset rituals — discover a side of Goa reserved only for you.",
     },

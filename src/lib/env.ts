@@ -8,6 +8,18 @@ const serverEnvSchema = z.object({
   NEXT_PUBLIC_CDN_BASE_URL: z.string().url().optional(),
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   MEDIA_DIR: z.string().min(1).optional(),
+  MEDIA_PROXY_ORIGIN: z.string().url().optional(),
+  INSTAGRAM_ACCESS_TOKEN: z.string().min(1).optional(),
+  // SMTP config for sending website form submissions by email.
+  SMTP_HOST: z.string().min(1).optional(),
+  SMTP_PORT: z.string().min(1).optional(),
+  SMTP_USER: z.string().min(1).optional(),
+  SMTP_PASS: z.string().min(1).optional(),
+  SMTP_SECURE: z.enum(["true", "false"]).optional(),
+  CONTACT_EMAIL_TO: z.string().optional(),
+  CONTACT_EMAIL_FROM: z.string().optional(),
+  // Google Apps Script web-app URL that logs partner-form submissions to a sheet.
+  PARTNER_SHEET_WEBHOOK_URL: z.string().url().optional(),
 });
 
 const parsed = serverEnvSchema.safeParse(process.env);

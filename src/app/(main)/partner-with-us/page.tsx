@@ -15,13 +15,37 @@ export default function BecomeHostPage() {
     location: "",
     email: "",
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [website, setWebsite] = useState(""); // honeypot
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-  const handleSubmit = (e: FormEvent) => {
+  // Auto-download the brochure PDF once the form is submitted successfully.
+  const triggerBrochureDownload = () => {
+    const a = document.createElement("a");
+    a.href = "/test.pdf";
+    a.download = "test.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 5000);
+    setStatus("submitting");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formType: "partner", website, data: formData }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus("success");
+      setFormData({ name: "", location: "", email: "" });
+      triggerBrochureDownload();
+      setTimeout(() => setStatus("idle"), 6000);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 6000);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,27 +153,32 @@ export default function BecomeHostPage() {
                       className="h-11 border-0 bg-white/70 placeholder:text-neutral-400 text-[#16323C] text-sm rounded-full px-4"
                     />
                   </div>
+                  {/* Honeypot — hidden from real users */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                  />
                   <button
                     type="submit"
-                    className="w-full mt-1 h-11 rounded-full font-bricolage text-sm font-medium text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(22,50,60,0.2)] active:scale-[0.98]"
+                    disabled={status === "submitting"}
+                    className="w-full mt-1 h-11 rounded-full font-bricolage text-sm font-medium text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(22,50,60,0.2)] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100"
                     style={{ background: "#16323C" }}
                   >
-                    {isSubmitted ? "Submitted!" : "Submit Interest"}
+                    {status === "submitting"
+                      ? "Submitting..."
+                      : status === "success"
+                      ? "Submitted!"
+                      : "Submit Interest"}
                   </button>
                   <div className="h-6 relative">
                     <AnimatePresence mode="wait">
-                      {!isSubmitted ? (
-                        <motion.p
-                          key="default-msg"
-                          initial={{ opacity: 0, y: -5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 5 }}
-                          transition={{ duration: 0.3 }}
-                          className="absolute inset-x-0 pt-1 text-center text-[10px] font-bricolage text-[#16323C]/50"
-                        >
-                          We&apos;ll reach out within 24 hours.
-                        </motion.p>
-                      ) : (
+                      {status === "success" ? (
                         <motion.p
                           key="success-msg"
                           initial={{ opacity: 0, y: -5, scale: 0.95 }}
@@ -159,6 +188,28 @@ export default function BecomeHostPage() {
                           className="absolute inset-x-0 pt-1 text-center text-[11px] font-bricolage font-medium text-[#16323C]"
                         >
                           Thank you! We&apos;ll be in touch soon.
+                        </motion.p>
+                      ) : status === "error" ? (
+                        <motion.p
+                          key="error-msg"
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 5 }}
+                          transition={{ duration: 0.3 }}
+                          className="absolute inset-x-0 pt-1 text-center text-[10px] font-bricolage text-red-600"
+                        >
+                          Something went wrong. Please try again.
+                        </motion.p>
+                      ) : (
+                        <motion.p
+                          key="default-msg"
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 5 }}
+                          transition={{ duration: 0.3 }}
+                          className="absolute inset-x-0 pt-1 text-center text-[10px] font-bricolage text-[#16323C]/50"
+                        >
+                          We&apos;ll reach out within 24 hours.
                         </motion.p>
                       )}
                     </AnimatePresence>

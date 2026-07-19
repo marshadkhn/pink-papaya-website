@@ -1,6 +1,6 @@
 import Container from "@/components/Container";
-import { Button } from "@/components/ui/button";
 import { Phone, Mail, MessageSquare } from "lucide-react";
+import ContactForm from "./_components/ContactForm";
 
 export default function ContactPage() {
   return (
@@ -68,67 +68,7 @@ export default function ContactPage() {
 
           {/* Right: Contact Form */}
           <div className="bg-white border border-neutral-100 rounded-2xl p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <form action="#" method="post" className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
-                    Name
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="Jane Doe"
-                    required
-                    className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="phone-number" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
-                    Phone Number
-                  </label>
-                  <input
-                    id="phone-number"
-                    type="tel"
-                    placeholder="(555) 000-0000"
-                    className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="jane@example.com"
-                  required
-                  className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-4 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 ml-1">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  placeholder="How can we make your stay exceptional?"
-                  required
-                  className="w-full rounded-xl bg-[#F7F2EA] border-none px-5 py-5 text-sm text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-1 focus:ring-[#C07A5A]/20 transition-all resize-none"
-                />
-              </div>
-
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full py-8"
-              >
-                Send Message
-              </Button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </Container>

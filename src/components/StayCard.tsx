@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Users, BedDouble, Bath } from "lucide-react";
 import { isPreOptimizedMedia } from "@/lib/media-url";
+import { DEFAULT_PLACEHOLDER } from "@/utils/image";
 
 type StayCardProps = {
   title: string;
@@ -34,7 +35,11 @@ export default function StayCard({
   pricePerNight,
   location,
 }: StayCardProps) {
-  const displayImages = images && images.length > 0 ? images : [imageUrl];
+  // Drop empty/blank sources so <Image> never receives src="" (which triggers a
+  // console error and a full-page re-download); fall back to a placeholder.
+  const candidateImages = images && images.length > 0 ? images : [imageUrl];
+  const validImages = candidateImages.filter((s) => typeof s === "string" && s.trim() !== "");
+  const displayImages = validImages.length > 0 ? validImages : [DEFAULT_PLACEHOLDER];
   const showCarousel = displayImages.length > 1;
 
   const CardWrapper = href ? Link : "div";
@@ -71,10 +76,10 @@ export default function StayCard({
           </Carousel>
         ) : (
           <Image
-            src={imageUrl}
+            src={displayImages[0]}
             alt={title}
             fill
-            unoptimized={isPreOptimizedMedia(imageUrl)}
+            unoptimized={isPreOptimizedMedia(displayImages[0])}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]"
           />
