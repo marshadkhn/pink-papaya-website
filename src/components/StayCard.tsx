@@ -37,8 +37,8 @@ export default function StayCard({
 }: StayCardProps) {
   // Drop empty/blank sources so <Image> never receives src="" (which triggers a
   // console error and a full-page re-download); fall back to a placeholder.
-  const candidateImages = images && images.length > 0 ? images : [imageUrl];
-  const validImages = candidateImages.filter((s) => typeof s === "string" && s.trim() !== "");
+  const allCandidateImages = [imageUrl, ...(images ?? [])].filter((s) => typeof s === "string" && s.trim() !== "");
+  const validImages = allCandidateImages.filter((item, index) => allCandidateImages.indexOf(item) === index);
   const displayImages = validImages.length > 0 ? validImages : [DEFAULT_PLACEHOLDER];
   const showCarousel = displayImages.length > 1;
 

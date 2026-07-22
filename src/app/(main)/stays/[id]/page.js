@@ -54,7 +54,7 @@ export default async function StayDetailPage({ params }) {
                 title={stay.title}
                 description={stay.description}
                 location={stay.location}
-                images={stay.images || [stay.imageUrl]}
+                images={[stay.imageUrl, ...(stay.images || [])].filter((img, idx, self) => img && self.indexOf(img) === idx)}
             />
 
             <Container>
