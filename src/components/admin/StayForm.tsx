@@ -25,8 +25,13 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<Stay>(initialData ?? EMPTY);
-  const [file, setFile] = useState<File | null>(null);
-  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [allImages, setAllImages] = useState<string[]>(() => {
+    const arr = [];
+    if (initialData?.imageUrl) arr.push(initialData.imageUrl);
+    if (initialData?.images) arr.push(...initialData.images);
+    return arr;
+  });
+  const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
   const [imageUrlInput, setImageUrlInput] = useState("");
   const [galleryUploading, setGalleryUploading] = useState(false);
   const galleryFileRef = useRef<HTMLInputElement>(null);
@@ -87,18 +92,50 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
     if (!must(form.bed)) errs.bed = "Bed info is required.";
     if (!must(form.guests)) errs.guests = "Guests info is required.";
     if (!must(form.category)) errs.category = "Category is required.";
-    if (!form.imageUrl && !file) errs.imageUrl = "Provide an Image URL or upload a file.";
+    if (allImages.length === 0) errs.imageUrl = "Provide at least one image.";
     if (must(form.pricePerNight) && !/^\$?₹?\d/.test((form.pricePerNight ?? "").trim()))
       errs.pricePerNight = "Price should start with a number.";
     return errs;
   }
 
-  async function uploadIfNeeded(): Promise<string> {
-    if (!file) return form.imageUrl;
-    const fd = new FormData(); fd.append("file", file);
-    const res = await fetch("/api/upload", { method: "POST", body: fd });
-    if (!res.ok) throw new Error("Upload failed");
-    return (await res.json()).url as string;
+  function handleDragStart(e: React.DragEvent, idx: number) {
+    setDraggedIdx(idx);
+    e.dataTransfer.effectAllowed = "move";
+  }
+
+  function handleDragOver(e: React.DragEvent, idx: number) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  }
+
+  function handleDrop(e: React.DragEvent, dropIdx: number) {
+    e.preventDefault();
+    if (draggedIdx === null || draggedIdx === dropIdx) return;
+    
+    setAllImages(prev => {
+      const newArr = [...prev];
+      const [movedItem] = newArr.splice(draggedIdx, 1);
+      newArr.splice(dropIdx, 0, movedItem);
+      return newArr;
+    });
+    setDraggedIdx(null);
+  }
+
+  async function handleFileUpload(files: FileList | File[]) {
+    if (!files.length) return;
+    setGalleryUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const f of files) {
+        const fd = new FormData(); fd.append("file", f);
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        if (!res.ok) throw new Error("Upload failed");
+        urls.push((await res.json()).url as string);
+      }
+      setAllImages(prev => [...prev, ...urls]);
+      if (galleryFileRef.current) galleryFileRef.current.value = "";
+    } catch (e: any) { alert(e?.message ?? "Upload failed"); }
+    finally { setGalleryUploading(false); }
   }
 
   async function handleSubmit() {
@@ -107,11 +144,18 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
     if (Object.keys(v).length) return;
     setSubmitting(true);
     try {
-      const finalImageUrl = await uploadIfNeeded();
+      const finalImageUrl = allImages[0] || "";
+      const finalGallery = allImages.slice(1);
       const { id: _omit, ...rest } = form as any;
       const url = isEdit ? `/api/stays/${initialData.id}` : "/api/stays";
       const method = isEdit ? "PATCH" : "POST";
-      const body = isEdit ? { ...rest, pricePerNight: normalizePrice(form.pricePerNight), imageUrl: finalImageUrl, images: form.images ?? [], amenities: form.amenities ?? [] } : { ...form, pricePerNight: normalizePrice(form.pricePerNight), imageUrl: finalImageUrl, images: form.images ?? [], amenities: form.amenities ?? [] };
+      const body = { 
+        ...rest, 
+        pricePerNight: normalizePrice(form.pricePerNight), 
+        imageUrl: finalImageUrl, 
+        images: finalGallery, 
+        amenities: form.amenities ?? [] 
+      };
 
       const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
       if (res.ok) {
@@ -123,24 +167,6 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
       }
     } catch (e: any) { alert(e?.message ?? "Failed"); }
     finally { setSubmitting(false); }
-  }
-
-  async function addGalleryFiles(files: File[]) {
-    if (!files.length) return;
-    setGalleryUploading(true);
-    try {
-      const urls: string[] = [];
-      for (const f of files) {
-        const fd = new FormData(); fd.append("file", f);
-        const res = await fetch("/api/upload", { method: "POST", body: fd });
-        if (!res.ok) throw new Error("Upload failed");
-        urls.push((await res.json()).url as string);
-      }
-      setForm((f) => ({ ...f, images: [...(f.images ?? []), ...urls] }));
-      if (galleryFileRef.current) galleryFileRef.current.value = "";
-      setGalleryFiles([]);
-    } catch (e: any) { alert(e?.message ?? "Upload failed"); }
-    finally { setGalleryUploading(false); }
   }
 
   function addAmenity() {
@@ -166,10 +192,7 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
     return <div className="text-sm font-bricolage text-neutral-500 py-10">Loading configuration...</div>;
   }
 
-  const candidateImages = [];
-  if (file) candidateImages.push(URL.createObjectURL(file));
-  else if (form.imageUrl) candidateImages.push(form.imageUrl);
-  if (form.images && form.images.length > 0) candidateImages.push(...form.images);
+  const candidateImages = [...allImages];
   
   const validImages = candidateImages.filter((s) => typeof s === "string" && s.trim() !== "");
   const showCarousel = validImages.length > 1;
@@ -254,68 +277,114 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
           </div>
         </div>
 
-        {/* Images */}
+        {/* Unified Media Manager */}
         <div className="pt-6 border-t border-neutral-100 space-y-6">
-          <div className="space-y-2">
-            <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Upload Main Image</Label>
-            <Input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
-          </div>
-
-          <div className="space-y-3">
-            <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Gallery Images</Label>
-            {(form.images ?? []).length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
-                {(form.images ?? []).map((url, idx) => (
-                  <div key={idx} className="relative group rounded-lg overflow-hidden aspect-square bg-neutral-100">
-                    <NextImage src={url} alt="" fill className="object-cover" unoptimized />
-                    <button
-                      type="button"
-                      onClick={() => setForm((f) => ({ ...f, images: (f.images ?? []).filter((_, i) => i !== idx) }))}
-                      className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white text-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    >×</button>
-                  </div>
-                ))}
-              </div>
-            )}
-
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Media (Drag to reorder)</Label>
             <div className="flex gap-2">
-              <Input
-                placeholder="Paste image URL…"
-                value={imageUrlInput}
-                onChange={(e) => setImageUrlInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    const v = imageUrlInput.trim();
-                    if (v) { setForm((f) => ({ ...f, images: [...(f.images ?? []), v] })); setImageUrlInput(""); }
-                  }
-                }}
-              />
-              <Button type="button" variant="outlineBlack" onClick={() => {
-                const v = imageUrlInput.trim();
-                if (v) { setForm((f) => ({ ...f, images: [...(f.images ?? []), v] })); setImageUrlInput(""); }
-              }}>Add</Button>
-            </div>
-
-            <div className="flex gap-3 items-center">
               <input
                 ref={galleryFileRef}
                 type="file"
                 accept="image/*"
                 multiple
-                onChange={(e) => setGalleryFiles(Array.from(e.target.files ?? []))}
-                className="flex-1 text-sm text-neutral-600 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-neutral-100 file:text-neutral-700 hover:file:bg-neutral-200 cursor-pointer"
+                className="hidden"
+                onChange={(e) => handleFileUpload(e.target.files ? Array.from(e.target.files) : [])}
               />
-              <Button
-                type="button"
-                variant="outlineBlack"
-                disabled={galleryUploading || galleryFiles.length === 0}
-                onClick={() => addGalleryFiles(galleryFiles)}
-              >
-                {galleryUploading ? "Uploading…" : "Upload Files"}
+              <Button type="button" variant="outlineBlack" onClick={() => galleryFileRef.current?.click()} disabled={galleryUploading}>
+                {galleryUploading ? "Uploading..." : "Upload Images"}
               </Button>
             </div>
           </div>
+          
+          <div className="flex gap-2">
+            <Input
+              placeholder="Paste image URL…"
+              value={imageUrlInput}
+              onChange={(e) => setImageUrlInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  const v = imageUrlInput.trim();
+                  if (v) { setAllImages(prev => [...prev, v]); setImageUrlInput(""); }
+                }
+              }}
+            />
+            <Button type="button" variant="outlineBlack" onClick={() => {
+              const v = imageUrlInput.trim();
+              if (v) { setAllImages(prev => [...prev, v]); setImageUrlInput(""); }
+            }}>Add URL</Button>
+          </div>
+
+          {allImages.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+              {allImages.map((url, idx) => (
+                <div 
+                  key={url + idx} 
+                  draggable 
+                  onDragStart={(e) => handleDragStart(e, idx)}
+                  onDragOver={(e) => handleDragOver(e, idx)}
+                  onDrop={(e) => handleDrop(e, idx)}
+                  className={`relative group rounded-xl overflow-hidden aspect-square bg-neutral-100 border-2 cursor-grab active:cursor-grabbing transition-all ${idx === 0 ? 'border-[#C07A5A] ring-2 ring-[#C07A5A]/20' : 'border-transparent hover:border-neutral-300'}`}
+                >
+                  <NextImage src={url} alt="" fill className="object-cover" unoptimized />
+                  
+                  {idx === 0 && (
+                    <div className="absolute top-2 left-2 bg-[#C07A5A] text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow-sm">
+                      Main Image
+                    </div>
+                  )}
+                  
+                  <button
+                    type="button"
+                    onClick={() => setAllImages(prev => prev.filter((_, i) => i !== idx))}
+                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white text-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-600"
+                  >×</button>
+                  
+                  {idx !== 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setAllImages(prev => {
+                        const arr = [...prev];
+                        const [item] = arr.splice(idx, 1);
+                        arr.unshift(item);
+                        return arr;
+                      })}
+                      className="absolute top-2 left-2 bg-white/90 text-neutral-800 hover:text-[#C07A5A] text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+                    >
+                      Make Main
+                    </button>
+                  )}
+                  
+                  <div className="absolute bottom-2 left-2 right-2 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity gap-1">
+                    <button 
+                      type="button"
+                      disabled={idx === 0}
+                      onClick={() => setAllImages(prev => {
+                        const arr = [...prev];
+                        [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
+                        return arr;
+                      })}
+                      className="bg-white/90 text-neutral-800 p-1 rounded hover:bg-white disabled:opacity-30 flex-1 flex justify-center items-center shadow-sm"
+                    >
+                      ←
+                    </button>
+                    <button 
+                      type="button"
+                      disabled={idx === allImages.length - 1}
+                      onClick={() => setAllImages(prev => {
+                        const arr = [...prev];
+                        [arr[idx+1], arr[idx]] = [arr[idx], arr[idx+1]];
+                        return arr;
+                      })}
+                      className="bg-white/90 text-neutral-800 p-1 rounded hover:bg-white disabled:opacity-30 flex-1 flex justify-center items-center shadow-sm"
+                    >
+                      →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Amenities */}
@@ -399,7 +468,7 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
                 <CarouselContent className="h-full !ml-0">
                   {validImages.slice(0, 5).map((src, idx) => (
                     <CarouselItem key={idx} className="!pl-0 relative w-full h-full overflow-hidden">
-                      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]" style={{ backgroundImage: `url(${src})` }} />
+                      <NextImage src={src} alt="" fill unoptimized className="object-cover transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]" />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -407,7 +476,7 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
                 <CarouselNext className="right-3 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity border-none bg-white/90 text-neutral-900 hover:bg-white" />
               </Carousel>
             ) : validImages.length > 0 ? (
-              <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]" style={{ backgroundImage: `url(${validImages[0]})` }} />
+              <NextImage src={validImages[0]} alt="" fill unoptimized className="object-cover transition-transform duration-700 scale-[1.01] group-hover:scale-[1.04]" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-neutral-400 text-sm font-bricolage">No Main Image</div>
             )}
