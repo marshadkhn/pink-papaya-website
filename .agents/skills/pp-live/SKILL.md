@@ -1,11 +1,11 @@
 ---
-name: live
-description: Triggered when user types /live or requests to build, push to GitHub, deploy to VPS, and verify live server status.
+name: pp-live
+description: Triggered when user types /pp-live or requests to build, push to GitHub, deploy to VPS, and verify Pink Papaya live server status.
 ---
 
-# Live Deployment Workflow (/live)
+# Pink Papaya Live Deployment Workflow (/pp-live)
 
-When the user asks to deploy to live or triggers `/live`:
+When the user asks to deploy to live or triggers `/pp-live`:
 
 1. **Build & Typecheck Verification**:
    - Run `npx tsc --noEmit` and `npm run lint` (or check for compilation errors) in `d:\Freelancing\Magicteal\pink-papaya-website`.
