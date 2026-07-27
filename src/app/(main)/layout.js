@@ -38,10 +38,10 @@ export default function MainLayout({ children }) {
             <FrozenRoute>
               {children}
             </FrozenRoute>
+            <InstagramFeed />
           </motion.main>
         </AnimatePresence>
       </div>
-      <InstagramFeed />
       <Footer />
       <WhatsAppButton />
     </div>

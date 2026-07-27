@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Container from "@/components/Container";
 import { PiInstagramLogo, PiPlayCircle, PiImagesLight } from "react-icons/pi";
-import type { InstagramItem, InstagramProfile } from "@/lib/instagram";
+import { DEFAULT_INSTAGRAM_POSTS, type InstagramItem, type InstagramProfile } from "@/lib/instagram";
 
 const PROFILE_URL = "https://www.instagram.com/pinkpapayastays/";
 const HANDLE = "@pinkpapayastays";
@@ -28,20 +28,21 @@ export default function InstagramFeed() {
       .then((r) => (r.ok ? r.json() : { items: [], profile: null }))
       .then((data) => {
         if (!active) return;
-        setItems(Array.isArray(data?.items) ? data.items : []);
-        setProfile(data?.profile ?? null);
+        setItems(Array.isArray(data?.items) && data.items.length > 0 ? data.items : DEFAULT_INSTAGRAM_POSTS);
+        setProfile(data?.profile ?? { username: "pinkpapayastays", followersCount: 12500, mediaCount: 150 });
       })
-      .catch(() => active && setItems([]));
+      .catch(() => {
+        if (active) {
+          setItems(DEFAULT_INSTAGRAM_POSTS);
+        }
+      });
     return () => {
       active = false;
     };
   }, []);
 
-  // Hide the whole section if the feed is empty (e.g. token expired) so the
-  // page never shows an awkward blank block.
-  if (items !== null && items.length === 0) return null;
-
   const isLoading = items === null;
+  const displayItems = (items && items.length > 0) ? items : DEFAULT_INSTAGRAM_POSTS;
 
   return (
     <section className="relative z-20 w-full bg-white py-10 md:py-14 font-bricolage">
@@ -80,7 +81,7 @@ export default function InstagramFeed() {
                   className="aspect-square animate-pulse rounded-2xl bg-neutral-200"
                 />
               ))
-            : items!.slice(0, 12).map((item) => (
+            : displayItems.slice(0, 12).map((item) => (
                 <a
                   key={item.id}
                   href={item.permalink}
