@@ -3,15 +3,19 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const host = request.headers.get("host") || "";
+  const rawHost =
+    request.headers.get("x-forwarded-host") ||
+    request.headers.get("host") ||
+    "";
 
   // Extract hostname without port (e.g. "187.127.187.184:3000" -> "187.127.187.184")
-  const hostname = host.split(":")[0].toLowerCase();
+  const hostname = rawHost.split(":")[0].toLowerCase().trim();
 
   // Check if request is originating directly from IP address or localhost
   const isIPOrLocalhost =
     /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|localhost)$/.test(hostname) ||
-    hostname === "127.0.0.1";
+    hostname === "127.0.0.1" ||
+    hostname === "187.127.187.184";
 
   // Allow static assets, images, API routes, and the /coming-soon page itself
   if (
@@ -26,7 +30,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // If request comes from a domain name (e.g. pinkpapaya.in, www.pinkpapaya.in), serve "Coming Soon"
+  // If request comes from ANY domain name (e.g. pinkpapayastays.com, pinkpapaya.in), serve "Coming Soon"
   if (!isIPOrLocalhost) {
     return NextResponse.rewrite(new URL("/coming-soon", request.url));
   }
@@ -36,13 +40,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 };
