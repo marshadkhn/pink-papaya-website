@@ -3,36 +3,36 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Extract host header sent by client / Nginx
   const rawHost =
     request.headers.get("x-forwarded-host") ||
     request.headers.get("host") ||
     "";
 
-  // Extract hostname without port (e.g. "187.127.187.184:3000" -> "187.127.187.184")
   const hostname = rawHost.split(":")[0].toLowerCase().trim();
 
-  // Check if request is originating directly from IP address or localhost
-  const isIPOrLocalhost =
-    /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|localhost)$/.test(hostname) ||
-    hostname === "127.0.0.1" ||
-    hostname === "187.127.187.184";
-
-  // Allow static assets, images, API routes, and the /coming-soon page itself
+  // Allow static assets & essential routes
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/media") ||
     pathname.startsWith("/images") ||
     pathname.startsWith("/logo-files") ||
-    pathname === "/favicon.ico" ||
-    pathname === "/coming-soon"
+    pathname === "/favicon.ico"
   ) {
     return NextResponse.next();
   }
 
-  // If request comes from ANY domain name (e.g. pinkpapayastays.com, pinkpapaya.in), serve "Coming Soon"
-  if (!isIPOrLocalhost) {
-    return NextResponse.rewrite(new URL("/coming-soon", request.url));
+  // Check if request is directly to IP address or localhost
+  const isIP = /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/.test(hostname);
+  const isLocalhost = hostname === "localhost" || hostname === "127.0.0.1";
+
+  // If accessed via ANY domain name (e.g. pinkpapayastays.com, pinkpapaya.in, etc.)
+  if (!isIP && !isLocalhost) {
+    if (pathname !== "/coming-soon") {
+      return NextResponse.rewrite(new URL("/coming-soon", request.url));
+    }
   }
 
   return NextResponse.next();
