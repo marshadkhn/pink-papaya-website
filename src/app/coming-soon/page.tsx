@@ -15,18 +15,8 @@ export default function ComingSoonPage() {
       {/* Spacer for vertical center alignment */}
       <div aria-hidden="true" />
 
-      {/* Ultra-Minimal Centered Content (No Navbar) */}
+      {/* Ultra-Minimal Centered Content */}
       <section className="w-full max-w-3xl mx-auto flex flex-col items-center text-center z-10 my-auto py-8">
-        {/* Brand Icon Mark */}
-        <div className="flex flex-col items-center gap-3 mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-[#C07A5A] flex items-center justify-center text-white font-serif font-bold text-2xl shadow-lg border border-[#C07A5A]">
-            P
-          </div>
-          <span className="font-serif text-sm font-semibold tracking-[0.25em] uppercase text-[#C07A5A]">
-            Pink Papaya Stays
-          </span>
-        </div>
-
         {/* Main Heading */}
         <h1 className="font-playfair text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#16323C] leading-[1.12] mb-6">
           Something Extraordinary <br />
