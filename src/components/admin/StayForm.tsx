@@ -277,11 +277,18 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
           </div>
         </div>
 
-        {/* Unified Media Manager */}
+        {/* Unified Media Manager & 5 Hero Images Control */}
         <div className="pt-6 border-t border-neutral-100 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">Media (Drag to reorder)</Label>
-            <div className="flex gap-2">
+            <div>
+              <Label className="text-xs font-bold uppercase tracking-wide text-neutral-700">
+                Property Media & Hero Grid Manager
+              </Label>
+              <p className="text-xs text-neutral-500 font-bricolage mt-0.5">
+                The <span className="font-semibold text-[#C07A5A]">first 5 images</span> will be used as the 5-photo Hero Grid on the stay detail page (Tisya/Airbnb Style). Drag or click position buttons to arrange.
+              </p>
+            </div>
+            <div className="flex gap-2 shrink-0">
               <input
                 ref={galleryFileRef}
                 type="file"
@@ -315,74 +322,163 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
             }}>Add URL</Button>
           </div>
 
+          {/* 5-Image Hero Grid Live Preview in Admin Form */}
           {allImages.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
-              {allImages.map((url, idx) => (
-                <div 
-                  key={url + idx} 
-                  draggable 
-                  onDragStart={(e) => handleDragStart(e, idx)}
-                  onDragOver={(e) => handleDragOver(e, idx)}
-                  onDrop={(e) => handleDrop(e, idx)}
-                  className={`relative group rounded-xl overflow-hidden aspect-square bg-neutral-100 border-2 cursor-grab active:cursor-grabbing transition-all ${idx === 0 ? 'border-[#C07A5A] ring-2 ring-[#C07A5A]/20' : 'border-transparent hover:border-neutral-300'}`}
-                >
-                  <NextImage src={url} alt="" fill className="object-cover" unoptimized />
-                  
-                  {idx === 0 && (
-                    <div className="absolute top-2 left-2 bg-[#C07A5A] text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow-sm">
-                      Main Image
-                    </div>
+            <div className="p-4 rounded-2xl bg-neutral-50 border border-neutral-200/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold uppercase tracking-wider text-neutral-700 font-bricolage">
+                  Hero 5-Photo Grid Preview (Live Layout)
+                </span>
+                <span className="text-[11px] text-neutral-400 font-bricolage">
+                  {Math.min(allImages.length, 5)} of 5 Hero Slots Filled
+                </span>
+              </div>
+
+              <div className="grid grid-cols-4 gap-2 h-44 w-full rounded-xl overflow-hidden bg-neutral-200 border border-neutral-300/60 p-1">
+                {/* Hero #1 (Left Feature) */}
+                <div className="col-span-2 relative h-full rounded-lg overflow-hidden bg-neutral-100 border border-neutral-200">
+                  {allImages[0] ? (
+                    <>
+                      <NextImage src={allImages[0]} alt="" fill className="object-cover" unoptimized />
+                      <div className="absolute top-1.5 left-1.5 bg-[#C07A5A] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                        #1 Main Left
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-xs text-neutral-400">#1 Empty</div>
                   )}
-                  
-                  <button
-                    type="button"
-                    onClick={() => setAllImages(prev => prev.filter((_, i) => i !== idx))}
-                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white text-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-600"
-                  >×</button>
-                  
-                  {idx !== 0 && (
+                </div>
+
+                {/* Hero #2, #3, #4, #5 Grid */}
+                <div className="col-span-2 grid grid-cols-2 grid-rows-2 gap-1.5 h-full">
+                  {[1, 2, 3, 4].map((slotIdx) => {
+                    const url = allImages[slotIdx];
+                    const labels = ["#2 Top Left", "#3 Top Right", "#4 Bottom Left", "#5 Bottom Right"];
+                    return (
+                      <div key={slotIdx} className="relative h-full w-full rounded-lg overflow-hidden bg-neutral-100 border border-neutral-200">
+                        {url ? (
+                          <>
+                            <NextImage src={url} alt="" fill className="object-cover" unoptimized />
+                            <div className="absolute top-1 left-1 bg-[#16323C] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow opacity-90">
+                              {labels[slotIdx - 1]}
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-[10px] text-neutral-400">
+                            #{slotIdx + 1} Empty
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* All Uploaded Images with Clear Hero Badges & Quick Move Buttons */}
+          {allImages.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {allImages.map((url, idx) => {
+                const isHero1 = idx === 0;
+                const isHero = idx < 5;
+                const heroLabels = [
+                  "Hero #1 (Main Feature)",
+                  "Hero #2 (Top Left)",
+                  "Hero #3 (Top Right)",
+                  "Hero #4 (Bottom Left)",
+                  "Hero #5 (Bottom Right)",
+                ];
+
+                return (
+                  <div 
+                    key={url + idx} 
+                    draggable 
+                    onDragStart={(e) => handleDragStart(e, idx)}
+                    onDragOver={(e) => handleDragOver(e, idx)}
+                    onDrop={(e) => handleDrop(e, idx)}
+                    className={`relative group rounded-xl overflow-hidden aspect-square bg-neutral-100 border-2 cursor-grab active:cursor-grabbing transition-all ${
+                      isHero1
+                        ? "border-[#C07A5A] ring-2 ring-[#C07A5A]/30 shadow-md"
+                        : isHero
+                        ? "border-[#16323C] ring-1 ring-[#16323C]/20"
+                        : "border-transparent hover:border-neutral-300"
+                    }`}
+                  >
+                    <NextImage src={url} alt="" fill className="object-cover" unoptimized />
+                    
+                    {/* Badge */}
+                    <div className={`absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow-sm text-white ${
+                      isHero1 ? "bg-[#C07A5A]" : isHero ? "bg-[#16323C]" : "bg-black/60 backdrop-blur-sm"
+                    }`}>
+                      {isHero ? heroLabels[idx] : `Photo #${idx + 1}`}
+                    </div>
+                    
+                    {/* Delete Button */}
                     <button
                       type="button"
-                      onClick={() => setAllImages(prev => {
-                        const arr = [...prev];
-                        const [item] = arr.splice(idx, 1);
-                        arr.unshift(item);
-                        return arr;
-                      })}
-                      className="absolute top-2 left-2 bg-white/90 text-neutral-800 hover:text-[#C07A5A] text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-md shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
-                    >
-                      Make Main
-                    </button>
-                  )}
-                  
-                  <div className="absolute bottom-2 left-2 right-2 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity gap-1">
-                    <button 
-                      type="button"
-                      disabled={idx === 0}
-                      onClick={() => setAllImages(prev => {
-                        const arr = [...prev];
-                        [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
-                        return arr;
-                      })}
-                      className="bg-white/90 text-neutral-800 p-1 rounded hover:bg-white disabled:opacity-30 flex-1 flex justify-center items-center shadow-sm"
-                    >
-                      ←
-                    </button>
-                    <button 
-                      type="button"
-                      disabled={idx === allImages.length - 1}
-                      onClick={() => setAllImages(prev => {
-                        const arr = [...prev];
-                        [arr[idx+1], arr[idx]] = [arr[idx], arr[idx+1]];
-                        return arr;
-                      })}
-                      className="bg-white/90 text-neutral-800 p-1 rounded hover:bg-white disabled:opacity-30 flex-1 flex justify-center items-center shadow-sm"
-                    >
-                      →
-                    </button>
+                      onClick={() => setAllImages(prev => prev.filter((_, i) => i !== idx))}
+                      className="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-500 text-white text-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm hover:bg-red-600 z-10"
+                    >×</button>
+                    
+                    {/* Position Control Buttons on Hover */}
+                    <div className="absolute inset-x-2 top-9 bottom-10 flex flex-col justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-xs p-1.5 rounded-lg z-10">
+                      <span className="text-[9px] font-bold text-center text-white uppercase tracking-wider">Set Position</span>
+                      <div className="grid grid-cols-5 gap-1">
+                        {[1, 2, 3, 4, 5].map((posNum) => (
+                          <button
+                            key={posNum}
+                            type="button"
+                            onClick={() => {
+                              setAllImages((prev) => {
+                                const arr = [...prev];
+                                const [item] = arr.splice(idx, 1);
+                                arr.splice(posNum - 1, 0, item);
+                                return arr;
+                              });
+                            }}
+                            className={`py-1 text-[10px] font-bold rounded transition-colors ${
+                              idx === posNum - 1
+                                ? "bg-[#C07A5A] text-white"
+                                : "bg-white/90 hover:bg-white text-neutral-800"
+                            }`}
+                          >
+                            #{posNum}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Reorder Arrows */}
+                    <div className="absolute bottom-2 left-2 right-2 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity gap-1 z-10">
+                      <button 
+                        type="button"
+                        disabled={idx === 0}
+                        onClick={() => setAllImages(prev => {
+                          const arr = [...prev];
+                          [arr[idx-1], arr[idx]] = [arr[idx], arr[idx-1]];
+                          return arr;
+                        })}
+                        className="bg-white/90 text-neutral-800 p-1 rounded hover:bg-white disabled:opacity-30 flex-1 flex justify-center items-center shadow-sm text-xs font-bold"
+                      >
+                        ←
+                      </button>
+                      <button 
+                        type="button"
+                        disabled={idx === allImages.length - 1}
+                        onClick={() => setAllImages(prev => {
+                          const arr = [...prev];
+                          [arr[idx+1], arr[idx]] = [arr[idx], arr[idx+1]];
+                          return arr;
+                        })}
+                        className="bg-white/90 text-neutral-800 p-1 rounded hover:bg-white disabled:opacity-30 flex-1 flex justify-center items-center shadow-sm text-xs font-bold"
+                      >
+                        →
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

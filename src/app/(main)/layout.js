@@ -38,7 +38,7 @@ export default function MainLayout({ children }) {
             <FrozenRoute>
               {children}
             </FrozenRoute>
-            <InstagramFeed />
+            {/* <InstagramFeed /> */}
           </motion.main>
         </AnimatePresence>
       </div>

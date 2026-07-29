@@ -2,7 +2,6 @@ import Container from "@/components/Container";
 import { getStayById, readStays } from "@/lib/staysStore";
 import FAQ from "@/components/FAQ";
 import Link from "next/link";
-import StayCard from "@/components/StayCard";
 import { Button } from "@/components/ui/button";
 
 // New Redesign Components
@@ -10,6 +9,7 @@ import StayGallery from "@/components/stays/StayGallery";
 import BookingWidget from "@/components/stays/BookingWidget";
 import AmenitiesSection from "@/components/stays/AmenitiesSection";
 import MapSection from "@/components/stays/MapSection";
+import RecommendedStaysCarousel from "@/components/stays/RecommendedStaysCarousel";
 
 export async function generateMetadata({ params }) {
     const resolvedParams = await params;
@@ -45,7 +45,7 @@ export default async function StayDetailPage({ params }) {
     }
 
     const allStays = await readStays();
-    const otherStays = allStays.filter(s => s.id !== stay.id).slice(0, 2);
+    const otherStays = allStays.filter(s => s.id !== stay.id);
 
     return (
         <div className="bg-white">
@@ -54,6 +54,9 @@ export default async function StayDetailPage({ params }) {
                 title={stay.title}
                 description={stay.description}
                 location={stay.location}
+                area={stay.area}
+                bed={stay.bed}
+                guests={stay.guests}
                 images={[stay.imageUrl, ...(stay.images || [])].filter((img, idx, self) => img && self.indexOf(img) === idx)}
             />
 
@@ -136,23 +139,7 @@ export default async function StayDetailPage({ params }) {
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {otherStays.map((s) => (
-                            <StayCard
-                                key={s.id}
-                                title={s.title}
-                                imageUrl={s.imageUrl}
-                                images={s.images}
-                                area={s.area}
-                                bed={s.bed}
-                                guests={s.guests}
-                                href={`/stays/${s.id}`}
-                                pricePerNight={s.pricePerNight}
-                                location={s.location}
-                                amenities={s.amenities}
-                            />
-                        ))}
-                    </div>
+                    <RecommendedStaysCarousel stays={otherStays} />
                 </section>
             </Container>
         </div>

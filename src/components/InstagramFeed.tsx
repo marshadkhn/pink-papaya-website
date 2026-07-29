@@ -95,6 +95,15 @@ export default function InstagramFeed() {
                     src={item.image}
                     alt={item.caption ? item.caption.slice(0, 80) : "Instagram post"}
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (!target.dataset.fallback) {
+                        target.dataset.fallback = "true";
+                        const idx = displayItems.findIndex((it) => it.id === item.id);
+                        const fallback = DEFAULT_INSTAGRAM_POSTS[idx >= 0 ? idx % DEFAULT_INSTAGRAM_POSTS.length : 0]?.image || DEFAULT_INSTAGRAM_POSTS[0].image;
+                        target.src = fallback;
+                      }
+                    }}
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
 

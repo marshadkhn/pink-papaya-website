@@ -23,6 +23,7 @@ export default function Navbar({ className }: { className?: string }) {
   const [scrolled, setScrolled] = useState(false);
 
   const lightBgRoutes = [
+    "/stays",
     "/about",
     "/interior",
     "/blog",
