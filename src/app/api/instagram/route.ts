@@ -8,13 +8,12 @@ export const dynamic = "force-dynamic";
  * Converts an Instagram CDN URL to a proxied URL served by our own API.
  * This avoids the 403 that Instagram CDN returns when browsers load images directly.
  */
-function proxyImageUrl(cdnUrl: string, req: NextRequest): string {
+function proxyImageUrl(cdnUrl: string): string {
   if (!cdnUrl || !cdnUrl.includes("cdninstagram.com")) return cdnUrl;
-  const base = `${req.nextUrl.protocol}//${req.nextUrl.host}`;
-  return `${base}/api/instagram-image?url=${encodeURIComponent(cdnUrl)}`;
+  return `/api/instagram-image?url=${encodeURIComponent(cdnUrl)}`;
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   let items = await getInstagramFeed(12);
   let profile = await getInstagramProfile();
 
@@ -24,7 +23,7 @@ export async function GET(req: NextRequest) {
     // Proxy all CDN image URLs so they load in the browser without 403
     items = items.map((item) => ({
       ...item,
-      image: proxyImageUrl(item.image, req),
+      image: proxyImageUrl(item.image),
     }));
   }
 
