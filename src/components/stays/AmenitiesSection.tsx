@@ -23,7 +23,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   "Tea Set": TeaSetIcon,
 };
 
-const INITIAL_SHOW = 8;
+const INITIAL_SHOW = 24;
 
 export default function AmenitiesSection({ amenities = [] }: { amenities?: string[] }) {
   const [showAll, setShowAll] = useState(false);
@@ -55,8 +55,9 @@ export default function AmenitiesSection({ amenities = [] }: { amenities?: strin
 
       {hasMore && (
         <button
-          onClick={() => setShowAll((v) => !v)}
-          className="mt-8 font-bricolage text-[13px] text-[#16323C] border-b border-[#16323C]/30 pb-px hover:border-[#16323C] hover:text-[#582D2D] transition-colors"
+          type="button"
+          onClick={() => setShowAll((prev) => !prev)}
+          className="mt-8 inline-block cursor-pointer font-bricolage text-[13.5px] font-medium text-[#16323C] border-b border-[#16323C]/30 pb-px hover:border-[#16323C] hover:text-[#C07A5A] transition-colors"
         >
           {showAll ? "Show less" : `View all ${amenities.length} amenities`}
         </button>
