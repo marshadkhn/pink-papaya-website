@@ -7,9 +7,10 @@
     "area": "4 Baths",
     "bed": "4 Beds",
     "guests": "12 Guests",
-    "category": "luxury-villas",
+    "category": "romantic-jacuzzi-escapes",
     "categories": [
-      "luxury-villas"
+      "romantic-jacuzzi-escapes",
+      "expansive-views"
     ],
     "propertyType": "villas",
     "description": "A 100+ year old Portuguese heritage villa in Aldona, lovingly curated by Pink Papaya Stays. Sempre is where history meets barefoot luxury in the quietest corner of North Goa.",
@@ -64,11 +65,6 @@
         "answer": "Please reach out to Pink Papaya Stays directly to discuss pet policies for this property."
       }
     ],
-    "category": "romantic-jacuzzi-escapes",
-    "categories": [
-      "romantic-jacuzzi-escapes",
-      "expansive-views"
-    ],
     "amenities": [
       "Garden view",
       "Pool view",
@@ -86,7 +82,7 @@
       "Room-darkening blinds",
       "Iron",
       "Clothes drying rack",
-      "Clothes storage: wardrobe",
+      "Clothes storage: wardrobe and wardrobe",
       "TV",
       "Bluetooth sound system",
       "Exercise equipment",
@@ -207,6 +203,7 @@
       "Board games",
       "Air conditioning",
       "Ceiling fan",
+      "Lock on bedroom door",
       "Exterior security cameras on property",
       "Fire extinguisher",
       "First aid kit",
@@ -306,6 +303,7 @@
       "Board games",
       "Air conditioning",
       "Ceiling fan",
+      "Lock on bedroom door",
       "Exterior security cameras on property",
       "Fire extinguisher",
       "First aid kit",
@@ -405,6 +403,7 @@
       "Board games",
       "Air conditioning",
       "Ceiling fan",
+      "Lock on bedroom door",
       "Exterior security cameras on property",
       "Fire extinguisher",
       "First aid kit",
@@ -505,6 +504,7 @@
       "Board games",
       "Air conditioning",
       "Ceiling fan",
+      "Lock on bedroom door",
       "Exterior security cameras on property",
       "Fire extinguisher",
       "First aid kit",
@@ -544,9 +544,10 @@
     "area": "3 Baths",
     "bed": "3 Beds",
     "guests": "6 Guests",
-    "category": "luxury-villas",
+    "category": "romantic-jacuzzi-escapes",
     "categories": [
-      "luxury-villas"
+      "romantic-jacuzzi-escapes",
+      "expansive-views"
     ],
     "propertyType": "villas",
     "description": "A luxury villa in the heart of Assagao Pink Papaya Stays' The Manor delivers 3 bedrooms, a private pool, jacuzzi, and a pool table for the ultimate Goa villa experience.",
@@ -592,11 +593,6 @@
         "question": "What is the minimum stay?",
         "answer": "We recommend 2 nights minimum. For peak season, 3 nights minimum may apply."
       }
-    ],
-    "category": "romantic-jacuzzi-escapes",
-    "categories": [
-      "romantic-jacuzzi-escapes",
-      "expansive-views"
     ],
     "amenities": [
       "Hairdryer",
@@ -665,9 +661,10 @@
     "area": "3 Baths",
     "bed": "3 Beds",
     "guests": "6 Guests",
-    "category": "luxury-villas",
+    "category": "walk-to-beach",
     "categories": [
-      "luxury-villas"
+      "walk-to-beach",
+      "romantic-jacuzzi-escapes"
     ],
     "propertyType": "villas",
     "description": "Escape to South Goa's quieter coast with Villa R & R, a 3BHK private pool villa by Pink Papaya Stays, minutes from Benaulim, Varca, and Colva Beach.",
@@ -709,11 +706,6 @@
         "question": "Can the villa accommodate more than 6 guests?",
         "answer": "Please contact Pink Papaya Stays for custom group arrangements."
       }
-    ],
-    "category": "walk-to-beach",
-    "categories": [
-      "walk-to-beach",
-      "romantic-jacuzzi-escapes"
     ],
     "amenities": [
       "Bath",
@@ -3156,6 +3148,25 @@
     "category": "expansive-views",
     "categories": [
       "expansive-views"
+    ],
+    "amenities": [
+      "Infinity pool",
+      "Paddy field view",
+      "Air conditioning",
+      "Wifi",
+      "Kitchen",
+      "Private patio or balcony",
+      "Free parking on premises",
+      "Housekeeping available",
+      "Hairdryer",
+      "Hot water",
+      "Essentials",
+      "TV",
+      "Microwave",
+      "Fridge",
+      "Bed linen",
+      "Iron",
+      "Crockery and cutlery"
     ]
   },
   {

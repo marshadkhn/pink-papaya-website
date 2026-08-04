@@ -27,7 +27,7 @@ function parseStartPort(argv) {
     if (!Number.isNaN(n)) return n;
   }
   if (process.env.PORT) return Number(process.env.PORT);
-  return 3000;
+  return 3001;
 }
 
 (async () => {

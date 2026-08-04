@@ -62,7 +62,7 @@ export default function StayCard({
                 <CarouselItem key={idx} className="!pl-0 relative aspect-[4/3] w-full h-full overflow-hidden">
                   <Image
                     src={src}
-                    alt={title}
+                    alt={title?.trim() || "Pink Papaya Stay"}
                     fill
                     unoptimized={isPreOptimizedMedia(src)}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -77,7 +77,7 @@ export default function StayCard({
         ) : (
           <Image
             src={displayImages[0]}
-            alt={title}
+            alt={title?.trim() || "Pink Papaya Stay"}
             fill
             unoptimized={isPreOptimizedMedia(displayImages[0])}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

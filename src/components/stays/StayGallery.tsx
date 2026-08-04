@@ -311,7 +311,7 @@ export default function StayGallery({
         <div className="block md:hidden relative w-full h-[320px] sm:h-[380px] rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-100 shadow-sm">
           <Image
             src={galleryImages[mobileIdx] || galleryImages[0]}
-            alt={title}
+            alt={title || "Stay photo"}
             fill
             priority
             onClick={() => openLightbox(mobileIdx)}

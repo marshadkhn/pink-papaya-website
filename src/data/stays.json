@@ -30,15 +30,36 @@
     "aboutContent": "Nestled in the heart of Assagao, the Royal Palms Garden Suite offers a tranquil escape from the bustling beaches. This boutique suite features high-vaulted ceilings, handcrafted teak furniture, and large French windows that open directly into a private botanical garden. \n\nDesigned for the discerning traveler, the suite includes a plush king-sized bed with organic linens, a dedicated meditation nook, and a spa-inspired bathroom with a signature rain shower. Every morning, wake up to the sound of tropical birds and enjoy a chef-prepared Goan breakfast served on your private patio.",
     "locationMapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3844.249454378949!2d73.74317137578207!3d15.525287453303666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfe96435c2b0c1%3A0xc0f19c35546b4f7a!2sPink%20Papaya%20Stay!5e0!3m2!1sen!2sin!4v1714856000000!5m2!1sen!2sin",
     "nearbyPlaces": [
-      { "name": "Gunpowder Restaurant", "distance": "2 mins walk" },
-      { "name": "Anjuna Beach", "distance": "12 mins drive" },
-      { "name": "Vagator Cliffs", "distance": "15 mins drive" },
-      { "name": "Saturday Night Market", "distance": "8 mins drive" }
+      {
+        "name": "Gunpowder Restaurant",
+        "distance": "2 mins walk"
+      },
+      {
+        "name": "Anjuna Beach",
+        "distance": "12 mins drive"
+      },
+      {
+        "name": "Vagator Cliffs",
+        "distance": "15 mins drive"
+      },
+      {
+        "name": "Saturday Night Market",
+        "distance": "8 mins drive"
+      }
     ],
     "faqs": [
-      { "question": "Is the pool accessible from this suite?", "answer": "Yes, the Garden Suite has direct access to the central lap pool through the garden path." },
-      { "question": "Can I request an early check-in?", "answer": "Early check-in is subject to availability. Please notify us 24 hours in advance, and we will do our best to accommodate you." },
-      { "question": "Is there a safe in the room?", "answer": "Yes, every suite is equipped with a digital safe for your valuables." }
+      {
+        "question": "Is the pool accessible from this suite?",
+        "answer": "Yes, the Garden Suite has direct access to the central lap pool through the garden path."
+      },
+      {
+        "question": "Can I request an early check-in?",
+        "answer": "Early check-in is subject to availability. Please notify us 24 hours in advance, and we will do our best to accommodate you."
+      },
+      {
+        "question": "Is there a safe in the room?",
+        "answer": "Yes, every suite is equipped with a digital safe for your valuables."
+      }
     ]
   }
 ]
