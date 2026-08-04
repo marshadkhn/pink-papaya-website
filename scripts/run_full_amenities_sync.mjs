@@ -52,32 +52,28 @@ const propertiesData = [
 
 function extractAmenities(obj) {
   const ams = new Set();
-  function search(o) {
-    if (!o || typeof o !== "object") return;
-    if (Array.isArray(o.seeAllAmenitiesGroups)) {
-      for (const g of o.seeAllAmenitiesGroups) {
-        if (Array.isArray(g.amenities)) {
-          for (const a of g.amenities) {
-            if (a.title) ams.add(a.title.trim());
-            else if (a.name) ams.add(a.name.trim());
-          }
+
+  function processGroups(groups) {
+    if (!Array.isArray(groups)) return;
+    for (const g of groups) {
+      if ((g.title || g.name) === "Not included") continue;
+      if (Array.isArray(g.amenities)) {
+        for (const a of g.amenities) {
+          if (a.available === false) continue;
+          const name = typeof a.title === "string" ? a.title.trim() : typeof a.name === "string" ? a.name.trim() : "";
+          if (name) ams.add(name);
         }
       }
-    }
-    if (Array.isArray(o.previewAmenitiesGroups)) {
-      for (const g of o.previewAmenitiesGroups) {
-        if (Array.isArray(g.amenities)) {
-          for (const a of g.amenities) {
-            if (a.title) ams.add(a.title.trim());
-            else if (a.name) ams.add(a.name.trim());
-          }
-        }
-      }
-    }
-    for (const k of Object.keys(o)) {
-      search(o[k]);
     }
   }
+
+  function search(o) {
+    if (!o || typeof o !== "object") return;
+    if (Array.isArray(o.seeAllAmenitiesGroups)) processGroups(o.seeAllAmenitiesGroups);
+    if (Array.isArray(o.previewAmenitiesGroups)) processGroups(o.previewAmenitiesGroups);
+    for (const k of Object.keys(o)) search(o[k]);
+  }
+
   search(obj);
   return Array.from(ams);
 }
@@ -99,7 +95,7 @@ async function scrapeAirbnbUrl(url) {
     const regex = /<script\b[^>]*type="application\/json"[^>]*>([\s\S]*?)<\/script>/gm;
     let match;
     while ((match = regex.exec(html)) !== null) {
-      if (match[1].includes("niobeClientData") || match[1].includes("amenities")) {
+      if (match[1].includes("seeAllAmenitiesGroups") || match[1].includes("previewAmenitiesGroups")) {
         try {
           const parsed = JSON.parse(match[1]);
           const list = extractAmenities(parsed);
@@ -116,7 +112,7 @@ async function scrapeAirbnbUrl(url) {
 }
 
 async function main() {
-  console.log(`Starting amenities extraction for ${propertiesData.length} properties...`);
+  console.log(`Starting clean amenities extraction for ${propertiesData.length} properties...`);
 
   const seedStaysPath = path.join(__dirname, "seed-stays-data.json");
   const staysJsonPath = path.join(__dirname, "..", "src", "data", "stays.json");
@@ -151,7 +147,7 @@ async function main() {
         console.log(`Using default ${amenities.length} amenities for ${prop.title}`);
       }
     } else {
-      console.log(`Scraped ${amenities.length} amenities for ${prop.title}:`, amenities.slice(0, 5));
+      console.log(`Scraped ${amenities.length} VALID amenities for ${prop.title} (Filtered out 'Not included' items)`);
     }
 
     // Update seedStaysData
@@ -167,7 +163,7 @@ async function main() {
     }
 
     totalUpdated++;
-    await new Promise(r => setTimeout(r, 600));
+    await new Promise(r => setTimeout(r, 400));
   }
 
   // Write updated files
@@ -180,10 +176,22 @@ async function main() {
   }
 
   // Update MongoDB
-  const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://pink-papaya:pinkpapaya%40123@pinkpapaya.ohd1bmr.mongodb.net/?appName=pinkpapaya";
+  const envPath = path.join(__dirname, "..", ".env");
+  if (fs.existsSync(envPath)) {
+    const envText = fs.readFileSync(envPath, "utf-8");
+    for (const line of envText.split("\n")) {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+        const [key, ...vals] = trimmed.split("=");
+        process.env[key.trim()] = vals.join("=").trim();
+      }
+    }
+  }
+
+  const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://pink-papaya:c3Nr2vYQZfJJuiFz@pinkpapaya.ohd1bmr.mongodb.net/pink-papaya?appName=pinkpapaya";
   try {
     console.log("Connecting to MongoDB to update stays collection...");
-    await mongoose.connect(MONGODB_URI, { dbName: "pinkpapaya" });
+    await mongoose.connect(MONGODB_URI);
     const Stay = mongoose.models.Stay || mongoose.model("Stay", new mongoose.Schema({ id: String, amenities: [String] }, { collection: "stays", strict: false }));
 
     for (const stay of seedStaysData) {
@@ -198,7 +206,7 @@ async function main() {
     console.warn("MongoDB update warning:", e.message);
   }
 
-  console.log(`\nCompleted! Successfully synced amenities for all ${totalUpdated} properties.`);
+  console.log(`\nCompleted! Successfully re-synced clean amenities for all ${totalUpdated} properties.`);
 }
 
 main().catch(console.error);
