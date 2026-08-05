@@ -3,9 +3,10 @@ const sshScript = 'C:\\Users\\marsh\\.gemini\\antigravity-ide\\brain\\0c16d623-1
 
 try {
   const out = execSync(`node "${sshScript}" "ls /srv/papaya-media/uploads"`).toString();
-  const lines = out.trim().split('\n');
-  console.log('Total uploaded files on VPS:', lines.length);
-  console.log('Sample files:', lines.slice(0, 10));
+  const files = out.trim().split('\n').map(f => f.trim()).filter(f => f.endsWith('.webp'));
+  
+  console.log(`Total 1559 WebP files. Sample 50 filenames:`);
+  console.log(files.slice(0, 50));
 } catch (e) {
-  console.error('Error:', e.message);
+  console.error(e.message);
 }
