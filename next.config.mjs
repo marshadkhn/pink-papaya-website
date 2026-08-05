@@ -31,6 +31,14 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "*.cloudflare.net",
 			},
+			{
+				protocol: "https",
+				hostname: "*.muscache.com",
+			},
+			{
+				protocol: "https",
+				hostname: "a0.muscache.com",
+			},
 		],
 		minimumCacheTTL: 60 * 60 * 24,
 		deviceSizes: [360, 414, 640, 750, 828, 1080, 1200],

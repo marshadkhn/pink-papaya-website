@@ -6,6 +6,7 @@
 export function isPreOptimizedMedia(src: string): boolean {
   if (!src) return false;
   return (
+    src.includes("muscache.com") ||
     src.startsWith("https://images.unsplash.com/") ||
     src.startsWith("/media/") ||
     src.startsWith("/api/media/")
