@@ -74,6 +74,7 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
   function normalizePrice(p?: string): string {
     const s = (p ?? "").trim();
     if (!s) return "";
+    if (/on request/i.test(s)) return "On Request";
     if (/night/i.test(s)) return s;
     return `${s}${s.endsWith("/") ? "" : "/"}night`;
   }
@@ -93,8 +94,14 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
     if (!must(form.guests)) errs.guests = "Guests info is required.";
     if (!must(form.category)) errs.category = "Category is required.";
     if (allImages.length === 0) errs.imageUrl = "Provide at least one image.";
-    if (must(form.pricePerNight) && !/^\$?₹?\d/.test((form.pricePerNight ?? "").trim()))
-      errs.pricePerNight = "Price should start with a number.";
+    if (must(form.pricePerNight)) {
+      const p = (form.pricePerNight ?? "").trim();
+      const isNum = /^\$?₹?\d/.test(p);
+      const isOnReq = /on request/i.test(p);
+      if (!isNum && !isOnReq) {
+        errs.pricePerNight = "Price should be e.g. ₹18,000 or On Request";
+      }
+    }
     return errs;
   }
 
@@ -141,16 +148,19 @@ export default function StayForm({ initialData }: { initialData?: Stay }) {
   async function handleSubmit() {
     const v = validateForm();
     setErrors(v);
-    if (Object.keys(v).length) return;
+    if (Object.keys(v).length) {
+      alert("Please fix the form errors: " + Object.values(v).join(", "));
+      return;
+    }
     setSubmitting(true);
     try {
       const finalImageUrl = allImages[0] || "";
       const finalGallery = allImages.slice(1);
-      const { id: _omit, ...rest } = form as any;
       const url = isEdit ? `/api/stays/${initialData.id}` : "/api/stays";
       const method = isEdit ? "PATCH" : "POST";
       const body = { 
-        ...rest, 
+        ...form, 
+        id: isEdit ? initialData.id : form.id,
         pricePerNight: normalizePrice(form.pricePerNight), 
         imageUrl: finalImageUrl, 
         images: finalGallery, 
